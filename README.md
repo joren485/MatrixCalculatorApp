@@ -6,4 +6,4 @@
 * Addition / subtraction
 * Eigenvectors/values (jordan normal form)
 * conjugate
-* Identity matrix
+* Identity Matrix

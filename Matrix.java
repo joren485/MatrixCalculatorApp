@@ -1,15 +1,16 @@
 /**
  * Created by joren on 5/9/16.
  */
-public class matrix {
+
+public class Matrix {
 
     private final double[][] matrix_array;
 
-    public matrix(double [][] array){
+    public Matrix(double [][] array){
         matrix_array = array;
     }
 
-    public matrix(int width, int height){
+    public Matrix(int width, int height){
         matrix_array = new double[width][height];
 
         for (int y =0; y< height; y++){
@@ -19,7 +20,7 @@ public class matrix {
         }
     }
 
-    public matrix(matrix copy){
+    public Matrix(Matrix copy){
         this(copy.getInternalArray());
     }
 

@@ -4,15 +4,17 @@
 public class main {
     public static void main(String[] args) {
 
-        matrix m = new matrix(3,3);
+        Matrix m = new Matrix(3,3);
         m.fill_spot(2, 1, 9);
         m.fill_spot(0, 2, 7);
+        m.fill_spot(1, 0, 3);
+        m.fill_spot(0, 0, 5);
+
 
         System.out.println(m.toString());
 
-        computation c = new comp_transpose(m);
+        Computation c = new Transpose(m);
 
-        System.out.println(c.compute().toString());
-
+        System.out.println(c.nextStep());
     }
 }
