@@ -8,7 +8,8 @@ public class Transpose extends Computation {
             for (int x = 0; x < matrix.getHeight(); x++)
                 result.fill_spot(x, y, matrix.get_spot(y, x));
 
-        iterSteps.add(result);
+        steps.add(result);
 
+        done();
     }
 }

@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -7,13 +8,14 @@ import java.util.ListIterator;
  */
 public abstract class Computation{
 
-    private List<Object> steps = new LinkedList<>();
+    protected List<Object> steps = new LinkedList<>();
+    protected ListIterator iterSteps;
 
-    protected ListIterator iterSteps = steps.listIterator();
-
-    public Object nextStep(){
-        return iterSteps.next();
+    protected void done(){
+        iterSteps = steps.listIterator();
     }
+
+    public Object nextStep(){ return iterSteps.next(); }
 
     public Object previousStep(){
         return iterSteps.previous();
