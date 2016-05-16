@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -14,6 +13,10 @@ public abstract class Computation{
     protected void done(){
         iterSteps = steps.listIterator();
     }
+
+    protected abstract boolean validate();
+
+    protected abstract void compute();
 
     public Object nextStep(){ return iterSteps.next(); }
 

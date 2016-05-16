@@ -13,9 +13,9 @@ public class Matrix {
     public Matrix(int width, int height){
         matrix_array = new double[width][height];
 
-        for (int y =0; y< height; y++){
+        for (int y =0; y < height; y++){
             for (int x = 0; x < width; x++){
-                fill_spot(x, y, 0);
+                fillSpot(x, y, 0);
             }
         }
     }
@@ -36,11 +36,11 @@ public class Matrix {
         return matrix_array.length;
     }
 
-    public void fill_spot(int x, int y, double number){
+    public void fillSpot(int x, int y, double number){
         matrix_array[y][x] = number;
     }
 
-    public double get_spot(int x, int y){
+    public double getSpot(int x, int y){
         return matrix_array[y][x];
     }
 
@@ -50,7 +50,7 @@ public class Matrix {
 
         for (int y =0; y< getHeight(); y++){
             for (int x = 0; x < getWidth(); x++){
-                sb.append(' ').append(get_spot(x, y)).append(' ');
+                sb.append(' ').append(getSpot(x, y)).append(' ');
             }
             sb.append('\n');
         }
