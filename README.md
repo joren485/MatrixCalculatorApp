@@ -2,8 +2,8 @@
 * Gaussian elimination
 * Inverse
 * Determinant
-* Transpose
+* Matrix.Computations.Transpose.Transpose
 * Addition / subtraction
 * Eigenvectors/values (jordan normal form)
 * conjugate
-* Identity Matrix
+* Identity Matrix.Matrix

@@ -1,24 +1,30 @@
+package Matrix.Computations.Determinant;
+import Matrix.Computations.Computation;
+import Matrix.Matrix;
+
 /**
  * Created by joren on 5/16/16.
  */
-public class Determininant extends Computation{
+public class DetermininantComputation extends Computation {
 
     private final Matrix matrix;
 
-    public Determininant(Matrix A){
+    public DetermininantComputation(Matrix A){
         matrix = A;
 
         if (validate()){
             compute();
-            done();
+
         }
         else{
         }
 
+        done();
+
     }
 
     protected void compute(){
-        System.out.println(recursiveDeterminant(matrix));
+        recursiveDeterminant(matrix);
     }
 
     protected boolean validate(){

@@ -1,10 +1,10 @@
+package Matrix.Computations;
+
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-/**
- * Created by joren on 5/9/16.
- */
 public abstract class Computation{
 
     protected List<Object> steps = new LinkedList<>();

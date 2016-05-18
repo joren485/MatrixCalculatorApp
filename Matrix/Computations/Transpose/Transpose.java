@@ -1,3 +1,7 @@
+package Matrix.Computations.Transpose;
+import Matrix.Computations.Computation;
+import Matrix.Matrix;
+
 public class Transpose extends Computation {
 
     private final Matrix matrix;
@@ -7,10 +11,11 @@ public class Transpose extends Computation {
 
         if (validate()){
             compute();
-            done();
+
         }
         else{
         }
+        done();
     }
 
     protected void compute(){
