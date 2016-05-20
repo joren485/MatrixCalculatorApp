@@ -1,6 +1,7 @@
-package Matrix.Computations.Transpose;
-import Matrix.Computations.Computation;
-import Matrix.Matrix;
+package com.example.matrix.Computations.Transpose;
+
+import com.example.matrix.Computations.Computation;
+import com.example.matrix.Matrix;
 
 public class Transpose extends Computation {
 

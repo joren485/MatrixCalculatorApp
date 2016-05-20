@@ -1,4 +1,4 @@
-package Matrix.Computations;
+package com.example.matrix.Computations;
 
 
 import java.util.LinkedList;

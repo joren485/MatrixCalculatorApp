@@ -1,6 +1,6 @@
-package Matrix.Computations.Determinant;
-import Matrix.Computations.Computation;
-import Matrix.Matrix;
+package com.example.matrix.Computations.Determinant;
+import com.example.matrix.Computations.Computation;
+import com.example.matrix.Matrix;
 
 /**
  * Created by joren on 5/16/16.

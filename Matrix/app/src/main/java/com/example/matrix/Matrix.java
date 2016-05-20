@@ -1,4 +1,4 @@
-package Matrix;
+package com.example.matrix;
 
 /**
  * Created by joren on 5/9/16.
