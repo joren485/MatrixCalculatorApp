@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">@android:color/holo_blue_dark</color>
     <color name="colorAccent">@android:color/holo_red_light</color>
     <color name="textColorPrimary">@android:color/white</color>
-    <color name="cardBackground">#f0f0f0</color>
+    <color name="cardBackground">#e0e0e0</color>
 
 </resources>

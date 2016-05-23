@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:paddingTop="4sp"
+    android:paddingBottom="4sp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardBackground"
-    android:layout_marginTop="10sp">
+    android:background="@color/cardBackground" >
 
     <ScrollView
         android:id="@+id/computations_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
         <LinearLayout
             android:id="@+id/computations_layout"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
-            <com.asserttrue.matrixcalculator.ComputationCardView
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/determinant_card"
                 custom:computation_name="Matrix Determinant"
                 android:src="@drawable/determinant_image"
-                android:layout_margin="6sp"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="150sp"
                 />
 
-            <com.asserttrue.matrixcalculator.ComputationCardView
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/inverse_card"
                 custom:computation_name="Matrix Inverse"
                 android:src="@drawable/inverse_image"
-                android:layout_margin="6sp"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="150sp"
                 />
 
-            <com.asserttrue.matrixcalculator.ComputationCardView
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/diagonal_card"
                 custom:computation_name="Diagonal Form"
                 android:src="@drawable/diagonal_form_image"
@@ -44,11 +54,14 @@
                 android:layout_height="150sp"
                 />
 
-            <com.asserttrue.matrixcalculator.ComputationCardView
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/jordan_card"
                 custom:computation_name="Jordan Canonical Form"
                 android:src="@drawable/jordan_form_image"
-                android:layout_margin="6sp"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="150sp"
                 />
