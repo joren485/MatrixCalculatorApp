@@ -66,13 +66,18 @@ public class DeterminantComputation extends Computation {
                 steps.add(new DetScalarStep(new Matrix(A), StepType.RowDivideStep, determinant, pivotValue, column));
             }
 
+            boolean eliminatedRows = false;
             for(int row = pivotRow + 1; row < A.getHeight(); row++) {
                 if(A.getValueAt(column, row)  != 0.0) {
+                    eliminatedRows = true;
                     A.addRow(pivotRow, row, - A.getValueAt(column, row));
                 }
             }
 
-            steps.add(new DetScalarStep(new Matrix(A), StepType.RowReduceStep, determinant, column));
+            if(eliminatedRows) {
+                steps.add(new DetScalarStep(new Matrix(A), StepType.RowReduceStep, determinant, column));
+
+            }
         }
 
         steps.add(new DetScalarStep(new Matrix(A), StepType.UpperTriangularStep, determinant, 0));
