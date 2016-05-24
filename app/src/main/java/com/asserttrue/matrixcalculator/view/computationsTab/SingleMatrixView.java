@@ -3,39 +3,44 @@ package com.asserttrue.matrixcalculator.view.computationsTab;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.R;
-import com.asserttrue.matrixcalculator.model.computations.Step;
 import com.asserttrue.matrixcalculator.model.computations.DetScalarStep;
+import com.asserttrue.matrixcalculator.model.computations.SingleMatrixStep;
+import com.asserttrue.matrixcalculator.model.computations.Step;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
 import java.util.Locale;
 
-public class DetResultView extends LinearLayout {
+public class SingleMatrixView extends LinearLayout {
     private final RelativeLayout matrixContainer;
     private final MatrixView matrixView;
-    private final TextView scalar;
+    private final TextView explanation;
+    private final Context context;
 
-    public DetResultView(Context context, DetScalarStep step) {
+    public SingleMatrixView(Context context, SingleMatrixStep step) {
         super(context);
 
+        this.context = context;
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.cartview_det_result_step, this, true);
+        inflater.inflate(R.layout.cardview_single_matrix, this, true);
 
         matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, step.getMatrix());
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
-        scalar = (TextView) findViewById(R.id.scalar);
-        scalar.setText(String.format(Locale.US, "%.2f", step.getScalar()));
+        explanation = (TextView) findViewById(R.id.explanation);
+        explanation.setText(step.getExplanation());
     }
 
     public void recycle(Step step) {
-        DetScalarStep detStep = (DetScalarStep) step;
-        matrixView.setMatrix(detStep.getMatrix());
-        scalar.setText(String.format(Locale.US, "%.2f", detStep.getScalar()));
+        SingleMatrixStep detStep = (SingleMatrixStep) step;
+        matrixView.setMatrix(((SingleMatrixStep) step).getMatrix());
+        explanation.setText(detStep.getExplanation());
     }
 }

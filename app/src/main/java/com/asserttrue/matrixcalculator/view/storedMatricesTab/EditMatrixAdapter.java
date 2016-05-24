@@ -29,7 +29,7 @@ public class EditMatrixAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return matrix.getHeight() * matrix.getWidth();
+        return matrix.getNrRows() * matrix.getNrColumns();
     }
 
     @Override
@@ -44,8 +44,8 @@ public class EditMatrixAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        int x = position % matrix.getWidth();
-        int y = position / matrix.getWidth();
+        int x = position % matrix.getNrColumns();
+        int y = position / matrix.getNrColumns();
 
         if (convertView == null) {
             if (position == editing) {

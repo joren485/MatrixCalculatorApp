@@ -1,4 +1,4 @@
-package com.asserttrue.matrixcalculator.model.computations.determinant;
+package com.asserttrue.matrixcalculator.model.computations;
 
 import com.asserttrue.matrixcalculator.model.computations.Step;
 import com.asserttrue.matrixcalculator.model.Matrix;

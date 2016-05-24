@@ -15,7 +15,7 @@ public class Matrix {
     }
 
     public Matrix(int width, int height, int augColInd){
-        matrix_array = new double[width][height];
+        matrix_array = new double[height][width];
         augmentedColumnIndex = augColInd;
 
         for (int y =0; y < height; y++){
@@ -29,7 +29,7 @@ public class Matrix {
         Matrix id = new Matrix(width, width);
 
         for(int n = 0; n < width; n++)
-            id.setPositionValue(n, n, 1);
+            id.setPositionValue(n, n, 1.0);
 
         return id;
     }
@@ -38,19 +38,21 @@ public class Matrix {
      * Constructor for augmented matrix, containing left and right matrix.
      */
     public Matrix(Matrix left, Matrix right) {
-        if(left.getHeight() != right.getHeight()) {
+        if(left.getNrRows() != right.getNrRows()) {
             throw new IllegalArgumentException("Left and right matrices must have same height.");
         }
 
-        matrix_array = new double[left.getWidth() + right.getWidth()][left.getWidth()];
-        augmentedColumnIndex = left.getWidth();
+        matrix_array = new double[left.getNrRows()][left.getNrColumns() + right.getNrColumns()];
+        augmentedColumnIndex = left.getNrColumns();
 
-        for(int y = 0; y < left.getHeight(); y++) {
-            for(int x = 0; x < left.getWidth(); x++)
-                setPositionValue(x, y, left.getValueAt(x, y));
+        for(int row = 0; row < left.getNrRows(); row++) {
+            for(int column = 0; column < left.getNrColumns(); column++) {
+                setPositionValue(column, row, left.getValueAt(column, row));
+            }
 
-            for(int x = 0; x < right.getWidth(); x++)
-                setPositionValue(x + left.getWidth(), y, right.getValueAt(x, y));
+            for(int column = 0; column < right.getNrColumns(); column++) {
+                setPositionValue(column + left.getNrColumns(), row, right.getValueAt(column, row));
+            }
         }
     }
 
@@ -59,14 +61,14 @@ public class Matrix {
     }
 
     public Matrix(Matrix matrix){
-        int height = matrix.getHeight();
-        int width = matrix.getWidth();
-        augmentedColumnIndex = 1;//matrix.getAugmentedColumnIndex();
+        int height = matrix.getNrRows();
+        int width = matrix.getNrColumns();
+        augmentedColumnIndex = matrix.getAugmentedColumnIndex();
 
-        matrix_array = new double[width][height];
+        matrix_array = new double[height][width];
         // Copy the whole 2D array of the matrix into this one.
-        for(int y = 0; y < height; y++) {
-            System.arraycopy(matrix.getInternalArray()[y], 0, matrix_array[y], 0, width);
+        for(int row = 0; row < height; row++) {
+            System.arraycopy(matrix.getInternalArray()[row], 0, matrix_array[row], 0, width);
         }
     }
 
@@ -74,16 +76,16 @@ public class Matrix {
         return matrix_array;
     }
 
-    public int getWidth(){
+    public int getNrColumns(){
         return matrix_array[0].length;
     }
 
-    public int getHeight(){
+    public int getNrRows(){
         return matrix_array.length;
     }
 
-    public void setPositionValue(int x, int y, double number){
-        matrix_array[y][x] = number;
+    public void setPositionValue(int column, int row, double number){
+        matrix_array[row][column] = number;
     }
 
     public double getValueAt(int column, int row){
@@ -104,7 +106,7 @@ public class Matrix {
             throw new IllegalArgumentException("Row indices are outside of the matrix dimensions.");
         }
 
-        for(int column = 0; column < getWidth(); column++) {
+        for(int column = 0; column < getNrColumns(); column++) {
             matrix_array[to][column] += matrix_array[from][column] * scalar;
         }
     }
@@ -124,7 +126,7 @@ public class Matrix {
             throw new IllegalArgumentException("Row multiplication by zero is does not preserve matrix properties.");
         }
 
-        for(int column = 0; column < getWidth(); column++) {
+        for(int column = 0; column < getNrColumns(); column++) {
             matrix_array[row][column] *= scalar;
         }
     }
@@ -140,27 +142,40 @@ public class Matrix {
     }
 
     public boolean isRowIndex(int row) {
-        return row >= 0 && row < getHeight();
+        return row >= 0 && row < getNrRows();
     }
 
     public boolean isColumnIndex(int column) {
-        return column >= 0 && column < getWidth();
+        return column >= 0 && column < getNrColumns();
     }
 
     public boolean isSquareMatrix() {
-        return getHeight() == getWidth();
+        return getNrRows() == getNrColumns();
     }
 
     public String toString(){
 
         StringBuilder sb = new StringBuilder();
 
-        for (int y =0; y< getHeight(); y++){
-            for (int x = 0; x < getWidth(); x++){
+        for (int y = 0; y< getNrRows(); y++){
+            for (int x = 0; x < getNrColumns(); x++){
                 sb.append(String.format(" %.2f ", getValueAt(x, y)));
             }
             sb.append('\n');
         }
         return sb.toString();
+    }
+
+    public Matrix getRightMatrix() {
+        if(augmentedColumnIndex == -1) {
+            throw new UnsupportedOperationException("getAugmentedMatrix on a matrix that is not augmented");
+        }
+
+        Matrix aug = new Matrix(getNrColumns() - augmentedColumnIndex, getNrRows());
+        for(int column = 0; column < augmentedColumnIndex; column++)
+            for(int row = 0; row < getNrRows(); row++)
+                aug.setPositionValue(column, row, getValueAt(column + augmentedColumnIndex, row));
+
+        return aug;
     }
 }

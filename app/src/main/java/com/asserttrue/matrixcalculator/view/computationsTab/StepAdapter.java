@@ -1,21 +1,16 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.asserttrue.matrixcalculator.model.computations.SingleMatrixStep;
 import com.asserttrue.matrixcalculator.model.computations.Step;
-import com.asserttrue.matrixcalculator.model.computations.determinant.DetScalarStep;
+import com.asserttrue.matrixcalculator.model.computations.DetScalarStep;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class StepAdapter extends ArrayAdapter<Step> {
 
@@ -25,6 +20,7 @@ public class StepAdapter extends ArrayAdapter<Step> {
 
 
     public StepAdapter(Context context, List<Step> steps) {
+        // No TextView id is needed, so -1 is passed on.
         super(context, -1);
         this.context = context;
         this.steps = steps;
@@ -43,6 +39,12 @@ public class StepAdapter extends ArrayAdapter<Step> {
                 case Step.TYPE_DET_RESULT:
                     convertView = new DetResultView(context, (DetScalarStep) step);
                     break;
+                case Step.TYPE_JUST_MATRIX:
+                    convertView = new SingleMatrixView(context, (SingleMatrixStep) step);
+                    break;
+                case Step.TYPE_INV_RESULT:
+                    convertView = new InvResultView(context, (SingleMatrixStep) step);
+                    break;
                 default: throw new UnsupportedOperationException("Viewtype " + step.getLayoutType() + " not implemented yet.");
             }
         }
@@ -54,6 +56,11 @@ public class StepAdapter extends ArrayAdapter<Step> {
                 case Step.TYPE_DET_RESULT:
                     ((DetResultView) convertView).recycle(step);
                     break;
+                case Step.TYPE_JUST_MATRIX:
+                    ((SingleMatrixView) convertView).recycle(step);
+                    break;
+                case Step.TYPE_INV_RESULT:
+                    ((InvResultView) convertView).recycle(step);
             }
         }
 

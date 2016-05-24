@@ -36,6 +36,17 @@ public class ComputationsFragment extends Fragment {
         m.setPositionValue(2, 2, 2);
         m.setPositionValue(3,3,3);
 
+
+        cards.getChildAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ComputationActivity.class);
+                CurrentComputation.getInstance().setSteps(Computations.inverse(m));
+                startActivity(intent);
+            }
+        });
+
+
        cards.getChildAt(0).setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

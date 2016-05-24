@@ -1,18 +1,15 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.computations.Step;
-import com.asserttrue.matrixcalculator.model.computations.determinant.DetScalarStep;
+import com.asserttrue.matrixcalculator.model.computations.DetScalarStep;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
 import java.util.Locale;
@@ -46,8 +43,8 @@ public class DetScalarView extends LinearLayout  {
         }
 
         DetScalarStep detStep = (DetScalarStep) step;
-        matrixView.setMatrix(detStep.getMatrix());
+        matrixView.setMatrix((detStep.getMatrix()));
         scalar.setText(String.format(Locale.US, "%.2f", detStep.getScalar()));
-        explanation.setText(((DetScalarStep) step).getExplanation());
+        explanation.setText(detStep.getExplanation());
     }
 }

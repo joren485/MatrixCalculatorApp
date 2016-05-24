@@ -8,7 +8,8 @@ public interface Step {
     int TYPE_DET_SCALAR = 0;
     int TYPE_DET_RESULT = 1;
     int TYPE_JUST_MATRIX = 2;
-    int NR_TYPES = 3;
+    int TYPE_INV_RESULT = 3;
+    int NR_TYPES = 4;
 
     /**
      * Return an enum int indicating the kind of layout needed to display this step to the user.
