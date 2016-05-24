@@ -18,10 +18,6 @@ public class DetScalarStep implements Step {
     private final int rowFrom, rowTo;
     private final int currentColumn;
 
-    public enum StepType {
-        PivotStep, RowReduceStep, RowDivideStep, UpperTriangularStep, SingularStep, Result
-    }
-
     public DetScalarStep(Matrix matrix, StepType type, double scalar, double multiplier, int rowFrom, int rowTo, int currentColumn) {
         this.matrix = matrix;
         this.type = type;
@@ -61,7 +57,7 @@ public class DetScalarStep implements Step {
             case RowReduceStep:
                 return String.format(Locale.US, "Use the pivot row to eliminate the rows below it; now column %d has zeroes below the diagonal.", currentColumn + 1);
             case RowDivideStep:
-                return String.format(Locale.US, "Divide the pivot-row by %.2f, so that is has a leading 1.", multiplier);
+                return String.format(Locale.US, "Divide the pivot-row by %.2f, so that it has a leading 1.", multiplier);
             case PivotStep:
                 return String.format(Locale.US, "Swap rows %2$d and %1$d, because row %1$d has a larger leading value.", rowFrom + 1, rowTo + 1);
             case SingularStep:

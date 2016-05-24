@@ -1,25 +1,27 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
-import com.asserttrue.matrixcalculator.model.computations.Computation;
+import com.asserttrue.matrixcalculator.model.computations.Computations;
+import com.asserttrue.matrixcalculator.model.computations.Step;
+
+import java.util.List;
 
 /**
  * The matrix
  */
 public class CurrentComputation {
     private static CurrentComputation ourInstance = new CurrentComputation();
-
-    private Computation computation;
+    private List<Step> steps;
 
     public static CurrentComputation getInstance() {
         return ourInstance;
     }
 
-    public Computation getComputation() {
-        return computation;
+    public List<Step> getSteps() {
+        return steps;
     }
 
-    public void setComputation(Computation current) {
-        computation = current;
+    public void setSteps(List<Step> current) {
+        steps = current;
     }
 
     private CurrentComputation() {

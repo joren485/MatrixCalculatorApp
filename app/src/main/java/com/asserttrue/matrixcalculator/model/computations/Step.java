@@ -18,4 +18,8 @@ public interface Step {
     int getLayoutType();
 
     String getExplanation();
+
+    enum StepType {
+        PivotStep, RowReduceStep, RowDivideStep, UpperTriangularStep, SingularStep, Result
+    }
 }

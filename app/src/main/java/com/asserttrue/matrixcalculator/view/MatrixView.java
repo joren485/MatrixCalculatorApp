@@ -4,12 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.util.AttributeSet;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Matrix;
 
 import java.math.RoundingMode;
@@ -21,9 +21,7 @@ public class MatrixView extends LinearLayout {
     private final Paint paint = new Paint();
 
     private Matrix matrix;
-
-    private int width, height;
-
+    private int width, height, augmentedColumnIndex;
     private Context mContext;
 
     ArrayList<LinearLayout> columns;
@@ -34,6 +32,9 @@ public class MatrixView extends LinearLayout {
         this.matrix = matrix;
         this.width = matrix.getWidth();
         this.height = matrix.getHeight();
+
+        //  TESTING:
+        this.augmentedColumnIndex = 1;//matrix.getAugmentedColumnIndex();
         this.setPadding(20, 0, 20, 0);
         this.paint.setColor(Color.BLACK);
         this.paint.setStrokeWidth(5);
@@ -45,6 +46,7 @@ public class MatrixView extends LinearLayout {
 
     private void init() {
         for (int x = 0; x < width; x++) {
+
             LinearLayout column = new LinearLayout(mContext);
             column.setPadding(10, 0, 10, 0);
             column.setOrientation(LinearLayout.VERTICAL);
@@ -61,12 +63,10 @@ public class MatrixView extends LinearLayout {
     }
 
     private void updateFields() {
-        for(int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
-                ((TextView) columns.get(x).getChildAt(y))
-                        .setText(parseDouble(matrix.getValueAt(x, y)));
-            }
-        }
+        for(int x = 0; x < width; x++)
+            for(int y = 0; y < height; y++)
+                ((TextView) columns.get(x).getChildAt(y)).setText(parseDouble(matrix.getValueAt(x, y)));
+
     }
 
     private String parseDouble(double d) {
@@ -78,13 +78,15 @@ public class MatrixView extends LinearLayout {
 
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
-        updateFields();
+        //updateFields();
     }
 
     public void dispatchDraw(Canvas c) {
         super.dispatchDraw(c);
         int width = this.getWidth();
         int height = this.getHeight();
+
+
 
         // LEFT BRACKET
         c.drawLine(1, 1, 19, 1, paint);

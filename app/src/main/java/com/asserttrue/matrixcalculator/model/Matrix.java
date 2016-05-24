@@ -3,7 +3,7 @@ package com.asserttrue.matrixcalculator.model;
 public class Matrix {
 
     private final double[][] matrix_array;
-    private final int augmentedColumnIndex;
+    private int augmentedColumnIndex;
 
     public Matrix(double [][] array, int augColInd){
         matrix_array = array;
@@ -25,6 +25,35 @@ public class Matrix {
         }
     }
 
+    public static Matrix identity(int width) {
+        Matrix id = new Matrix(width, width);
+
+        for(int n = 0; n < width; n++)
+            id.setPositionValue(n, n, 1);
+
+        return id;
+    }
+
+    /**
+     * Constructor for augmented matrix, containing left and right matrix.
+     */
+    public Matrix(Matrix left, Matrix right) {
+        if(left.getHeight() != right.getHeight()) {
+            throw new IllegalArgumentException("Left and right matrices must have same height.");
+        }
+
+        matrix_array = new double[left.getWidth() + right.getWidth()][left.getWidth()];
+        augmentedColumnIndex = left.getWidth();
+
+        for(int y = 0; y < left.getHeight(); y++) {
+            for(int x = 0; x < left.getWidth(); x++)
+                setPositionValue(x, y, left.getValueAt(x, y));
+
+            for(int x = 0; x < right.getWidth(); x++)
+                setPositionValue(x + left.getWidth(), y, right.getValueAt(x, y));
+        }
+    }
+
     public Matrix(int width, int height){
         this(width, height, -1);
     }
@@ -32,7 +61,7 @@ public class Matrix {
     public Matrix(Matrix matrix){
         int height = matrix.getHeight();
         int width = matrix.getWidth();
-        augmentedColumnIndex = matrix.getAugmentedColumnIndex();
+        augmentedColumnIndex = 1;//matrix.getAugmentedColumnIndex();
 
         matrix_array = new double[width][height];
         // Copy the whole 2D array of the matrix into this one.
@@ -64,7 +93,6 @@ public class Matrix {
     public int getAugmentedColumnIndex(){
         return augmentedColumnIndex;
     }
-
 
     // Row reduction tools:
 

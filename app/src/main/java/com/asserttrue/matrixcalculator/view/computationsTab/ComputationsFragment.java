@@ -8,16 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Matrix;
-import com.asserttrue.matrixcalculator.model.computations.Computation;
-import com.asserttrue.matrixcalculator.model.computations.determinant.DeterminantComputation;
+import com.asserttrue.matrixcalculator.model.computations.Computations;
 
 public class ComputationsFragment extends Fragment {
     private static ComputationsFragment ourInstance;
-
 
     public ComputationsFragment() {
 
@@ -43,7 +40,7 @@ public class ComputationsFragment extends Fragment {
            @Override
            public void onClick(View v) {
                Intent intent = new Intent(getContext(), ComputationActivity.class);
-               CurrentComputation.getInstance().setComputation(new DeterminantComputation(m));
+               CurrentComputation.getInstance().setSteps(Computations.determinant(m));
                startActivity(intent);
            }
        });
