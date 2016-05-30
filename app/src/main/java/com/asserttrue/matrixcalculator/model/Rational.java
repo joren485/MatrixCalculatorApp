@@ -22,8 +22,17 @@ public class Rational {
     }
 
     public Rational(String decimal) {
-        //TODO Make rational out of string representation of a double.
-        throw new UnsupportedOperationException();
+        int dotIndex = decimal.indexOf('.');
+        decimal = decimal.replaceAll("\\.", "");
+        
+        this.numerator = Long.parseLong(decimal);
+
+        if (dotIndex >= 0)
+            this.denominator = pow(10, decimal.length() - dotIndex);
+        else
+            this.denominator = 1;
+
+        simplifyFraction();
     }
 
     public long getNumerator() {
@@ -136,5 +145,12 @@ public class Rational {
         }
 
         return max;
+    }
+
+    private long pow(long base, long exponent) {
+        long result = 1;
+        for (long i = 0; i < exponent; i++)
+            result *= base;
+        return result;
     }
 }
