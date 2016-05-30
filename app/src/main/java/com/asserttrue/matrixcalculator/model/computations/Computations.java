@@ -1,7 +1,7 @@
 package com.asserttrue.matrixcalculator.model.computations;
 
 import com.asserttrue.matrixcalculator.model.Matrix;
-
+import com.asserttrue.matrixcalculator.model.Rational;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,52 +16,55 @@ public abstract class Computations {
 
         if (! matrix.isSquareMatrix() ) {
             steps.add(new ErrorStep("The determinant is only defined for square matrices."));
+            return steps;
         }
 
         // Determinant of upper-triangular matrix with identity diagonal is 1.
         // We multiply this result by the determinant of the elementary matrices required to reduce A to that form.
-        double determinant = 1;
+        Rational determinant = new Rational(1);
 
         for(int column = 0; column < A.getNrColumns(); column++) {
             int pivotRow = column;
 
             for(int row = pivotRow + 1; row < A.getNrColumns(); row++) {
-                if(Math.abs(A.getValueAt(column, row)) > Math.abs(A.getValueAt(column, pivotRow))) {
+                if(A.getValueAt(column, row).abs().greater(A.getValueAt(column, pivotRow).abs())) {
                     pivotRow = row;
                 }
             }
 
-            if(A.getValueAt(column, pivotRow) == 0.0) {
-                steps.add(new DetScalarStep(new Matrix(A), Step.StepType.SingularStep, 0.0, column));
+            if(A.getValueAt(column, pivotRow).getNumerator() == 0.0) {
+                steps.add(new DetScalarStep(new Matrix(A), Step.StepType.SingularStep, new Rational(0), column));
                 return steps;
             }
 
             if(column != pivotRow) {
                 A.swapRows(column, pivotRow);
-                determinant = -determinant;
+                determinant.timesIs(new Rational(-1));
                 steps.add(new DetScalarStep(new Matrix(A), Step.StepType.PivotStep, determinant, pivotRow, column, column));
                 pivotRow = column;
 
             }
 
-            double pivotValue =  A.getValueAt(column, pivotRow);
-            if(pivotValue != 1.0) {
-                A.multiplyRow(pivotRow, 1.0 / pivotValue);
-                determinant *= pivotValue;
+            Rational pivotValue =  A.getValueAt(column, pivotRow);
+            if(! pivotValue.equals(new Rational(1))) {
+                A.multiplyRow(pivotRow, pivotValue.inverse());
+                determinant.timesIs(pivotValue);
                 steps.add(new DetScalarStep(new Matrix(A), Step.StepType.RowDivideStep, determinant, pivotValue, column));
             }
 
             boolean eliminatedRows = false;
             for(int row = pivotRow + 1; row < A.getNrRows(); row++) {
-                if(A.getValueAt(column, row)  != 0.0) {
+                if(! A.getValueAt(column, row).equals(new Rational(0))) {
                     eliminatedRows = true;
-                    A.addRow(pivotRow, row, - A.getValueAt(column, row));
+                    A.addRow(pivotRow, row, A.getValueAt(column, row).negative());
                 }
             }
 
             if(eliminatedRows) {
                 steps.add(new DetScalarStep(new Matrix(A), Step.StepType.RowReduceStep, determinant, column));
             }
+
+            System.out.println(A);
         }
 
         steps.add(new DetScalarStep(new Matrix(A), Step.StepType.UpperTriangularStep, determinant, 0));
@@ -76,19 +79,25 @@ public abstract class Computations {
 
         List<Step> steps = new ArrayList<>();
 
+        if (! matrix.isSquareMatrix() ) {
+            steps.add(new ErrorStep(""));
+            return steps;
+        }
+
         for (int column = 0; column < A.getAugmentedColumnIndex(); column++) {
             int pivotRow = column;
 
             for (int row = pivotRow + 1; row < A.getNrRows(); row++) {
-                if (Math.abs(A.getValueAt(column, row)) > Math.abs(A.getValueAt(column, pivotRow))) {
+                if ( A.getValueAt(column, row).abs() .greater ( A.getValueAt(column, pivotRow).abs() )) {
                     pivotRow = row;
                 }
             }
 
-            if(A.getValueAt(column, pivotRow) == 0.0) {
+            if(A.getValueAt(column, pivotRow).equals(new Rational(0))) {
                 steps.add(new SingleMatrixStep(new Matrix(A), Step.StepType.SingularStep));
                 return steps;
             }
+
 
             if(column != pivotRow) {
                 A.swapRows(column, pivotRow);
@@ -99,19 +108,22 @@ public abstract class Computations {
                 pivotRow = column;
             }
 
-            double pivotValue =  A.getValueAt(column, pivotRow);
-            if(pivotValue != 1.0) {
-                A.multiplyRow(pivotRow, 1.0 / pivotValue);
+
+            Rational pivotValue =  A.getValueAt(column, pivotRow);
+
+            if(! pivotValue.equals(new Rational(1))) {
+                A.multiplyRow(pivotRow, pivotValue.inverse());
+
                 SingleMatrixStep divideStep = new SingleMatrixStep (new Matrix(A), Step.StepType.RowDivideStep);
-                divideStep.setMultiplier(pivotValue);
+                divideStep.setMultiplier(new Rational (pivotValue));
                 steps.add(divideStep);
             }
 
             boolean eliminatedRows = false;
             for(int row = 0; row < A.getNrRows(); row++) {
-                if(A.getValueAt(column, row)  != 0.0 && row != pivotRow ) {
+                if(! A.getValueAt(column, row).equals(new Rational(0)) && row != pivotRow ) {
                     eliminatedRows = true;
-                    A.addRow(pivotRow, row, - A.getValueAt(column, row));
+                    A.addRow(pivotRow, row, A.getValueAt(column, row).negative());
                 }
             }
 
@@ -120,13 +132,14 @@ public abstract class Computations {
                 steps.add(reduceStep);
                 reduceStep.setCurrentColumn(column);
             }
+
         }
 
         steps.add(new SingleMatrixStep(new Matrix(A), Step.StepType.UpperTriangularStep));
-        //TODO make a nice card view for displaying eventual result.
         steps.add(0, new SingleMatrixStep(A.getRightMatrix(), Step.StepType.Result));
 
         return steps;
     }
+
 }
 

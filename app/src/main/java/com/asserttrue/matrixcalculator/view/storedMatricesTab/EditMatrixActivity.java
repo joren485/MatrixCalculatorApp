@@ -19,7 +19,7 @@ public class EditMatrixActivity extends AppCompatActivity {
         Spinner height = (Spinner) findViewById(R.id.numHeight);
 
         Integer[] items = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
         width.setAdapter(adapter);
         height.setAdapter(adapter);
 

@@ -1,16 +1,15 @@
 package com.asserttrue.matrixcalculator.model.computations;
 
 import com.asserttrue.matrixcalculator.model.Matrix;
+import com.asserttrue.matrixcalculator.model.Rational;
 
 import java.util.Locale;
-
-import javax.xml.transform.Result;
 
 public class SingleMatrixStep implements Step{
 
     private Matrix matrix;
     private StepType type;
-    private double multiplier;
+    private Rational multiplier;
     private int rowFrom;
     private int rowTo;
     private int currentColumn;
@@ -36,11 +35,11 @@ public class SingleMatrixStep implements Step{
         this.type = type;
     }
 
-    public double getMultiplier() {
+    public Rational getMultiplier() {
         return multiplier;
     }
 
-    public void setMultiplier(double multiplier) {
+    public void setMultiplier(Rational multiplier) {
         this.multiplier = multiplier;
     }
 
@@ -83,7 +82,7 @@ public class SingleMatrixStep implements Step{
             case RowReduceStep:
                 return String.format(Locale.US, "Use the pivot row to eliminate the others; now column %1$d has zeroes everywhere except row %1$d.", currentColumn + 1);
             case RowDivideStep:
-                return String.format(Locale.US, "Divide the pivot-row by %.2f, so that it has a leading 1.", multiplier);
+                return String.format(Locale.US, "Divide the pivot-row by %s, so that it has a leading 1.", multiplier.toString());
             case PivotStep:
                 return String.format(Locale.US, "Swap rows %2$d and %1$d, because row %1$d has a larger leading value.", rowFrom + 1, rowTo + 1);
             case SingularStep:

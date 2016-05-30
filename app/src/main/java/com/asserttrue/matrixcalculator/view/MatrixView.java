@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +51,7 @@ public class MatrixView extends LinearLayout {
                 TextView view = new TextView(mContext);
                 view.setGravity(Gravity.CENTER);
                 view.setPadding(10, 10, 10, 10);
-                view.setText(parseDouble(matrix.getValueAt(x, y)));
+                view.setText(matrix.getValueAt(x, y).toString());
                 column.addView(view);
             }
             if (x == matrix.getAugmentedColumnIndex()) {
@@ -79,7 +77,7 @@ public class MatrixView extends LinearLayout {
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
                 ((TextView) columns.get(x).getChildAt(y))
-                        .setText(parseDouble(matrix.getValueAt(x, y)));
+                        .setText(matrix.getValueAt(x, y).toString());
             }
         }
     }

@@ -2,25 +2,25 @@ package com.asserttrue.matrixcalculator.model;
 
 public class Matrix {
 
-    private final double[][] matrix_array;
+    private final Rational[][] matrix_array;
     private int augmentedColumnIndex;
 
-    public Matrix(double [][] array, int augColInd){
+    public Matrix(Rational [][] array, int augColInd){
         matrix_array = array;
         augmentedColumnIndex = augColInd;
     }
 
-    public Matrix(double [][] array){
+    public Matrix(Rational [][] array){
         this(array, -1);
     }
 
     public Matrix(int width, int height, int augColInd){
-        matrix_array = new double[height][width];
+        matrix_array = new Rational[height][width];
         augmentedColumnIndex = augColInd;
 
         for (int y =0; y < height; y++){
             for (int x = 0; x < width; x++){
-                setPositionValue(x, y, 0);
+                setValue(x, y, new Rational(0));
             }
         }
     }
@@ -29,7 +29,7 @@ public class Matrix {
         Matrix id = new Matrix(width, width);
 
         for(int n = 0; n < width; n++)
-            id.setPositionValue(n, n, 1.0);
+            id.setValue(n, n, new Rational(1));
 
         return id;
     }
@@ -42,16 +42,16 @@ public class Matrix {
             throw new IllegalArgumentException("Left and right matrices must have same height.");
         }
 
-        matrix_array = new double[left.getNrRows()][left.getNrColumns() + right.getNrColumns()];
+        matrix_array = new Rational[left.getNrRows()][left.getNrColumns() + right.getNrColumns()];
         augmentedColumnIndex = left.getNrColumns();
 
         for(int row = 0; row < left.getNrRows(); row++) {
             for(int column = 0; column < left.getNrColumns(); column++) {
-                setPositionValue(column, row, left.getValueAt(column, row));
+                setValue(column, row, left.getValueAt(column, row));
             }
 
             for(int column = 0; column < right.getNrColumns(); column++) {
-                setPositionValue(column + left.getNrColumns(), row, right.getValueAt(column, row));
+                setValue(column + left.getNrColumns(), row, right.getValueAt(column, row));
             }
         }
     }
@@ -65,14 +65,18 @@ public class Matrix {
         int width = matrix.getNrColumns();
         augmentedColumnIndex = matrix.getAugmentedColumnIndex();
 
-        matrix_array = new double[height][width];
+        matrix_array = new Rational[height][width];
         // Copy the whole 2D array of the matrix into this one.
         for(int row = 0; row < height; row++) {
-            System.arraycopy(matrix.getInternalArray()[row], 0, matrix_array[row], 0, width);
+            for(int column = 0; column < width; column++) {
+                setValue(column, row, matrix.getValueAt(column, row));
+            }
+
+            //System.arraycopy(matrix.getInternalArray()[row], 0, matrix_array[row], 0, width);
         }
     }
 
-    public double[][] getInternalArray(){
+    public Rational[][] getInternalArray(){
         return matrix_array;
     }
 
@@ -84,12 +88,12 @@ public class Matrix {
         return matrix_array.length;
     }
 
-    public void setPositionValue(int column, int row, double number){
+    public void setValue(int column, int row, Rational number){
         matrix_array[row][column] = number;
     }
 
-    public double getValueAt(int column, int row){
-        return matrix_array[row][column];
+    public Rational getValueAt(int column, int row){
+        return new Rational( matrix_array[row][column] );
     }
 
     public int getAugmentedColumnIndex(){
@@ -101,33 +105,33 @@ public class Matrix {
     /**
      * Add a scalar multiple of row 'from' to row 'to'. This is used in row elimination algorithms.
      */
-    public void addRow(int from, int to, double scalar) {
+    public void addRow(int from, int to, Rational scalar) {
         if(!(isRowIndex(from) && isRowIndex(to))) {
             throw new IllegalArgumentException("Row indices are outside of the matrix dimensions.");
         }
 
         for(int column = 0; column < getNrColumns(); column++) {
-            matrix_array[to][column] += matrix_array[from][column] * scalar;
+            matrix_array[to][column].plusIs( matrix_array[from][column].times(scalar) );
         }
     }
 
     public void addRow(int from, int to) {
-        addRow(from, to, 1.0);
+        addRow(from, to, new Rational(1));
     }
 
     /**
      * Multiply an entire row with a scalar value.
      */
-    public void multiplyRow(int row, double scalar) {
+    public void multiplyRow(int row, Rational scalar) {
         if(!isRowIndex(row)) {
             throw new IllegalArgumentException("Row index is outside of the matrix dimensions.");
         }
-        if(scalar == 0.0) {
+        if(scalar.equals(new Rational(0))) {
             throw new IllegalArgumentException("Row multiplication by zero is does not preserve matrix properties.");
         }
 
         for(int column = 0; column < getNrColumns(); column++) {
-            matrix_array[row][column] *= scalar;
+            matrix_array[row][column].timesIs(scalar);
         }
     }
 
@@ -136,7 +140,7 @@ public class Matrix {
             throw new IllegalArgumentException("Row indices are outside of the matrix dimensions.");
         }
 
-        double[] temporary = matrix_array[row1];
+        Rational[] temporary = matrix_array[row1];
         matrix_array[row1] = matrix_array[row2];
         matrix_array[row2] = temporary;
     }
@@ -159,7 +163,7 @@ public class Matrix {
 
         for (int y = 0; y< getNrRows(); y++){
             for (int x = 0; x < getNrColumns(); x++){
-                sb.append(String.format(" %.2f ", getValueAt(x, y)));
+                sb.append(String.format(" %s ", String.valueOf(getValueAt(x, y).toReal())));
             }
             sb.append('\n');
         }
@@ -174,7 +178,7 @@ public class Matrix {
         Matrix aug = new Matrix(getNrColumns() - augmentedColumnIndex, getNrRows());
         for(int column = 0; column < augmentedColumnIndex; column++)
             for(int row = 0; row < getNrRows(); row++)
-                aug.setPositionValue(column, row, getValueAt(column + augmentedColumnIndex, row));
+                aug.setValue(column, row, getValueAt(column + augmentedColumnIndex, row));
 
         return aug;
     }

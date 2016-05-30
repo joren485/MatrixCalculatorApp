@@ -1,9 +1,5 @@
 package com.asserttrue.matrixcalculator.model.computations;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-
 public interface Step {
     int TYPE_DET_SCALAR = 0;
     int TYPE_DET_RESULT = 1;

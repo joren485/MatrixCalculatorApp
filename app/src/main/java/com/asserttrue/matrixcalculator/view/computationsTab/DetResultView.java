@@ -30,12 +30,12 @@ public class DetResultView extends LinearLayout {
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
         scalar = (TextView) findViewById(R.id.scalar);
-        scalar.setText(String.format(Locale.US, "%.2f", step.getScalar()));
+        scalar.setText(step.getScalar().toString());
     }
 
     public void recycle(Step step) {
         DetScalarStep detStep = (DetScalarStep) step;
         matrixView.setMatrix(detStep.getMatrix());
-        scalar.setText(String.format(Locale.US, "%.2f", detStep.getScalar()));
+        scalar.setText(detStep.getScalar().toString());
     }
 }
