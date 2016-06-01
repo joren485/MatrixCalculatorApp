@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".view.storedMatricesTab.CreateMatrixActivity" />
         <activity android:name=".view.computationsTab.ComputationActivity" />
-        <activity android:name=".view.storedMatricesTab.EditMatrixActivity" />
+        <activity android:name=".view.storedMatricesTab.EditMatrixActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>

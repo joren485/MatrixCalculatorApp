@@ -55,7 +55,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/numHeight"
             android:layout_gravity="center"/>
-
     </LinearLayout>
 
     <com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixGridView
@@ -63,5 +62,4 @@
         android:layout_height="wrap_content"
         android:id="@+id/gridView"
         android:layout_below="@id/sizeLayout"/>
-
 </RelativeLayout>

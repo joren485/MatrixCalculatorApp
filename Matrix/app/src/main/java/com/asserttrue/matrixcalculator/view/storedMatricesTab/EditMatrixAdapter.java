@@ -3,6 +3,7 @@ package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.model.Rational;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.InputType;
@@ -11,8 +12,10 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -26,10 +29,16 @@ public class EditMatrixAdapter extends BaseAdapter {
     private int editing = -1;
     private EditText editText;
 
-
     public EditMatrixAdapter(Context c, Matrix m) {
         this.mContext = c;
         this.matrix = m;
+
+        editText = new EditText(c);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
+        editText.setGravity(Gravity.CENTER);
+        editText.setTextColor(Color.BLACK);
+        editText.setHintTextColor(Color.DKGRAY);
     }
 
     public void updateWidth(int newWidth) {
@@ -91,6 +100,7 @@ public class EditMatrixAdapter extends BaseAdapter {
 
         if (position == editing) {
             editText = new EditText(mContext);
+            editText.setFocusableInTouchMode(true);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
             editText.setGravity(Gravity.CENTER);
@@ -106,6 +116,8 @@ public class EditMatrixAdapter extends BaseAdapter {
                     return false;
                 }
             });
+
+            editText.requestFocus();
 
             return editText;
         } else {
