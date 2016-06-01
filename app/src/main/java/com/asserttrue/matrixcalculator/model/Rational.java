@@ -22,8 +22,17 @@ public class Rational {
     }
 
     public Rational(String decimal) {
-        //TODO Make rational out of string representation of a double.
-        throw new UnsupportedOperationException();
+        int dotIndex = decimal.indexOf('.');
+        decimal = decimal.replaceAll("\\.", "");
+
+        this.numerator = Long.parseLong(decimal);
+
+        if (dotIndex >= 0)
+            this.denominator = (long) Math.pow(10, (decimal.length() - dotIndex));
+        else
+            this.denominator = 1;
+
+        simplifyFraction();
     }
 
     public long getNumerator() {
@@ -37,6 +46,7 @@ public class Rational {
     public void plusIs(Rational r) {
         numerator = denominator * r.getNumerator() + numerator * r.getDenominator();
         denominator *= r.getDenominator();
+
         simplifyFraction();
     }
 
@@ -44,18 +54,21 @@ public class Rational {
     public void minIs(Rational r) {
         numerator = - denominator * r.getNumerator() + numerator * r.getDenominator();
         denominator *= r.getDenominator();
+
         simplifyFraction();
     }
 
     public void timesIs(Rational r) {
         numerator *= r.getNumerator();
         denominator *= r.getDenominator();
+
         simplifyFraction();
     }
 
     public void divIs(Rational r) {
         numerator *=r.getDenominator();
         denominator *= r.getNumerator();
+
         simplifyFraction();
     }
 

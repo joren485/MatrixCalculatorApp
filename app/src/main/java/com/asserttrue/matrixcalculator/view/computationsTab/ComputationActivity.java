@@ -2,10 +2,10 @@ package com.asserttrue.matrixcalculator.view.computationsTab;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.asserttrue.matrixcalculator.R;
+import com.asserttrue.matrixcalculator.view.stepViews.StepAdapter;
 
 public class ComputationActivity extends AppCompatActivity {
 

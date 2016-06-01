@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.model.Rational;
-import com.asserttrue.matrixcalculator.model.computations.Computations;
+import com.asserttrue.matrixcalculator.model.Computations;
 
 public class ComputationsFragment extends Fragment {
     private static ComputationsFragment ourInstance;
@@ -37,6 +37,35 @@ public class ComputationsFragment extends Fragment {
         m.setValue(2, 2, new Rational(2));
         m.setValue(3, 3, new Rational(3));
 
+        final Matrix k = new Matrix(6, 6);
+        k.setValue(5, 2, new Rational(9));
+        k.setValue(1, 1, new Rational(4));
+        k.setValue(0, 2, new Rational(7));
+        k.setValue(5, 1, new Rational(3));
+        k.setValue(0, 0, new Rational(5));
+        k.setValue(2, 2, new Rational(2));
+        k.setValue(4, 3, new Rational(3));
+        k.addRow(4, 0);
+        k.addRow(4, 1);
+        k.addRow(5, 4);
+        k.addRow(5, 4);
+
+        cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ComputationActivity.class);
+                CurrentComputation.getInstance().setSteps(Computations.kernel(k));
+                startActivity(intent);
+            }
+        });
+        cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ComputationActivity.class);
+                CurrentComputation.getInstance().setSteps(Computations.product(m, m));
+                startActivity(intent);
+            }
+        });
 
         cards.getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override

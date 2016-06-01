@@ -71,8 +71,6 @@ public class Matrix {
             for(int column = 0; column < width; column++) {
                 setValue(column, row, matrix.getValueAt(column, row));
             }
-
-            //System.arraycopy(matrix.getInternalArray()[row], 0, matrix_array[row], 0, width);
         }
     }
 
@@ -135,6 +133,12 @@ public class Matrix {
         }
     }
 
+    public void timesIs(Rational r) {
+        for(Rational[] row : matrix_array)
+            for(Rational cell : row)
+                cell.timesIs(r);
+    }
+
     public void swapRows(int row1, int row2) {
         if(!(isRowIndex(row1) && isRowIndex(row2))) {
             throw new IllegalArgumentException("Row indices are outside of the matrix dimensions.");
@@ -168,6 +172,19 @@ public class Matrix {
             sb.append('\n');
         }
         return sb.toString();
+    }
+
+    public Matrix getColumnVector(int n) {
+        if( n < 0 || n >= getNrColumns()) {
+            throw new IllegalArgumentException("Column index out of range.");
+        }
+
+        Matrix vector = new Matrix(1, getNrRows());
+
+        for(int row = 0; row < getNrRows(); row++)
+            vector.setValue(0, row, new Rational(getValueAt(n, row)));
+
+        return vector;
     }
 
     public Matrix getRightMatrix() {

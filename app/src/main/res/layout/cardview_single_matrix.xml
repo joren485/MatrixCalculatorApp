@@ -27,7 +27,7 @@
             <com.asserttrue.matrixcalculator.view.MathTextView
                 android:id="@+id/explanation"
                 android:textAlignment="center"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_marginTop="15sp"
                 android:layout_marginBottom="15sp"
                 android:layout_width="wrap_content"

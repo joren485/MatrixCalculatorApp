@@ -16,4 +16,11 @@ public class MathTextView extends TextView{
         setTextAppearance(R.style.math_font);
         setTypeface(Typeface.createFromAsset(getContext().getAssets(), MATH_TYPEFACE));
     }
+
+    public MathTextView(Context context, String text) {
+        super(context);
+        setTextAppearance(R.style.math_font);
+        setTypeface(Typeface.createFromAsset(context.getAssets(), MATH_TYPEFACE));
+        setText(text);
+    }
 }
