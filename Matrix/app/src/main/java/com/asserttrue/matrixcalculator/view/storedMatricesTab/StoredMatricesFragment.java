@@ -1,11 +1,15 @@
 package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.asserttrue.matrixcalculator.R;
@@ -37,7 +41,6 @@ public class StoredMatricesFragment extends Fragment {
         m.setValue(0, 0, new Rational(5));
         m.setValue(2, 2, new Rational(2));
         m.setValue(3, 3, new Rational(3));
-
 
         ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), m, "M"));
         ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), m, "N"));
