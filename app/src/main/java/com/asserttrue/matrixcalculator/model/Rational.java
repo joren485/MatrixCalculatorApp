@@ -24,7 +24,7 @@ public class Rational {
     public Rational(String decimal) {
         int dotIndex = decimal.indexOf('.');
         decimal = decimal.replaceAll("\\.", "");
-
+        
         this.numerator = Long.parseLong(decimal);
 
         if (dotIndex >= 0)
@@ -149,5 +149,12 @@ public class Rational {
         }
 
         return max;
+    }
+
+    private long pow(long base, long exponent) {
+        long result = 1;
+        for (long i = 0; i < exponent; i++)
+            result *= base;
+        return result;
     }
 }
