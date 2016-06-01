@@ -7,13 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.matrix.EditMatrixActivity">
+    tools:context=".view.storedMatricesTab.EditMatrixActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:background="@color/cardBackground">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Matrix name"
-        android:id="@+id/matrixName"/>
+        android:id="@+id/matrixName"
+        android:lines="1"
+        android:inputType="textCapWords"
+        android:imeOptions="actionDone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,7 +58,7 @@
 
     </LinearLayout>
 
-    <GridView
+    <com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixGridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gridView"

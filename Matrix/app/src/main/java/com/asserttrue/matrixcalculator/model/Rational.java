@@ -24,7 +24,7 @@ public class Rational {
     public Rational(String decimal) {
         int dotIndex = decimal.indexOf('.');
         decimal = decimal.replaceAll("\\.", "");
-        
+
         this.numerator = Long.parseLong(decimal);
 
         if (dotIndex >= 0)
