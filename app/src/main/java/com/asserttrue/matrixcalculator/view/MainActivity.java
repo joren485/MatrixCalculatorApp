@@ -28,8 +28,4 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, EditMatrixActivity.class);
         startActivity(i);
     }
-
-    public void computeDeterminant(View view) {
-
-    }
 }

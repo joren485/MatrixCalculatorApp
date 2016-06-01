@@ -150,11 +150,4 @@ public class Rational {
 
         return max;
     }
-
-    private long pow(long base, long exponent) {
-        long result = 1;
-        for (long i = 0; i < exponent; i++)
-            result *= base;
-        return result;
-    }
 }

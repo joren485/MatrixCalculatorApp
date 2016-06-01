@@ -49,7 +49,10 @@
                 android:id="@+id/diagonal_card"
                 custom:computation_name="Matrix Multiplication"
                 android:src="@drawable/multiplication_image"
-                android:layout_margin="6sp"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
                 android:layout_width="match_parent"
                 android:layout_height="150sp"
                 />
@@ -57,7 +60,7 @@
             <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/jordan_card"
                 custom:computation_name="Kernel Span"
-                android:src="@drawable/kernal_image"
+                android:src="@drawable/kernel_image"
                 android:layout_marginRight="8sp"
                 android:layout_marginLeft="8sp"
                 android:layout_marginTop="4sp"
