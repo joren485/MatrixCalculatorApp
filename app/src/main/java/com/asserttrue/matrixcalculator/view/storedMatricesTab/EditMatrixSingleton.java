@@ -8,22 +8,25 @@ import com.asserttrue.matrixcalculator.model.Matrix;
 public class EditMatrixSingleton {
 
     private static EditMatrixSingleton instance;
-    public boolean forceSave;
+    public boolean forceSave, isResult, editingExisting;
     public Matrix editMatrix;
-    public boolean isResult;
+    public String matrixName;
 
-    private EditMatrixSingleton() {}
+    private EditMatrixSingleton() {
+        this.setVariables(new Matrix(2, 2), "", false, false, false);
+    }
 
-    public void setVariables(boolean forceSave, Matrix m, boolean isResult) {
-        this.forceSave = forceSave;
+    public void setVariables(Matrix m, String matrixName, boolean forceSave, boolean isResult, boolean editingExisting) {
         this.editMatrix = m;
+        this.matrixName = matrixName;
+        this.forceSave = forceSave;
         this.isResult = isResult;
+        this.editingExisting = editingExisting;
     }
 
     public static EditMatrixSingleton getInstance() {
         if (instance == null) {
             instance = new EditMatrixSingleton();
-            instance.setVariables(false, new Matrix(2, 2), false);
         }
         return instance;
     }

@@ -6,7 +6,9 @@ import com.asserttrue.matrixcalculator.model.Rational;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -34,11 +36,6 @@ public class EditMatrixAdapter extends BaseAdapter {
         this.matrix = m;
 
         editText = new EditText(c);
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 110));
-        editText.setGravity(Gravity.CENTER);
-        editText.setTextColor(Color.BLACK);
-        editText.setHintTextColor(Color.DKGRAY);
     }
 
     public void updateWidth(int newWidth) {
@@ -68,8 +65,10 @@ public class EditMatrixAdapter extends BaseAdapter {
     public void updateEditing(int newEditing) {
         int x = editing % matrix.getNrColumns();
         int y = editing / matrix.getNrColumns();
+        if (x == 0 && y == 0)
+            Log.d("editMatrix", "Now it should not work");
         String text = editText.getText().toString();
-        Log.i("editMatrix", "Saving: (" + x + ", " + y + ") -> " + text);
+        Log.d("editMatrix", "Extracted text: " + text);
         if (!text.isEmpty() && editing != -1) {
             Rational r = new Rational(text);
             matrix.setValue(x, y, r);
@@ -117,7 +116,6 @@ public class EditMatrixAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int x = position % matrix.getNrColumns();
         int y = position / matrix.getNrColumns();
-
         if (position == editing) {
             if (convertView instanceof EditText)
                 editText = (EditText) convertView;
@@ -130,6 +128,23 @@ public class EditMatrixAdapter extends BaseAdapter {
             editText.setTextColor(Color.BLACK);
             editText.setHintTextColor(Color.DKGRAY);
             editText.setHint(matrix.getValueAt(x, y).toString());
+
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    Log.i("editMatrix", "Current text: " + s);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
 
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

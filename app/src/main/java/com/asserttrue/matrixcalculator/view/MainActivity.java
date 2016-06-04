@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addMatrix(View v) {
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
-        settings.setVariables(true, new Matrix(2, 2), false);
+        settings.setVariables(new Matrix(2, 2), "", false, false, false);
         Intent i = new Intent(this, EditMatrixActivity.class);
         startActivity(i);
     }

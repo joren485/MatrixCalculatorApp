@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Spinner;
@@ -28,21 +29,20 @@ public class EditMatrixActivity extends AppCompatActivity {
     private EditMatrixAdapter editMatrixAdapter;
     private CheckBox saveMatrixBox;
     private Button finishEditingButton;
+    private EditText matrixName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_matrix);
 
-        final EditText matrixName = (EditText) findViewById(R.id.matrixName);
+        matrixName = (EditText) findViewById(R.id.matrixName);
         Spinner width = (Spinner) findViewById(R.id.numWidth);
         Spinner height = (Spinner) findViewById(R.id.numHeight);
         final MathTextButton zeroButton = (MathTextButton) findViewById(R.id.zeroMatrixButton);
         final MathTextButton identityButton = (MathTextButton) findViewById(R.id.identityMatrixButton);
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
-
-        finishEditingButton.setEnabled(false);
 
         Integer[] items = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
@@ -58,6 +58,14 @@ public class EditMatrixActivity extends AppCompatActivity {
             saveMatrixBox.setChecked(true);
             saveMatrixBox.setEnabled(false);
         }
+
+        if (matrixSettings.editingExisting) {
+            matrixName.setText(matrixSettings.matrixName);
+            matrixName.setEnabled(false);
+        }
+
+        if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
+            finishEditingButton.setEnabled(false);
 
         editMatrixAdapter = new EditMatrixAdapter(this, matrixSettings.editMatrix);
         grid.setAdapter(editMatrixAdapter);
@@ -129,7 +137,7 @@ public class EditMatrixActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (matrixName.getText().toString().isEmpty())
+                if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
                     finishEditingButton.setEnabled(false);
                 else
                     finishEditingButton.setEnabled(true);
@@ -138,6 +146,16 @@ public class EditMatrixActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        saveMatrixBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
+                    finishEditingButton.setEnabled(false);
+                else
+                    finishEditingButton.setEnabled(true);
             }
         });
 
@@ -150,8 +168,7 @@ public class EditMatrixActivity extends AppCompatActivity {
             // Save to database
         }
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
-        settings.editMatrix = editMatrixAdapter.getMatrix();
-        settings.isResult = true;
+        settings.setVariables(editMatrixAdapter.getMatrix(), matrixName.getText().toString(), false, true, false);
         finish();
     }
 }

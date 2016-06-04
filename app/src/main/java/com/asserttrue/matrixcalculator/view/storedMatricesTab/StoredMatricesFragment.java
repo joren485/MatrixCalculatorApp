@@ -23,17 +23,13 @@ import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
 public class StoredMatricesFragment extends Fragment {
     private static StoredMatricesFragment ourInstance;
 
-    public StoredMatricesFragment() {
-
-    }
-
-    private View root;
+    private LinearLayout matrixList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
+        View root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
 
         final Matrix m = new Matrix(4, 4);
         m.setValue(2, 1, new Rational(9));
@@ -44,17 +40,35 @@ public class StoredMatricesFragment extends Fragment {
         m.setValue(2, 2, new Rational(2));
         m.setValue(3, 3, new Rational(3));
 
-        ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), m, "M"));
-        ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), m, "N"));
+        matrixList = (LinearLayout) root.findViewById(R.id.computations_list);
+
+        matrixList.addView(new LibraryMatrixView(getContext(), m, "M"));
+        matrixList.addView(new LibraryMatrixView(getContext(), m, "N"));
+
+        for (int i = 0; i < matrixList.getChildCount(); i++) {
+            final LibraryMatrixView matrix = (LibraryMatrixView) matrixList.getChildAt(i);
+            matrix.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
+                    settings.setVariables(matrix.getContentMatrix(), matrix.getName(), true, false, true);
+                    Intent i = new Intent(getContext(), EditMatrixActivity.class);
+                    startActivity(i);
+                }
+            });
+        }
 
         return root;
     }
 
     public void onResume() {
         super.onResume();
+
+        //TODO remove children, read from database
+        //TODO remove adding from settings
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
         if (settings.isResult) {
-            ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), settings.editMatrix, "Test"));
+            matrixList.addView(new LibraryMatrixView(getContext(), settings.editMatrix, settings.matrixName));
         }
     }
 

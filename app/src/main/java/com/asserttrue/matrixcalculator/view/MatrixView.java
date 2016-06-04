@@ -107,6 +107,10 @@ public class MatrixView extends LinearLayout {
         invalidate();
     }
 
+    public Matrix getContentMatrix() {
+        return matrix;
+    }
+
     public void dispatchDraw(Canvas c) {
         super.dispatchDraw(c);
         int width = this.getWidth();
