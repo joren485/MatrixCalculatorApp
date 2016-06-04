@@ -82,13 +82,6 @@ public class MatrixView extends LinearLayout {
         }
     }
 
-    private String parseDouble(double d) {
-        DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.HALF_UP);
-        String result = df.format(d);
-        return result.equals("-0") ? "0" : result;
-    }
-
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
         updateFields();

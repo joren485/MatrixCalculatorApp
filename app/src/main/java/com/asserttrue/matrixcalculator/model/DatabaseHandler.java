@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -104,12 +105,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public void updateMatrixbyId(int id){
+    public void updateMatrix(Matrix m, String name) {
+        SQLiteDatabase db = getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_NAME_MATRIX_NAME, name);
+        values.put(COLUMN_NAME_MATRIX, flattenMatrix(m));
+        values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
+        values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
+        values.put(COLUMN_NAME_AUGMENTEDLINE, m.getAugmentedColumnIndex());
+
+        db.update(TABLE_NAME, values, COLUMN_NAME_MATRIX_NAME + "=?", new String[]{name});
+
+        db.close();
     }
 
-    public void deleteMatrixbyId(int id){
+    public void deleteMatrix(String name){
 
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(TABLE_NAME,
+                COLUMN_NAME_MATRIX_NAME + "=?",
+                new String[] {name});
+
+        db.close();
     }
 
     public Matrix[] getAllMatrices(){
@@ -169,7 +189,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         for (int y = 0; y < m.getNrRows(); y++){
             for (int x = 0; x < m.getNrColumns(); x++){
                 sb.append(String.format("%s/%s ", String.valueOf(m.getValueAt(x, y).getNumerator()),
-                        String.valueOf(m.getValueAt(x, y).getNumerator())));
+                        String.valueOf(m.getValueAt(x, y).getDenominator())));
             }
         }
         sb.setLength(sb.length() - 1);
@@ -192,5 +212,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         return new Matrix(matrix2d, augmentedLine, name);
     }
-
 }

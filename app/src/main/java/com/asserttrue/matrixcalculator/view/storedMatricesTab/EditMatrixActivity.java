@@ -1,6 +1,7 @@
 package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -148,14 +149,18 @@ public class EditMatrixActivity extends AppCompatActivity {
 
                 String name = matrixName.getText().toString();
 
-                if (!hDB.isUniqueName(name)){
-                    sameNameToast.show();
+                if (!hDB.isUniqueName(name) && saveMatrixBox.isChecked()){
+                    matrixName.setTextColor(Color.RED);
                     finishEditingButton.setEnabled(false);
                 }
-                else if ((name.isEmpty() && saveMatrixBox.isChecked()))
+                else if ((name.isEmpty() && saveMatrixBox.isChecked())) {
+                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(false);
-                else
+                }
+                else {
+                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(true);
+                }
             }
 
             @Override
@@ -169,14 +174,18 @@ public class EditMatrixActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String name = matrixName.getText().toString();
 
-                if (!hDB.isUniqueName(name)){
-                    sameNameToast.show();
+                if (!hDB.isUniqueName(name) && saveMatrixBox.isChecked()){
+                    matrixName.setTextColor(Color.RED);
                     finishEditingButton.setEnabled(false);
                 }
-                else if ((name.isEmpty() && saveMatrixBox.isChecked()))
+                else if ((name.isEmpty() && saveMatrixBox.isChecked())) {
+                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(false);
-                else
+                }
+                else {
+                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(true);
+                }
             }
         });
 
@@ -189,7 +198,10 @@ public class EditMatrixActivity extends AppCompatActivity {
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
 
         if (saveMatrixBox.isChecked()) {
-            hDB.createMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
+            if (settings.editingExisting)
+                hDB.updateMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
+            else
+                hDB.createMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
         }
 
         settings.setVariables(editMatrixAdapter.getMatrix(), matrixName.getText().toString(), false, true, false);
