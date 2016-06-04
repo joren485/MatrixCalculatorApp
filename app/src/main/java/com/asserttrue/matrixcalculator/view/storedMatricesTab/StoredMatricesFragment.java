@@ -27,11 +27,13 @@ public class StoredMatricesFragment extends Fragment {
 
     }
 
+    private View root;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
+        root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
 
         final Matrix m = new Matrix(4, 4);
         m.setValue(2, 1, new Rational(9));
@@ -46,6 +48,14 @@ public class StoredMatricesFragment extends Fragment {
         ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), m, "N"));
 
         return root;
+    }
+
+    public void onResume() {
+        super.onResume();
+        EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
+        if (settings.isResult) {
+            ((LinearLayout) root.findViewById(R.id.computations_list)).addView(new LibraryMatrixView(getContext(), settings.editMatrix, "Test"));
+        }
     }
 
     public static StoredMatricesFragment getInstance() {

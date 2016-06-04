@@ -19,7 +19,8 @@
         android:id="@+id/matrixName"
         android:lines="1"
         android:inputType="textCapWords"
-        android:imeOptions="actionDone"/>
+        android:imeOptions="actionDone"
+        android:layout_alignParentTop="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,11 +34,10 @@
             android:layout_height="wrap_content"
             android:text="Width: "
             android:layout_gravity="center"
-            android:padding="20dp"
             />
 
         <Spinner
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/numWidth"
             android:layout_gravity="center"/>
@@ -47,19 +47,62 @@
             android:layout_height="wrap_content"
             android:text="Height: "
             android:layout_gravity="center"
-            android:padding="20dp"
             />
 
         <Spinner
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/numHeight"
             android:layout_gravity="center"/>
+
+        <com.asserttrue.matrixcalculator.view.MathTextButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="0"
+            android:id="@+id/zeroMatrixButton"/>
+
+        <com.asserttrue.matrixcalculator.view.MathTextButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="I"
+            android:id="@+id/identityMatrixButton"/>
+
     </LinearLayout>
 
     <com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixGridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gridView"
-        android:layout_below="@id/sizeLayout"/>
+        android:layout_below="@id/sizeLayout"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gridView">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save matrix: " />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/saveMatrixCheckbox"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/finishEditingButton"
+            android:text="Finish"/>
+    </LinearLayout>
 </RelativeLayout>

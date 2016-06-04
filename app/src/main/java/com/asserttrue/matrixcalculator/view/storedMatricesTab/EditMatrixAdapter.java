@@ -35,7 +35,7 @@ public class EditMatrixAdapter extends BaseAdapter {
 
         editText = new EditText(c);
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
+        editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 110));
         editText.setGravity(Gravity.CENTER);
         editText.setTextColor(Color.BLACK);
         editText.setHintTextColor(Color.DKGRAY);
@@ -78,6 +78,26 @@ public class EditMatrixAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void setZeroMatrix() {
+        this.matrix = new Matrix(matrix.getNrColumns(), matrix.getNrRows());
+        notifyDataSetChanged();
+    }
+
+    public void setIdentityMatrix() {
+        if (!isSquare())
+            return;
+        this.matrix = Matrix.identity(matrix.getNrColumns());
+        notifyDataSetChanged();
+    }
+
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
+    public boolean isSquare() {
+        return matrix.getNrColumns() == matrix.getNrRows();
+    }
+
     @Override
     public int getCount() {
         return matrix.getNrRows() * matrix.getNrColumns();
@@ -99,10 +119,13 @@ public class EditMatrixAdapter extends BaseAdapter {
         int y = position / matrix.getNrColumns();
 
         if (position == editing) {
-            editText = new EditText(mContext);
+            if (convertView instanceof EditText)
+                editText = (EditText) convertView;
+            else
+                editText = new EditText(mContext);
             editText.setFocusableInTouchMode(true);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
+            editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 110));
             editText.setGravity(Gravity.CENTER);
             editText.setTextColor(Color.BLACK);
             editText.setHintTextColor(Color.DKGRAY);
@@ -116,9 +139,6 @@ public class EditMatrixAdapter extends BaseAdapter {
                     return false;
                 }
             });
-
-            editText.requestFocus();
-
             return editText;
         } else {
             TextView v;
@@ -126,7 +146,7 @@ public class EditMatrixAdapter extends BaseAdapter {
                 v = (TextView) convertView;
             else
                 v = new TextView(mContext);
-            v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
+            v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 110));
             v.setText(matrix.getValueAt(x, y).toString());
             v.setGravity(Gravity.CENTER);
             return v;

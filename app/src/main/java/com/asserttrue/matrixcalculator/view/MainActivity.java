@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.asserttrue.matrixcalculator.R;
+import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixActivity;
+import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixAdapter;
+import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixSingleton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addMatrix(View v) {
+        EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
+        settings.setVariables(true, new Matrix(2, 2), false);
         Intent i = new Intent(this, EditMatrixActivity.class);
         startActivity(i);
     }
