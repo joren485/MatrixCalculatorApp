@@ -15,12 +15,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
-import com.asserttrue.matrixcalculator.model.Matrix;
+import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.view.MathTextButton;
 
 public class EditMatrixActivity extends AppCompatActivity {
@@ -31,21 +30,30 @@ public class EditMatrixActivity extends AppCompatActivity {
     private Button finishEditingButton;
     private EditText matrixName;
 
+    private DatabaseHandler hDB;
+
+    private Toast sameNameToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_matrix);
 
+        sameNameToast = Toast.makeText(getApplicationContext(),
+                "A matrix with that name already exists.", Toast.LENGTH_SHORT);
+
+        hDB = new DatabaseHandler(getApplicationContext());
+
         matrixName = (EditText) findViewById(R.id.matrixName);
         Spinner width = (Spinner) findViewById(R.id.numWidth);
-        Spinner height = (Spinner) findViewById(R.id.numHeight);
+        final Spinner height = (Spinner) findViewById(R.id.numHeight);
         final MathTextButton zeroButton = (MathTextButton) findViewById(R.id.zeroMatrixButton);
         final MathTextButton identityButton = (MathTextButton) findViewById(R.id.identityMatrixButton);
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
 
         Integer[] items = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item , items);
         width.setAdapter(adapter);
         height.setAdapter(adapter);
 
@@ -137,7 +145,14 @@ public class EditMatrixActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
+
+                String name = matrixName.getText().toString();
+
+                if (!hDB.isUniqueName(name)){
+                    sameNameToast.show();
+                    finishEditingButton.setEnabled(false);
+                }
+                else if ((name.isEmpty() && saveMatrixBox.isChecked()))
                     finishEditingButton.setEnabled(false);
                 else
                     finishEditingButton.setEnabled(true);
@@ -152,7 +167,13 @@ public class EditMatrixActivity extends AppCompatActivity {
         saveMatrixBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
+                String name = matrixName.getText().toString();
+
+                if (!hDB.isUniqueName(name)){
+                    sameNameToast.show();
+                    finishEditingButton.setEnabled(false);
+                }
+                else if ((name.isEmpty() && saveMatrixBox.isChecked()))
                     finishEditingButton.setEnabled(false);
                 else
                     finishEditingButton.setEnabled(true);
@@ -164,10 +185,13 @@ public class EditMatrixActivity extends AppCompatActivity {
     }
 
     private void saveMatrix() {
-        if (saveMatrixBox.isChecked()) {
-            // Save to database
-        }
+
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
+
+        if (saveMatrixBox.isChecked()) {
+            hDB.createMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
+        }
+
         settings.setVariables(editMatrixAdapter.getMatrix(), matrixName.getText().toString(), false, true, false);
         finish();
     }

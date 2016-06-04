@@ -13,12 +13,10 @@ import com.asserttrue.matrixcalculator.model.Matrix;
 public class LibraryMatrixView extends LinearLayout {
 
     final MatrixView matrixView;
-    private String name;
 
     public LibraryMatrixView(Context context, Matrix matrix, String name) {
         super(context);
 
-        this.name = name;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.preview_matrix, this, true);
 
@@ -39,7 +37,4 @@ public class LibraryMatrixView extends LinearLayout {
         return matrixView.getContentMatrix();
     }
 
-    public String getName() {
-        return name;
-    }
 }

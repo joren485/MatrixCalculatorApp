@@ -21,7 +21,7 @@ public class DetResultView extends LinearLayout {
         super(context);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.cartview_det_result_step, this, true);
+        inflater.inflate(R.layout.cardview_det_result_step, this, true);
 
         matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, matrix);

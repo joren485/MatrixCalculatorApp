@@ -5,30 +5,33 @@ public class Matrix {
     private final Rational[][] matrix_array;
     private int augmentedColumnIndex;
 
-    public Matrix(Rational [][] array, int augColInd){
+    private String name = "";
+
+    public Matrix(Rational [][] array, int augColInd, String name){
         matrix_array = array;
         augmentedColumnIndex = augColInd;
+        this.name = name;
     }
 
     public Matrix(Rational [][] array){
-        this(array, -1);
+        this(array, -1, "");
     }
 
-    public Matrix(int width, int height, int augColInd){
-        matrix_array = new Rational[height][width];
+    public Matrix(int nrofcolumns, int nrofrows, int augColInd){
+        matrix_array = new Rational[nrofrows][nrofcolumns];
         augmentedColumnIndex = augColInd;
 
-        for (int y =0; y < height; y++){
-            for (int x = 0; x < width; x++){
+        for (int y =0; y < nrofrows; y++){
+            for (int x = 0; x < nrofcolumns; x++){
                 setValue(x, y, new Rational(0));
             }
         }
     }
 
-    public static Matrix identity(int width) {
-        Matrix id = new Matrix(width, width);
+    public static Matrix identity(int size) {
+        Matrix id = new Matrix(size, size);
 
-        for(int n = 0; n < width; n++)
+        for(int n = 0; n < size; n++)
             id.setValue(n, n, new Rational(1));
 
         return id;
@@ -198,5 +201,9 @@ public class Matrix {
                 aug.setValue(column, row, getValueAt(column + augmentedColumnIndex, row));
 
         return aug;
+    }
+
+    public String getName(){
+        return name;
     }
 }
