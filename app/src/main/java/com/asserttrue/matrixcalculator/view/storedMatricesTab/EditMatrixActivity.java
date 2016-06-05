@@ -1,14 +1,10 @@
 package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
@@ -33,30 +29,30 @@ public class EditMatrixActivity extends AppCompatActivity {
 
     private DatabaseHandler hDB;
 
-    private Toast sameNameToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_matrix);
 
-        sameNameToast = Toast.makeText(getApplicationContext(),
-                "A matrix with that name already exists.", Toast.LENGTH_SHORT);
-
         hDB = new DatabaseHandler(getApplicationContext());
 
         matrixName = (EditText) findViewById(R.id.matrixName);
-        Spinner width = (Spinner) findViewById(R.id.numWidth);
-        final Spinner height = (Spinner) findViewById(R.id.numHeight);
+
+        Spinner columnSpinner = (Spinner) findViewById(R.id.numColumns);
+        Spinner rowSpinner = (Spinner) findViewById(R.id.numRows);
+
         final MathTextButton zeroButton = (MathTextButton) findViewById(R.id.zeroMatrixButton);
         final MathTextButton identityButton = (MathTextButton) findViewById(R.id.identityMatrixButton);
+
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
 
         Integer[] items = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item , items);
-        width.setAdapter(adapter);
-        height.setAdapter(adapter);
+
+        columnSpinner.setAdapter(adapter);
+        rowSpinner.setAdapter(adapter);
 
         grid = (EditMatrixGridView) findViewById(R.id.gridView);
         grid.setNumColumns(2);
@@ -64,6 +60,11 @@ public class EditMatrixActivity extends AppCompatActivity {
         EditMatrixSingleton matrixSettings = EditMatrixSingleton.getInstance();
 
         if (matrixSettings.forceSave) {
+
+            TextView saveMatrixTextView = (TextView) findViewById(R.id.saveMatrixText);
+            saveMatrixTextView.setVisibility(View.GONE);
+            saveMatrixBox.setVisibility(View.GONE);
+
             saveMatrixBox.setChecked(true);
             saveMatrixBox.setEnabled(false);
         }
@@ -79,11 +80,11 @@ public class EditMatrixActivity extends AppCompatActivity {
         editMatrixAdapter = new EditMatrixAdapter(this, matrixSettings.editMatrix);
         grid.setAdapter(editMatrixAdapter);
 
-        width.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        columnSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editMatrixAdapter.updateWidth(position + 1);
+                editMatrixAdapter.updateNrOfColumns(position + 1);
                 grid.setNumColumns(position + 1);
                 if (editMatrixAdapter.isSquare())
                     identityButton.setEnabled(true);
@@ -95,11 +96,11 @@ public class EditMatrixActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        height.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        rowSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                editMatrixAdapter.updateHeight(position + 1);
+                editMatrixAdapter.updateNrOfRows(position + 1);
                 if (editMatrixAdapter.isSquare())
                     identityButton.setEnabled(true);
                 else
@@ -113,7 +114,7 @@ public class EditMatrixActivity extends AppCompatActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editMatrixAdapter.updateEditing(position);
+                editMatrixAdapter.setEditingPosition(position);
             }
         });
 
@@ -189,8 +190,8 @@ public class EditMatrixActivity extends AppCompatActivity {
             }
         });
 
-        width.setSelection(matrixSettings.editMatrix.getNrColumns() - 1);
-        height.setSelection(matrixSettings.editMatrix.getNrRows() - 1);
+        columnSpinner.setSelection(matrixSettings.editMatrix.getNrColumns() - 1);
+        rowSpinner.setSelection(matrixSettings.editMatrix.getNrRows() - 1);
     }
 
     private void saveMatrix() {

@@ -42,7 +42,7 @@ public class Matrix {
      */
     public Matrix(Matrix left, Matrix right) {
         if(left.getNrRows() != right.getNrRows()) {
-            throw new IllegalArgumentException("Left and right matrices must have same height.");
+            throw new IllegalArgumentException("Left and right matrices must have same number of rows.");
         }
 
         matrix_array = new Rational[left.getNrRows()][left.getNrColumns() + right.getNrColumns()];
@@ -59,19 +59,17 @@ public class Matrix {
         }
     }
 
-    public Matrix(int width, int height){
-        this(width, height, -1);
+    public Matrix(int nrofcolumns, int nrofrows){
+        this(nrofcolumns, nrofrows, -1);
     }
 
     public Matrix(Matrix matrix){
-        int height = matrix.getNrRows();
-        int width = matrix.getNrColumns();
         augmentedColumnIndex = matrix.getAugmentedColumnIndex();
 
-        matrix_array = new Rational[height][width];
+        matrix_array = new Rational[matrix.getNrRows()][matrix.getNrColumns()];
         // Copy the whole 2D array of the matrix into this one.
-        for(int row = 0; row < height; row++) {
-            for(int column = 0; column < width; column++) {
+        for(int row = 0; row < matrix.getNrRows(); row++) {
+            for(int column = 0; column < matrix.getNrColumns(); column++) {
                 setValue(column, row, matrix.getValueAt(column, row));
             }
         }

@@ -26,7 +26,7 @@ public class MatrixView extends LinearLayout {
 
     private Context mContext;
 
-    ArrayList<LinearLayout> columns;
+    private ArrayList<LinearLayout> columns;
 
     public MatrixView (Context c, Matrix matrix) {
         super(c);

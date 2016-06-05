@@ -2,12 +2,12 @@ package com.asserttrue.matrixcalculator.model;
 
 public class Rational {
 
-    long numerator;
-    long denominator;
+    private long numerator;
+    private long denominator;
 
     public Rational(long numerator) {
         this.numerator = numerator;
-        this.denominator = 1;
+        denominator = 1;
     }
 
     public Rational(long numerator, long denominator) {
@@ -17,20 +17,20 @@ public class Rational {
     }
 
     public Rational(Rational r) {
-        this.numerator = r.getNumerator();
-        this.denominator = r.getDenominator();
+        numerator = r.getNumerator();
+        denominator = r.getDenominator();
     }
 
     public Rational(String decimal) {
         int dotIndex = decimal.indexOf('.');
         decimal = decimal.replaceAll("\\.", "");
 
-        this.numerator = Long.parseLong(decimal);
+        numerator = Long.parseLong(decimal);
 
         if (dotIndex >= 0)
-            this.denominator = (long) Math.pow(10, (decimal.length() - dotIndex));
+            denominator = (long) Math.pow(10, (decimal.length() - dotIndex));
         else
-            this.denominator = 1;
+            denominator = 1;
 
         simplifyFraction();
     }

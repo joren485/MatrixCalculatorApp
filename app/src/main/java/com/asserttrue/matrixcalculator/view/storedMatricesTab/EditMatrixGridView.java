@@ -13,12 +13,13 @@ public class EditMatrixGridView extends GridView {
 
     public EditMatrixGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.paint.setColor(Color.BLACK);
-        this.paint.setStrokeWidth(5);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(5);
     }
 
     public void onDraw(Canvas c) {
         super.onDraw(c);
+
         int width = this.getWidth();
         int height = this.getHeight();
 
@@ -32,4 +33,5 @@ public class EditMatrixGridView extends GridView {
         c.drawLine(width - 2, 1, width - 2, height - 2, paint);
         c.drawLine(width - 2, height - 2, width - 20, height - 2, paint);
     }
+
 }
