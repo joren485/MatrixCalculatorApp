@@ -53,16 +53,18 @@ public class ComputationsFragment extends Fragment {
         cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ComputationActivity.class);
-                CurrentComputation.getInstance().setSteps(Computations.kernel(k));
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "kernel");
                 startActivity(intent);
             }
         });
         cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ComputationActivity.class);
-                CurrentComputation.getInstance().setSteps(Computations.product(m, m));
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+                intent.putExtra("numMatrices", 2);
+                intent.putExtra("computation", "product");
                 startActivity(intent);
             }
         });
@@ -70,8 +72,9 @@ public class ComputationsFragment extends Fragment {
         cards.getChildAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ComputationActivity.class);
-                CurrentComputation.getInstance().setSteps(Computations.inverse(m));
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "inverse");
                 startActivity(intent);
             }
         });
@@ -80,8 +83,9 @@ public class ComputationsFragment extends Fragment {
        cards.getChildAt(0).setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent = new Intent(getContext(), ComputationActivity.class);
-               CurrentComputation.getInstance().setSteps(Computations.determinant(m));
+               Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+               intent.putExtra("numMatrices", 1);
+               intent.putExtra("computation", "determinant");
                startActivity(intent);
            }
        });

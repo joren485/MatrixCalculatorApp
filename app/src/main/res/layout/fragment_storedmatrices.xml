@@ -26,7 +26,6 @@
         android:layout_margin="24sp"
         app:layout_anchor="@id/computations_list"
         app:layout_anchorGravity="bottom|right|end"
-        android:onClick="addMatrix"
         />
 
 </android.support.design.widget.CoordinatorLayout>

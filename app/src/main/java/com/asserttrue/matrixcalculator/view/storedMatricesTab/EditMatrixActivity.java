@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class EditMatrixActivity extends AppCompatActivity {
     private CheckBox saveMatrixBox;
     private Button finishEditingButton;
     private EditText matrixName;
-
+    private SeekBar augmentedLineSeekbar;
     private DatabaseHandler hDB;
 
 
@@ -47,6 +48,8 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
+
+        augmentedLineSeekbar = (SeekBar) findViewById(R.id.augmentedLineBar);
 
         Integer[] items = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.spinner_item , items);
@@ -80,12 +83,33 @@ public class EditMatrixActivity extends AppCompatActivity {
         editMatrixAdapter = new EditMatrixAdapter(this, matrixSettings.editMatrix);
         grid.setAdapter(editMatrixAdapter);
 
+        augmentedLineSeekbar.setMax(matrixSettings.editMatrix.getNrColumns());
+        augmentedLineSeekbar.setProgress(matrixSettings.editMatrix.getAugmentedColumnIndex());
+
+        augmentedLineSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                editMatrixAdapter.updateAugmentedIndex(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         columnSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editMatrixAdapter.updateNrOfColumns(position + 1);
                 grid.setNumColumns(position + 1);
+                augmentedLineSeekbar.setMax(position + 1);
                 if (editMatrixAdapter.isSquare())
                     identityButton.setEnabled(true);
                 else
@@ -150,16 +174,10 @@ public class EditMatrixActivity extends AppCompatActivity {
 
                 String name = matrixName.getText().toString();
 
-                if (!hDB.isUniqueName(name) && saveMatrixBox.isChecked()){
-                    matrixName.setTextColor(Color.RED);
-                    finishEditingButton.setEnabled(false);
-                }
-                else if ((name.isEmpty() && saveMatrixBox.isChecked())) {
-                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
+                if ((name.isEmpty() && saveMatrixBox.isChecked())) {
                     finishEditingButton.setEnabled(false);
                 }
                 else {
-                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(true);
                 }
             }
@@ -175,16 +193,10 @@ public class EditMatrixActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String name = matrixName.getText().toString();
 
-                if (!hDB.isUniqueName(name) && saveMatrixBox.isChecked()){
-                    matrixName.setTextColor(Color.RED);
-                    finishEditingButton.setEnabled(false);
-                }
-                else if ((name.isEmpty() && saveMatrixBox.isChecked())) {
-                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
+                if ((name.isEmpty() && saveMatrixBox.isChecked())) {
                     finishEditingButton.setEnabled(false);
                 }
                 else {
-                    matrixName.setTextColor(getColor(R.color.textColorPrimary));
                     finishEditingButton.setEnabled(true);
                 }
             }
@@ -199,6 +211,7 @@ public class EditMatrixActivity extends AppCompatActivity {
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
 
         if (saveMatrixBox.isChecked()) {
+            editMatrixAdapter.getMatrix().setName(matrixName.getText().toString());
             if (settings.editingExisting)
                 hDB.updateMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
             else
