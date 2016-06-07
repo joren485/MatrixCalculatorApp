@@ -58,6 +58,7 @@ public class ComputationsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +86,22 @@ public class ComputationsFragment extends Fragment {
                startActivity(intent);
            }
        });
+
+        for(int i = 0; i < cards.getChildCount(); i++) {
+            final int index = i;
+
+            cards.getChildAt(i).findViewById(R.id.more_info_button).setOnClickListener(new View.OnClickListener() {
+                final int formulaIndex = index;
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), FormulaInfoActivity.class);
+
+                    intent.putExtra("index", formulaIndex);
+                    startActivity(intent);
+                }
+            });
+        }
 
         return root;
     }

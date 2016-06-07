@@ -88,7 +88,7 @@ public class Matrix {
     }
 
     public void setValue(int column, int row, Rational number){
-        matrix_array[row][column] = number;
+        matrix_array[row][column] = new Rational(number);
     }
 
     public Rational getValueAt(int column, int row){

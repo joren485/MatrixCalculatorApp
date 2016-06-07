@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.asserttrue.matrixcalculator.R;
 
 public class FormulaCardView extends CardView {
+    final int imageResource;
+
     public FormulaCardView(Context context, AttributeSet attrs) {
         super(context);
 
@@ -19,7 +21,7 @@ public class FormulaCardView extends CardView {
                 R.styleable.ComputationCard, 0, 0);
 
         String descriptionText = styledAttrs.getString(R.styleable.ComputationCard_computation_name);
-        int imageResource = styledAttrs.getResourceId(R.styleable.ComputationCard_android_src, R.drawable.determinant_image);
+        imageResource = styledAttrs.getResourceId(R.styleable.ComputationCard_android_src, R.drawable.determinant_image);
 
         styledAttrs.recycle();
 

@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/cardview_light_background" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/cardview_light_background">
 
-        <RelativeLayout
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            >
 
-            <ImageView
-                android:id="@+id/computation_image"
-                android:layout_width="wrap_content"
-                android:layout_height="50sp"
-                android:layout_marginTop="30sp"
-                android:scaleType="centerInside"
-                android:layout_centerHorizontal="true"
-                />
-
-            <TextView
-                android:id="@+id/computation_text"
-                style="@style/on_card_font"
+            <RelativeLayout
+                android:id="@+id/formulaCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/computation_image"
-                />
+                android:orientation="vertical" >
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/computation_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50sp"
+                    android:layout_marginTop="30sp"
+                    android:scaleType="centerInside"
+                    android:layout_centerHorizontal="true"
+                    />
+
+                <TextView
+                    android:id="@+id/computation_text"
+                    style="@style/on_card_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/computation_image"
+                    />
+
+            </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/more_info_button"
+            app:fabSize="mini"
+            app:backgroundTint="@color/colorPrimary"
+            android:src="@android:drawable/ic_dialog_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            app:layout_anchor="@id/formulaCard"
+            app:layout_anchorGravity="top|right|end" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
 
 </merge>
