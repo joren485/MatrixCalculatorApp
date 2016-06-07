@@ -11,7 +11,8 @@ public interface Step {
     int DET_MATRIX_SCALAR = 2;
     int DET_RESULT = 3;
     int VECTOR_SPAN = 4;
-    int NR_TYPES = 5;
+    int TEXT_RESULT = 5;
+    int NR_TYPES = 6;
 
     View toView(Context context);
 
@@ -47,31 +48,6 @@ public interface Step {
         @Override
         public int getLayoutType() {
             return DET_RESULT;
-        }
-    }
-
-    class InvErrorStep implements Step{
-        private final Matrix matrix;
-
-        public InvErrorStep(Matrix matrix) {
-            this.matrix = matrix;
-        }
-
-        @Override
-        public View toView(Context context) {
-            //TODO make a new cardview showing the user that their input was erroneous (needs square matrix).
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setViewContent(View view) {
-            //TODO make a new cardview showing the user that their input was erroneous (needs square matrix).
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int getLayoutType() {
-            return SINGLE_MATRIX;
         }
     }
 

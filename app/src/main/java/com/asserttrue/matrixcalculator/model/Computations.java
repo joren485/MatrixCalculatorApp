@@ -4,6 +4,7 @@ package com.asserttrue.matrixcalculator.model;
 import com.asserttrue.matrixcalculator.view.stepViews.DetScalarStep;
 import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixStep;
 import com.asserttrue.matrixcalculator.view.stepViews.Step;
+import com.asserttrue.matrixcalculator.view.stepViews.TextResultStep;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ public abstract class Computations {
         List<Step> steps = new ArrayList<>();
 
         if (! matrix.isSquareMatrix() ) {
-            steps.add(new SingleMatrixStep.DetErrorStep(matrix));
+            steps.add(new TextResultStep.DetErrorStep());
             return steps;
         }
 
@@ -83,7 +84,7 @@ public abstract class Computations {
         List<Step> steps = new ArrayList<>();
 
         if (! matrix.isSquareMatrix() ) {
-            steps.add(new Step.InvErrorStep(A));
+
             return steps;
         }
 
@@ -148,11 +149,6 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         List<Step> steps = new ArrayList<>();
 
-        if (! matrix.isSquareMatrix() ) {
-            steps.add(new Step.InvErrorStep(A));
-            return steps;
-        }
-
         int rank = 0; //the number of non-free columns so far.
 
         List<Matrix> kernelBasis = new ArrayList<>();
@@ -211,22 +207,25 @@ public abstract class Computations {
 
     public static List<Step> product(Matrix left, Matrix right) {
 
+        final List<Step> steps = new LinkedList<>();
+
         if(left.getNrColumns() != right.getNrRows()) {
-            throw new UnsupportedOperationException("Still todo!");
-            //TODO errorstep
+            steps.add(new TextResultStep.MultErrorStep(left.getNrColumns(), right.getNrRows()));
+            return steps;
         }
 
-        final List<Step> steps = new LinkedList<>();
         final Matrix product = new Matrix(right.getNrColumns(), left.getNrRows());
 
         for(int row = 0;  row < left.getNrRows(); row++) {
             for(int column = 0; column < right.getNrColumns(); column++) {
+
                 final ArrayList<Rational> leftTerms = new ArrayList<>(), rightTerms = new ArrayList<>();
                 final Rational result = new Rational(0);
 
                 for(int term = 0; term < left.getNrColumns(); term++) {
-                    final Rational leftTerm = left.getValueAt(column, term);
-                    final Rational rightTerm = right.getValueAt(term, row);
+
+                    final Rational leftTerm = left.getValueAt(term, row);
+                    final Rational rightTerm = right.getValueAt(column, term);
 
                     leftTerms.add(new Rational(leftTerm));
                     rightTerms.add(new Rational(rightTerm));
@@ -250,9 +249,8 @@ public abstract class Computations {
 
 
         if(left.getNrColumns() != right.getNrColumns() || left.getNrRows() != right.getNrRows()) {
-            return new LinkedList<>();
-            //todo
-
+            steps.add(new TextResultStep.AddErrorStep());
+            return steps;
         }
 
         final Matrix sum = new Matrix(right.getNrRows(), right.getNrColumns());
@@ -270,6 +268,10 @@ public abstract class Computations {
 
         steps.add(0, new Step.MultResultStep(sum));
         return steps;
+    }
+
+    public static List<Step> exponentiation(Matrix matrix) {
+        return null;
     }
 }
 

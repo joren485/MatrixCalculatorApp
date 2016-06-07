@@ -41,19 +41,6 @@ public abstract class SingleMatrixStep implements Step {
     protected abstract String getExplanation();
 
 
-    public static class DetErrorStep extends SingleMatrixStep{
-
-        public DetErrorStep(Matrix matrix) {
-            super(matrix);
-        }
-
-        @Override
-        protected String getExplanation() {
-            return "The determinant is not defined on non-square matrices, although they are sometimes considered to have determinant 0.";
-        }
-    }
-
-
     public static class ColumnEliminateStep extends SingleMatrixStep {
         private final int columnIndex;
         private final int rowIndex;
@@ -188,12 +175,12 @@ public abstract class SingleMatrixStep implements Step {
         @Override
         protected String getExplanation() {
             if(nrFreeColumns >= 1) {
-                return "The matrix is now in Reduced Row Echelon Form." +
+                return "This matrix is in Reduced Row Echelon Form." +
                         "\n\nTake the " + nrFreeColumns + " free columns and add -1 to them on the diagonal." +
                         "The resulting vectors form a basis for the kernel.";
             }
             else {
-                return "The matrix is now in Reduced Row Echelon Form, but it has no free columns." +
+                return "This matrix is in Reduced Row Echelon Form, but it has no free columns." +
                         " So only the zero vector is its kernel.";
             }
 
