@@ -1,6 +1,6 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
-import com.asserttrue.matrixcalculator.model.Step;
+import com.asserttrue.matrixcalculator.view.stepViews.Step;
 
 import java.util.List;
 

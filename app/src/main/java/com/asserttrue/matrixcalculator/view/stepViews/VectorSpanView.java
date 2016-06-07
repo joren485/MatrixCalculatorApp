@@ -2,20 +2,13 @@ package com.asserttrue.matrixcalculator.view.stepViews;
 
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Matrix;
-import com.asserttrue.matrixcalculator.model.Rational;
-import com.asserttrue.matrixcalculator.model.Step;
 import com.asserttrue.matrixcalculator.view.MathTextView;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 

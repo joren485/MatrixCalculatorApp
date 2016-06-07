@@ -20,6 +20,30 @@
             android:orientation="vertical" >
 
             <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/addition_card"
+                custom:computation_name="Matrix Addition"
+                android:src="@drawable/addition_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/multiplication_card"
+                custom:computation_name="Matrix Multiplication"
+                android:src="@drawable/multiplication_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/determinant_card"
                 custom:computation_name="Matrix Determinant"
                 android:src="@drawable/determinant_image"
@@ -44,19 +68,7 @@
                 />
 
             <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
-                android:id="@+id/diagonal_card"
-                custom:computation_name="Matrix Multiplication"
-                android:src="@drawable/multiplication_image"
-                android:layout_marginRight="8sp"
-                android:layout_marginLeft="8sp"
-                android:layout_marginTop="4sp"
-                android:layout_marginBottom="4sp"
-                android:layout_width="match_parent"
-                android:layout_height="150sp"
-                />
-
-            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
-                android:id="@+id/jordan_card"
+                android:id="@+id/kernel_card"
                 custom:computation_name="Kernel Span"
                 android:src="@drawable/kernel_image"
                 android:layout_marginRight="8sp"

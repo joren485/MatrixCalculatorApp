@@ -1,6 +1,10 @@
 package com.asserttrue.matrixcalculator.model;
 
 
+import com.asserttrue.matrixcalculator.view.stepViews.DetScalarStep;
+import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixStep;
+import com.asserttrue.matrixcalculator.view.stepViews.Step;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,7 +70,7 @@ public abstract class Computations {
             System.out.println(A);
         }
 
-        steps.add(new DetUpperTriangularStep(new Matrix(A), new Rational(determinant)));
+        steps.add(new DetScalarStep.DetUpperTriangularStep(new Matrix(A), new Rational(determinant)));
 
         steps.add(0, new Step.DetResultStep(new Matrix(matrix), new Rational(determinant)));
 
@@ -110,7 +114,7 @@ public abstract class Computations {
 
             if(! pivotValue.equals(new Rational(1))) {
                 A.multiplyRow(pivotRow, pivotValue.inverse());
-                steps.add(new SingleMatrixStep.InvRowDivideStep(column, new Rational(pivotValue), new Matrix(A)));
+                steps.add(new SingleMatrixStep.RowDivideStep(column, new Rational(pivotValue), new Matrix(A)));
             }
 
             boolean eliminatedRows = false;
@@ -122,13 +126,13 @@ public abstract class Computations {
             }
 
             if(eliminatedRows) {
-                steps.add(new SingleMatrixStep.InvColumnElimStep(column, new Matrix(A)));
+                steps.add(new SingleMatrixStep.ColumnEliminateStep(column, new Matrix(A)));
             }
 
         }
 
         steps.add(new SingleMatrixStep.InvIdentityStep(new Matrix(A)));
-        steps.add(0, new Step.InvResultStep(new Matrix(A)));
+        steps.add(0, new Step.InvResultStep(new Matrix(A).getRightMatrix()));
 
         return steps;
     }
@@ -156,7 +160,7 @@ public abstract class Computations {
         for (int column = 0; column < A.getNrColumns(); column++) {
             int pivotRow = column;
 
-            for (int row = rank + 1; row < A.getNrRows(); row++) {
+            for (int row = rank; row < A.getNrRows(); row++) {
                 if ( A.getValueAt(column, row).abs() .greater (A.getValueAt(column, pivotRow).abs() )) {
                     pivotRow = row;
                 }
@@ -170,8 +174,6 @@ public abstract class Computations {
                 continue;
             }
 
-            rank++;
-
             if(rank != pivotRow) {
                 A.swapRows(rank, pivotRow);
                 steps.add(new SingleMatrixStep.InvRowSwapStep(pivotRow, rank, new Matrix (A)));
@@ -182,7 +184,7 @@ public abstract class Computations {
 
             if(! pivotValue.equals(new Rational(1))) {
                 A.multiplyRow(pivotRow, pivotValue.inverse());
-                steps.add(new SingleMatrixStep.InvRowDivideStep(column, pivotValue, new Matrix(A)));
+                steps.add(new SingleMatrixStep.RowDivideStep(pivotRow, pivotValue, new Matrix(A)));
             }
 
             boolean eliminatedRows = false;
@@ -194,12 +196,13 @@ public abstract class Computations {
             }
 
             if(eliminatedRows) {
-                steps.add(new SingleMatrixStep.InvColumnElimStep(column, new Matrix(A)));
+                steps.add(new SingleMatrixStep.ColumnEliminateStep(column, new Matrix(A)));
             }
 
+            rank++;
         }
 
-        steps.add(new SingleMatrixStep.KernelRREFStep(new Matrix(A)));
+        steps.add(new SingleMatrixStep.KernelRREFStep(new Matrix(A), kernelBasis.size()));
 
         steps.add(0, new SingleMatrixStep.KernelResultStep(kernelBasis));
 
@@ -261,7 +264,7 @@ public abstract class Computations {
             }
         }
 
-        steps.add(new Step.MultResultStep(sum));
+        steps.add(0, new Step.MultResultStep(sum));
         return steps;
     }
 }

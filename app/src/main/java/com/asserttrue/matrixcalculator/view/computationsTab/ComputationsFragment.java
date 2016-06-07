@@ -4,6 +4,7 @@ package com.asserttrue.matrixcalculator.view.computationsTab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,40 +18,21 @@ import com.asserttrue.matrixcalculator.model.Computations;
 public class ComputationsFragment extends Fragment {
     private static ComputationsFragment ourInstance;
 
+    private static final String[] COMPUTATIONS  =
+            {"sum", "product", "determinant", "inverse", "kernel"};
+
     public ComputationsFragment() {
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_computations, container, false);
 
         final LinearLayout cards = (LinearLayout) root.findViewById(R.id.computations_layout);
 
-        final Matrix m = new Matrix(4, 4);
-        m.setValue(2, 1, new Rational(9));
-        m.setValue(1, 1, new Rational(4));
-        m.setValue(0, 2, new Rational(7));
-        m.setValue(1, 0, new Rational(3));
-        m.setValue(0, 0, new Rational(5));
-        m.setValue(2, 2, new Rational(2));
-        m.setValue(3, 3, new Rational(3));
-
-        final Matrix k = new Matrix(6, 6);
-        k.setValue(5, 2, new Rational(9));
-        k.setValue(1, 1, new Rational(4));
-        k.setValue(0, 2, new Rational(7));
-        k.setValue(5, 1, new Rational(3));
-        k.setValue(0, 0, new Rational(5));
-        k.setValue(2, 2, new Rational(2));
-        k.setValue(4, 3, new Rational(3));
-        k.addRow(4, 0);
-        k.addRow(4, 1);
-        k.addRow(5, 4);
-        k.addRow(5, 4);
-
-        cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+        cards.getChildAt(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
@@ -60,12 +42,26 @@ public class ComputationsFragment extends Fragment {
             }
         });
 
+        cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "inverse");
+
+                startActivity(intent);
+            }
+        });
+
         cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
-                intent.putExtra("numMatrices", 2);
-                intent.putExtra("computation", "product");
+
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "determinant");
+
                 startActivity(intent);
             }
         });
@@ -74,8 +70,11 @@ public class ComputationsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
-                intent.putExtra("numMatrices", 1);
-                intent.putExtra("computation", "inverse");
+
+
+                intent.putExtra("numMatrices", 2);
+                intent.putExtra("computation", "product");
+
                 startActivity(intent);
             }
         });
@@ -85,8 +84,10 @@ public class ComputationsFragment extends Fragment {
            @Override
            public void onClick(View v) {
                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
-               intent.putExtra("numMatrices", 1);
-               intent.putExtra("computation", "determinant");
+
+               intent.putExtra("numMatrices", 2);
+               intent.putExtra("computation", "sum");
+
                startActivity(intent);
            }
        });
@@ -95,13 +96,12 @@ public class ComputationsFragment extends Fragment {
             final int index = i;
 
             cards.getChildAt(i).findViewById(R.id.more_info_button).setOnClickListener(new View.OnClickListener() {
-                final int formulaIndex = index;
 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), FormulaInfoActivity.class);
 
-                    intent.putExtra("index", formulaIndex);
+                    intent.putExtra("computation", COMPUTATIONS[index]);
                     startActivity(intent);
                 }
             });

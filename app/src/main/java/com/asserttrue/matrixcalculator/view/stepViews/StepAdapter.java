@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.asserttrue.matrixcalculator.model.Step;
-
 import java.util.List;
 
 public class StepAdapter extends ArrayAdapter<Step> {
