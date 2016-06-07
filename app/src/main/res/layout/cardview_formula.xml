@@ -36,7 +36,7 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/more_info_button"
             app:fabSize="mini"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/colorAccent"
             android:src="@android:drawable/ic_dialog_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

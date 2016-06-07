@@ -247,7 +247,7 @@ public abstract class SingleMatrixStep implements Step {
 
             sb.append(leftTerms.get(0).toString()).append(" * ").append(rightTerms.get(0).toString());
 
-            for(int i = 0; i < leftTerms.size(); i++) {
+            for(int i = 1; i < leftTerms.size(); i++) {
                 sb.append(" + ").append(leftTerms.get(i).toString()).append(" * ").append(rightTerms.get(i).toString());
             }
 

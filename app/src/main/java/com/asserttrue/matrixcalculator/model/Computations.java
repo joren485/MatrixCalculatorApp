@@ -246,11 +246,15 @@ public abstract class Computations {
 
     public static List<Step> addition(Matrix left, Matrix right) {
 
+        final List<Step> steps = new LinkedList<>();
+
+
         if(left.getNrColumns() != right.getNrColumns() || left.getNrRows() != right.getNrRows()) {
+            return new LinkedList<>();
             //todo
+
         }
 
-        final List<Step> steps = new LinkedList<>();
         final Matrix sum = new Matrix(right.getNrRows(), right.getNrColumns());
 
         for(int row = 0; row < right.getNrColumns(); row++) {

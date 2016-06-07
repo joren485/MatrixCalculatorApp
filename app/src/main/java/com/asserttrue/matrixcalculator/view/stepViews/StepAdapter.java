@@ -30,46 +30,9 @@ public class StepAdapter extends ArrayAdapter<Step> {
         if(convertView == null) {
             convertView = step.toView(context);
         }
-        else{
+        else {
             step.setViewContent(convertView);
         }
-
-        /*
-
-        if(convertView == null) {
-            switch (step.getLayoutType()){
-                case Step.TYPE_DET_SCALAR:
-                    convertView = new DetScalarView(context, (DetScalarStep) step);
-                    break;
-                case Step.TYPE_DET_RESULT:
-                    convertView = new DetResultView(context, (DetScalarStep) step);
-                    break;
-                case Step.TYPE_JUST_MATRIX:
-                    convertView = new SingleMatrixView(context, (SingleMatrixStep) step);
-                    break;
-                case Step.TYPE_INV_RESULT:
-                    convertView = new InvResultView(context, (SingleMatrixStep) step);
-                    break;
-                default: throw new UnsupportedOperationException("Viewtype " + step.getLayoutType() + " not implemented yet.");
-            }
-        }
-        else {
-            switch (step.getLayoutType()) {
-                case Step.TYPE_DET_SCALAR:
-                    ((DetScalarView) convertView).recycle(step);
-                    break;
-                case Step.TYPE_DET_RESULT:
-                    ((DetResultView) convertView).recycle(step);
-                    break;
-                case Step.TYPE_JUST_MATRIX:
-                    ((SingleMatrixView) convertView).recycle(step);
-                    break;
-                case Step.TYPE_INV_RESULT:
-                    ((InvResultView) convertView).recycle(step);
-            }
-        }
-
-        */
 
         return convertView;
     }
