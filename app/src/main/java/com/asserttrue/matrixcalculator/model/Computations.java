@@ -149,12 +149,14 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         List<Step> steps = new ArrayList<>();
 
-        int rank = 0; //the number of non-free columns so far.
 
         List<Matrix> kernelBasis = new ArrayList<>();
+        List<Integer> pivotColumns = new ArrayList<>();
 
-        for (int column = 0; column < A.getNrColumns(); column++) {
-            int pivotRow = column;
+        int rank = 0; //the number of non-free columns so far.
+
+        for (int column = 0; column < A.getNrColumns() && rank < A.getNrRows(); column++) {
+            int pivotRow = rank;
 
             for (int row = rank; row < A.getNrRows(); row++) {
                 if ( A.getValueAt(column, row).abs() .greater (A.getValueAt(column, pivotRow).abs() )) {
@@ -163,7 +165,13 @@ public abstract class Computations {
             }
 
             if(A.getValueAt(column, pivotRow).equals(new Rational(0))) {
-                Matrix vector = A.getColumnVector(column);
+                Matrix vector = new Matrix(1, A.getNrColumns());
+                Matrix columnVector = A.getColumnVector(column);
+
+                for(int i = 0; i < rank; i++) {
+                    vector.setValue(0, pivotColumns.get(i), columnVector.getValueAt(0, i));
+                }
+
                 vector.setValue(0, column, new Rational(-1));
                 kernelBasis.add(vector);
 
@@ -195,6 +203,7 @@ public abstract class Computations {
                 steps.add(new SingleMatrixStep.ColumnEliminateStep(column, new Matrix(A)));
             }
 
+            pivotColumns.add(column);
             rank++;
         }
 
