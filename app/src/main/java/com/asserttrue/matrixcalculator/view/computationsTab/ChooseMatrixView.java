@@ -36,7 +36,10 @@ public class ChooseMatrixView extends LinearLayout {
         matrixContainer.addView(matrixView);
 
         TextView nameEquals = (TextView) findViewById(R.id.name_equals);
-        nameEquals.setText((name.isEmpty() ? "temp" : name) + " = ");
+        if (!name.isEmpty())
+            nameEquals.setText(name);
+        else
+            nameEquals.setVisibility(GONE);
 
         selectedIndices = (LinearLayout) findViewById(R.id.selectedIndices);
         selectionTextViews = new TextView[requiredMatrices];

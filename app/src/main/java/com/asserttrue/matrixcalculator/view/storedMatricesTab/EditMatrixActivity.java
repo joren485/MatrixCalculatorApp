@@ -70,6 +70,8 @@ public class EditMatrixActivity extends AppCompatActivity {
 
             saveMatrixBox.setChecked(true);
             saveMatrixBox.setEnabled(false);
+        } else {
+            matrixName.setVisibility(View.GONE);
         }
 
         if (matrixSettings.editingExisting) {
@@ -193,11 +195,16 @@ public class EditMatrixActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String name = matrixName.getText().toString();
 
-                if ((name.isEmpty() && saveMatrixBox.isChecked())) {
-                    finishEditingButton.setEnabled(false);
-                }
-                else {
+                if (saveMatrixBox.isChecked()) {
+                    if (name.isEmpty())
+                        finishEditingButton.setEnabled(false);
+                    else
+                        finishEditingButton.setEnabled(true);
+
+                    matrixName.setVisibility(View.VISIBLE);
+                } else {
                     finishEditingButton.setEnabled(true);
+                    matrixName.setVisibility(View.GONE);
                 }
             }
         });
@@ -210,8 +217,8 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
 
-        editMatrixAdapter.getMatrix().setName(matrixName.getText().toString());
         if (saveMatrixBox.isChecked()) {
+            editMatrixAdapter.getMatrix().setName(matrixName.getText().toString());
             if (settings.editingExisting)
                 hDB.updateMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
             else

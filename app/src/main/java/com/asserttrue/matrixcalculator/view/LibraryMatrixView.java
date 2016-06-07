@@ -3,6 +3,7 @@ package com.asserttrue.matrixcalculator.view;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,35 +32,40 @@ public class LibraryMatrixView extends LinearLayout {
         matrixContainer.addView(matrixView);
 
         TextView nameEquals = (TextView) findViewById(R.id.name_equals);
-        nameEquals.setText(name + " = ");
+        nameEquals.setText(name);
 
         FloatingActionButton removeButton = (FloatingActionButton) findViewById(R.id.removeMatrixButton);
         removeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                new AlertDialog.Builder(getContext())
-                        .setIcon(R.drawable.ic_alert_orange_24dp)
-                        .setTitle("Removing Matrix")
-                        .setMessage("Are you sure you want to remove matrix \"" + getContentMatrix().getName() + "\"?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                remove();
-                            }
-
-                        })
-                        .setNegativeButton("No", null)
-                        .show();
+                remove();
             }
         });
     }
 
     private void remove() {
-        DatabaseHandler dbHandler = new DatabaseHandler(getContext());
+        final DatabaseHandler dbHandler = new DatabaseHandler(getContext());
         dbHandler.deleteMatrix(getContentMatrix().getName());
-        ((LinearLayout)getParent()).removeView(this);
+
+        final LinearLayout parent = (LinearLayout) getParent();
+        final int index = parent.indexOfChild(this);
+        parent.removeView(this);
+
+        Snackbar undoSnackbar = Snackbar.make(parent, getContentMatrix().getName() + " removed.", Snackbar.LENGTH_LONG)
+                                        .setAction("UNDO", new OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                dbHandler.createMatrix(getContentMatrix(), getContentMatrix().getName());
+                                                parent.addView(instance(), index);
+                                            }
+                                        });
+
+        undoSnackbar.show();
+    }
+
+    private LibraryMatrixView instance() {
+        return this;
     }
 
     public void setMatrix(Matrix matrix) {
