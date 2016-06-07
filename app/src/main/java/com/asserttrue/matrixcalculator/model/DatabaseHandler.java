@@ -164,6 +164,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public boolean isUniqueName(String name){
 
+        if (name.isEmpty()) {
+            return false;
+        }
+
         SQLiteDatabase db = getReadableDatabase();
 
          long nameMatches = DatabaseUtils.queryNumEntries(

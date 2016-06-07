@@ -25,10 +25,12 @@ public class ChooseMatrixActivity extends AppCompatActivity {
 
     private LinearLayout matrixList;
     private FloatingActionButton startComputationButton;
-    private Matrix[] selectedList;
+    private ChooseMatrixView[] selectedList;
 
     private int requiredMatrices;
     private String computationName;
+
+    private int currentSelectionIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
 
         requiredMatrices = getIntent().getIntExtra("numMatrices", 1);
         computationName = getIntent().getStringExtra("computation");
-        selectedList = new Matrix[requiredMatrices];
+        selectedList = new ChooseMatrixView[requiredMatrices];
 
         matrixList = (LinearLayout) findViewById(R.id.matrixList);
         startComputationButton = (FloatingActionButton) findViewById(R.id.startComputationButton);
@@ -68,29 +70,26 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         DatabaseHandler hDB = new DatabaseHandler(this);
 
         for (Matrix m : hDB.getAllMatrices()){
-            final ChooseMatrixView matrixView = new ChooseMatrixView(this, m, m.getName());
+            final ChooseMatrixView matrixView = new ChooseMatrixView(this, m, m.getName(), requiredMatrices);
             matrixList.addView(matrixView);
 
             matrixView.setOnClickListener(new View.OnClickListener() {
 
-                int index = -1;
                 @Override
                 public void onClick(View v) {
 
-                    boolean foundIndex = false;
-                    if (index >= 0)
-                        selectedList[index] = null;
-                    for (int i = index + 1; i < selectedList.length && !foundIndex; i++) {
-                        if (selectedList[i] == null) {
-                            foundIndex = true;
-                            index = i;
-                            selectedList[i] = matrixView.getContentMatrix();
-                        }
+                    currentSelectionIndex = (currentSelectionIndex + 1) % requiredMatrices;
+
+                    if (matrixView.isSelected(currentSelectionIndex)) {
+                        matrixView.setIndex(currentSelectionIndex, false);
+                        selectedList[currentSelectionIndex] = null;
+                    } else {
+                        if (selectedList[currentSelectionIndex] != null)
+                            selectedList[currentSelectionIndex].setIndex(currentSelectionIndex, false);
+                        matrixView.setIndex(currentSelectionIndex, true);
+                        selectedList[currentSelectionIndex] = matrixView;
                     }
-                    if (!foundIndex) {
-                        index = -1;
-                    }
-                    matrixView.setNumber(index + 1);
+
                     startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
                 }
             });
@@ -119,27 +118,24 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         super.onResume();
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
         if (settings.isResult) {
-            final ChooseMatrixView matrixView = new ChooseMatrixView(this, settings.editMatrix, settings.editMatrix.getName());
+            final ChooseMatrixView matrixView = new ChooseMatrixView(this, settings.editMatrix, settings.editMatrix.getName(), requiredMatrices);
             matrixView.setOnClickListener(new View.OnClickListener() {
 
-                int index = -1;
                 @Override
                 public void onClick(View v) {
 
-                    boolean foundIndex = false;
-                    if (index >= 0)
-                        selectedList[index] = null;
-                    for (int i = index + 1; i < selectedList.length && !foundIndex; i++) {
-                        if (selectedList[i] == null) {
-                            foundIndex = true;
-                            index = i;
-                            selectedList[i] = matrixView.getContentMatrix();
-                        }
+                    currentSelectionIndex = (currentSelectionIndex + 1) % requiredMatrices;
+
+                    if (matrixView.isSelected(currentSelectionIndex)) {
+                        matrixView.setIndex(currentSelectionIndex, false);
+                        selectedList[currentSelectionIndex] = null;
+                    } else {
+                        if (selectedList[currentSelectionIndex] != null)
+                            selectedList[currentSelectionIndex].setIndex(currentSelectionIndex, false);
+                        matrixView.setIndex(currentSelectionIndex, true);
+                        selectedList[currentSelectionIndex] = matrixView;
                     }
-                    if (!foundIndex) {
-                        index = -1;
-                    }
-                    matrixView.setNumber(index + 1);
+
                     startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
                 }
             });
@@ -149,7 +145,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     }
 
     private boolean listComplete() {
-        for (Matrix m : selectedList)
+        for (ChooseMatrixView m : selectedList)
             if (m == null)
                 return false;
 
@@ -167,19 +163,19 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         CurrentComputation curComp = CurrentComputation.getInstance();
         switch(computationName) {
             case "kernel":
-                curComp.setSteps(Computations.kernel(selectedList[0]));
+                curComp.setSteps(Computations.kernel(selectedList[0].getContentMatrix()));
                 break;
             case "product":
-                curComp.setSteps(Computations.product(selectedList[0], selectedList[1]));
+                curComp.setSteps(Computations.product(selectedList[0].getContentMatrix(), selectedList[1].getContentMatrix()));
                 break;
             case "inverse":
-                curComp.setSteps(Computations.inverse(selectedList[0]));
+                curComp.setSteps(Computations.inverse(selectedList[0].getContentMatrix()));
                 break;
             case "determinant":
-                curComp.setSteps(Computations.determinant(selectedList[0]));
+                curComp.setSteps(Computations.determinant(selectedList[0].getContentMatrix()));
                 break;
             case "sum" :
-                curComp.setSteps(Computations.addition(selectedList[0], selectedList[1]));
+                curComp.setSteps(Computations.addition(selectedList[0].getContentMatrix(), selectedList[1].getContentMatrix()));
                 break;
             default:
                 return;
