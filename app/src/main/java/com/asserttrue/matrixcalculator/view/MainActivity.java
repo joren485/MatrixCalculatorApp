@@ -26,11 +26,4 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(tabSwipe);
     }
-
-    public void addMatrix(View v) {
-        EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
-        settings.setVariables(new Matrix(2, 2), "", true, false, false);
-        Intent i = new Intent(this, EditMatrixActivity.class);
-        startActivity(i);
-    }
 }

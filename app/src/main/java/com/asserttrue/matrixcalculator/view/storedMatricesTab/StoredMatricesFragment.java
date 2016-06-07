@@ -3,6 +3,7 @@ package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,18 @@ public class StoredMatricesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
+
+        FloatingActionButton button = (FloatingActionButton) root.findViewById(R.id.addMatrixButton);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
+                settings.setVariables(new Matrix(2, 2), "", true, false, false);
+                Intent i = new Intent(getContext(), EditMatrixActivity.class);
+                startActivity(i);
+            }
+        });
 
         return root;
     }

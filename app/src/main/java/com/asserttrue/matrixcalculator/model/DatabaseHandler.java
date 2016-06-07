@@ -64,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_NAME_MATRIX_NAME, name);
+        values.put(COLUMN_NAME_MATRIX_NAME, getUniqueName(name));
         values.put(COLUMN_NAME_MATRIX, flattenMatrix(m));
         values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
         values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
@@ -157,6 +157,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
 
         return matrices;
     }
@@ -211,5 +212,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         return new Matrix(matrix2d, augmentedLine, name);
+    }
+
+    private String getUniqueName(String name) {
+        String uniqueName = name;
+        for (int i = 1; !isUniqueName(uniqueName); i++) {
+            uniqueName = name + "(" + i + ")";
+        }
+        return uniqueName;
     }
 }

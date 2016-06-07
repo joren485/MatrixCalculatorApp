@@ -5,6 +5,7 @@ import com.asserttrue.matrixcalculator.model.Rational;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -43,6 +44,7 @@ public class EditMatrixAdapter extends BaseAdapter {
                 m.setValue(x, y, matrix.getValueAt(x, y));
             }
         }
+        m.setAugmentedColumnIndex(matrix.getAugmentedColumnIndex());
         matrix = m;
         notifyDataSetChanged();
     }
@@ -56,6 +58,7 @@ public class EditMatrixAdapter extends BaseAdapter {
                 m.setValue(x, y, matrix.getValueAt(x, y));
             }
         }
+        m.setAugmentedColumnIndex(matrix.getAugmentedColumnIndex());
         matrix = m;
         notifyDataSetChanged();
     }
@@ -69,15 +72,27 @@ public class EditMatrixAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void updateAugmentedIndex(int newIndex) {
+        if (newIndex == 0 || newIndex >= matrix.getNrColumns())
+            matrix.setAugmentedColumnIndex(-1);
+        else
+            matrix.setAugmentedColumnIndex(newIndex);
+        notifyDataSetChanged();
+    }
+
     public void setZeroMatrix() {
+        int augmIndex = matrix.getAugmentedColumnIndex();
         matrix = new Matrix(matrix.getNrColumns(), matrix.getNrRows());
+        matrix.setAugmentedColumnIndex(augmIndex);
         notifyDataSetChanged();
     }
 
     public void setIdentityMatrix() {
         if (!isSquare())
             return;
+        int augmIndex = matrix.getAugmentedColumnIndex();
         matrix = Matrix.identity(matrix.getNrColumns());
+        matrix.setAugmentedColumnIndex(augmIndex);
         notifyDataSetChanged();
     }
 
@@ -106,8 +121,8 @@ public class EditMatrixAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        int x = position % matrix.getNrColumns();
-        int y = position / matrix.getNrColumns();
+        final int x = position % matrix.getNrColumns();
+        final int y = position / matrix.getNrColumns();
         if (position == editingPosition) {
 
             if (convertView instanceof EditText)
@@ -131,11 +146,9 @@ public class EditMatrixAdapter extends BaseAdapter {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                     String text = s.toString();
-                    Log.d("editMatrix", "Current text: " + text);
 
-                    if (!text.isEmpty() && !text.equals(".")) {
-                        matrix.setValue(editingPosition % matrix.getNrColumns(),
-                                editingPosition / matrix.getNrColumns(), new Rational(text));
+                    if (!text.isEmpty() && !text.equals(".") && !text.equals("-")) {
+                        matrix.setValue(x, y, new Rational(text));
                     }
                 }
 

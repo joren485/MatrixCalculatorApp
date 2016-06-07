@@ -30,7 +30,7 @@ public class MultCellStep extends SingleMatrixStep {
 
         sb.append(leftTerms.get(0).toString()).append(" * ").append(rightTerms.get(0).toString());
 
-        for(int i = 0; i < leftTerms.size(); i++) {
+        for(int i = 1; i < leftTerms.size(); i++) {
             if( ! (leftTerms.get(i).equals(new Rational(0)) || rightTerms.get(i).equals(new Rational(0))) )
             sb.append(" + ").append(leftTerms.get(i).toString()).append(" * ").append(rightTerms.get(i).toString());
         }
