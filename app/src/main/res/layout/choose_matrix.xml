@@ -22,11 +22,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="25sp"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:id="@+id/matrixCard" >
 
                 <com.asserttrue.matrixcalculator.view.MathTitleTextView
                     android:id="@+id/name_equals"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -37,15 +39,12 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:id="@+id/selectedIndexTV"
-                android:background="@drawable/circle"
-                android:gravity="center"
-                android:textColor="@color/textColorPrimary"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectedIndices"
+                android:orientation="horizontal"
                 android:layout_margin="10dp"
-                android:visibility="gone"
                 app:layout_anchor="@id/matrixCard"
                 app:layout_anchorGravity="top|right|end"/>
 
