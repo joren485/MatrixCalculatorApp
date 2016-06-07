@@ -210,8 +210,8 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
 
+        editMatrixAdapter.getMatrix().setName(matrixName.getText().toString());
         if (saveMatrixBox.isChecked()) {
-            editMatrixAdapter.getMatrix().setName(matrixName.getText().toString());
             if (settings.editingExisting)
                 hDB.updateMatrix(editMatrixAdapter.getMatrix(), matrixName.getText().toString());
             else

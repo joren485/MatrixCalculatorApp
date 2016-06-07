@@ -217,7 +217,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private String getUniqueName(String name) {
         String uniqueName = name;
         for (int i = 1; !isUniqueName(uniqueName); i++) {
-            uniqueName = name + "(" + i + ")";
+            uniqueName = name + i;
         }
         return uniqueName;
     }
