@@ -1,17 +1,10 @@
 package com.asserttrue.matrixcalculator.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-
 import com.asserttrue.matrixcalculator.R;
-import com.asserttrue.matrixcalculator.model.Matrix;
-import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixActivity;
-import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixAdapter;
-import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixSingleton;
 
 public class MainActivity extends AppCompatActivity {
 

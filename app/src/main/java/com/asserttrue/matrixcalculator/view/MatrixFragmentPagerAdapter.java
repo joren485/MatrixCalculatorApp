@@ -13,11 +13,15 @@ public class MatrixFragmentPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    private final ComputationsFragment computationsFragment = new ComputationsFragment();
+    private final StoredMatricesFragment storedMatricesFragment = new StoredMatricesFragment();
+
     @Override
     public Fragment getItem(int position) {
+
         switch (position) {
-            case 0: return ComputationsFragment.getInstance();
-            case 1: return StoredMatricesFragment.getInstance();
+            case 0: return computationsFragment;
+            case 1: return storedMatricesFragment;
             default: return null;
         }
     }

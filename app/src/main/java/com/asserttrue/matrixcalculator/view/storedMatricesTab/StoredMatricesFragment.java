@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
@@ -19,7 +20,6 @@ import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
  * A simple {@link Fragment} subclass.
  */
 public class StoredMatricesFragment extends Fragment {
-    private static StoredMatricesFragment ourInstance;
 
     private View root;
 
@@ -53,7 +53,7 @@ public class StoredMatricesFragment extends Fragment {
 
         matrixList.removeAllViews();
 
-        for (Matrix m : hDB.getAllMatrices()){
+        for (Matrix m : hDB.readAllMatrices()){
 
             final LibraryMatrixView matrixView = new LibraryMatrixView(getContext(), m, m.getName());
 
@@ -68,13 +68,5 @@ public class StoredMatricesFragment extends Fragment {
 
             matrixList.addView(matrixView);
         }
-
-    }
-
-    public static StoredMatricesFragment getInstance() {
-        if(ourInstance == null) {
-            ourInstance = new StoredMatricesFragment();
-        }
-        return ourInstance;
     }
 }

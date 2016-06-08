@@ -27,7 +27,7 @@ public class LibraryMatrixView extends LinearLayout {
         inflater.inflate(R.layout.preview_matrix, this, true);
 
         RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
-        matrixView = new MatrixView(context, matrix);
+        matrixView = new MatrixView(context, matrix, true);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
 
@@ -52,28 +52,21 @@ public class LibraryMatrixView extends LinearLayout {
         final int index = parent.indexOfChild(this);
         parent.removeView(this);
 
-        Snackbar undoSnackbar = Snackbar.make(parent, getContentMatrix().getName() + " removed.", Snackbar.LENGTH_LONG)
+        Snackbar.make(parent, getContentMatrix().getName() + " removed.", Snackbar.LENGTH_LONG)
                                         .setAction("UNDO", new OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 dbHandler.createMatrix(getContentMatrix(), getContentMatrix().getName());
                                                 parent.addView(instance(), index);
                                             }
-                                        });
-
-        undoSnackbar.show();
+                                        }).show();
     }
 
     private LibraryMatrixView instance() {
         return this;
     }
 
-    public void setMatrix(Matrix matrix) {
-        matrixView.setMatrix(matrix);
-    }
-
     public Matrix getContentMatrix() {
         return matrixView.getContentMatrix();
     }
-
 }
