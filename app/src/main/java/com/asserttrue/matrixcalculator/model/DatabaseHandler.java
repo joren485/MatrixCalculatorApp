@@ -13,7 +13,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "TestDatabase";
+    private static final String DATABASE_NAME = "MatrixDatabase";
 
 
     private static final String TABLE_NAME = "Saved_Matrices";
@@ -76,34 +76,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public Matrix readMatrixbyName(String name){
-
-        SQLiteDatabase db = getReadableDatabase();
-        Matrix m;
-
-        Cursor cursor = db.query(
-                TABLE_NAME,
-                new String[] {COLUMN_NAME_MATRIX, COLUMN_NAME_NROFCOLUMNS, COLUMN_NAME_NROFROWS, COLUMN_NAME_AUGMENTEDLINE},
-                COLUMN_NAME_MATRIX_NAME + "=?",
-                new String[] {String.valueOf(name)},
-                null,
-                null,
-                null);
-
-        db.close();
-        if (cursor.moveToFirst()){
-
-            m = buildMatrix(name, cursor.getString(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3));
-
-            cursor.close();
-        } else{
-            m = null;
-        }
-
-
-        return m;
-    }
-
 
     public void updateMatrix(Matrix m, String name) {
         SQLiteDatabase db = getWritableDatabase();
@@ -143,7 +115,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 null,
                 null,
                 null,
-                null);
+                COLUMN_NAME_MATRIX_NAME + " ASC");
 
 
         Matrix[] matrices = new Matrix[cursor.getCount()];
