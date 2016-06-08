@@ -1,10 +1,8 @@
 package com.asserttrue.matrixcalculator.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,7 @@ import com.asserttrue.matrixcalculator.model.Matrix;
 
 public class LibraryMatrixView extends LinearLayout {
 
-    final MatrixView matrixView;
+    private final MatrixView matrixView;
 
     public LibraryMatrixView(Context context, Matrix matrix, String name) {
         super(context);
@@ -44,6 +42,10 @@ public class LibraryMatrixView extends LinearLayout {
         });
     }
 
+    /**
+     * The method that is called when the remove matrix button is pressed.
+     * Show a snackbar to undo the deletion.
+     */
     private void remove() {
         final DatabaseHandler dbHandler = new DatabaseHandler(getContext());
         dbHandler.deleteMatrix(getContentMatrix().getName());

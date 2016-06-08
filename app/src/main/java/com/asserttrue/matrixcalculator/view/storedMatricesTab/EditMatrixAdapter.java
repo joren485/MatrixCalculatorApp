@@ -1,25 +1,22 @@
 package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
-import com.asserttrue.matrixcalculator.model.Matrix;
-import com.asserttrue.matrixcalculator.model.Rational;
-
 import android.content.Context;
 import android.graphics.Color;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import com.asserttrue.matrixcalculator.model.Matrix;
+import com.asserttrue.matrixcalculator.model.Rational;
 
 public class EditMatrixAdapter extends BaseAdapter {
 
