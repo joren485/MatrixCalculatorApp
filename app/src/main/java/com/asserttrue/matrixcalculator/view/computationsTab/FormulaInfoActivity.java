@@ -51,10 +51,10 @@ public class FormulaInfoActivity extends AppCompatActivity {
                 title.setText("Scalar Multiplication");
                 body.setText(R.string.ScalarExplanation);
                 break;
-
             case("transpose"):
                 title.setText("Transpose");
                 body.setText(R.string.TransposeExplanation);
+                break;
             default:
                 title.setVisibility(View.GONE);
                 body.setVisibility(View.GONE);
