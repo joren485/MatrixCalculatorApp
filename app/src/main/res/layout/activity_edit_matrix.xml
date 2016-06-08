@@ -104,15 +104,15 @@
         >
 
         <com.asserttrue.matrixcalculator.view.MathTextButton
-            android:layout_width="60dp"
+            android:layout_width="120dp"
             android:layout_height="60dp"
-            android:text="0"
+            android:text="ZERO"
             android:id="@+id/zeroMatrixButton"/>
 
         <com.asserttrue.matrixcalculator.view.MathTextButton
-            android:layout_width="60dp"
+            android:layout_width="120dp"
             android:layout_height="60dp"
-            android:text="I"
+            android:text="ID"
             android:id="@+id/identityMatrixButton"/>
 
     </LinearLayout>
