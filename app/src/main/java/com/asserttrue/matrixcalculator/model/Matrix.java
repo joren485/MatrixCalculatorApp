@@ -28,6 +28,16 @@ public class Matrix {
         }
     }
 
+    public Matrix(Matrix original, int nrColumns, int nrRows) {
+        this(nrColumns, nrRows);
+        for (int y = 0; y < Math.min(nrRows, original.getNrRows()); y++) {
+            for (int x = 0; x < Math.min(nrColumns, original.getNrColumns()); x++) {
+                setValue(x, y, original.getValueAt(x, y));
+            }
+        }
+        setAugmentedColumnIndex(original.getAugmentedColumnIndex());
+    }
+
     public static Matrix identity(int size) {
         Matrix id = new Matrix(size, size);
 
