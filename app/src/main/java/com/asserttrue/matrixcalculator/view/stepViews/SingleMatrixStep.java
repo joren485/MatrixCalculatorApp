@@ -253,6 +253,28 @@ public abstract class SingleMatrixStep implements Step {
         }
     }
 
+    public static class ScalarMultCellStep extends SingleMatrixStep {
+        private final int row;
+        private final int column;
+        private final Rational scalar;
+        private final Rational cellValue;
+        private final Rational result;
+
+        public ScalarMultCellStep(Matrix matrix, int row, int column, Rational scalar, Rational cellValue, Rational result) {
+            super(matrix);
+            this.row = row;
+            this.column = column;
+            this.scalar = scalar;
+            this.cellValue = cellValue;
+            this.result = result;
+        }
+
+        @Override
+        protected String getExplanation() {
+            return "Calculate cell (" + (row + 1) + ", " + (column + 1) + ");\n" + scalar + " * " +  cellValue + " = " + result;
+        }
+    }
+
     public static class ExpStep extends SingleMatrixStep {
         private final int exponent;
         private final Matrix matrix;

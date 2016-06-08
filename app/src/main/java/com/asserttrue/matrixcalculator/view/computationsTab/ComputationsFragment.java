@@ -32,7 +32,17 @@ public class ComputationsFragment extends Fragment {
 
         final LinearLayout cards = (LinearLayout) root.findViewById(R.id.computations_layout);
 
-        cards.getChildAt(5).setOnClickListener(new View.OnClickListener() {
+        cards.getChildAt(7).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "rref");
+                startActivity(intent);
+            }
+        });
+
+        cards.getChildAt(6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
@@ -42,7 +52,7 @@ public class ComputationsFragment extends Fragment {
             }
         });
 
-        cards.getChildAt(4).setOnClickListener(new View.OnClickListener() {
+        cards.getChildAt(5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
@@ -52,7 +62,7 @@ public class ComputationsFragment extends Fragment {
             }
         });
 
-        cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
+        cards.getChildAt(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
@@ -64,13 +74,26 @@ public class ComputationsFragment extends Fragment {
             }
         });
 
-        cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+        cards.getChildAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
 
                 intent.putExtra("numMatrices", 1);
                 intent.putExtra("computation", "determinant");
+
+                startActivity(intent);
+            }
+        });
+
+        cards.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+
+
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "scalarMult");
 
                 startActivity(intent);
             }

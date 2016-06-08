@@ -287,12 +287,90 @@ public abstract class Computations {
         Matrix original = matrix;
         List<Step> steps = new ArrayList<>();
 
+        if(! original.isSquareMatrix() ) {
+            steps.add(new TextResultStep.ExpErrorStep());
+        }
+
         for(int exp = 2; exp <= n; exp++) {
             matrix = Matrix.times(matrix, original);
             steps.add(new SingleMatrixStep.ExpStep(matrix, exp));
         }
 
         steps.add(0, new Step.ResultStep(matrix));
+        return steps;
+    }
+
+    public static List<Step> scalarMultiplication(Matrix matrix, Rational scalar) {
+        List<Step> steps = new ArrayList<>();
+        Matrix result = new Matrix(matrix.getNrColumns(), matrix.getNrRows());
+
+        for(int row = 0; row < matrix.getNrRows(); row++) {
+            for(int column = 0; column < matrix.getNrColumns(); column++) {
+                final Rational value = matrix.getValueAt(column, row);
+                final Rational newValue = value.times(scalar);
+                steps.add(new SingleMatrixStep.ScalarMultCellStep(new Matrix(matrix), row, column, scalar, value, newValue));
+            }
+        }
+
+        steps.add(0, new Step.ResultStep(matrix));
+
+        return steps;
+    }
+
+    public static List<Step> rowEchelonForm(Matrix matrix) {
+        Matrix A = new Matrix(matrix);
+        final List<Step> steps = new ArrayList<>();
+
+        if(A.getAugmentedColumnIndex() != -1) {
+            // We'll draw the augmented line on the second to right column by default. This is the convention.
+            A.setAugmentedColumnIndex(A.getNrColumns() - 1);
+        }
+
+        int rank = 0;
+
+        for (int column = 0; column < A.getNrColumns() && rank < A.getNrRows(); column++) {
+            int pivotRow = rank;
+
+            for (int row = rank; row < A.getNrRows(); row++) {
+                if ( A.getValueAt(column, row).abs() .greater (A.getValueAt(column, pivotRow).abs() )) {
+                    pivotRow = row;
+                }
+            }
+
+            if(A.getValueAt(column, pivotRow).equals(new Rational(0))) {
+                continue;
+            }
+
+            if(rank != pivotRow) {
+                A.swapRows(rank, pivotRow);
+                steps.add(new SingleMatrixStep.InvRowSwapStep(pivotRow, rank, new Matrix (A)));
+                pivotRow = rank;
+            }
+
+            Rational pivotValue =  A.getValueAt(column, pivotRow);
+
+            if(! pivotValue.equals(new Rational(1))) {
+                A.multiplyRow(pivotRow, pivotValue.inverse());
+                steps.add(new SingleMatrixStep.RowDivideStep(pivotRow, pivotValue, new Matrix(A)));
+            }
+
+            boolean eliminatedRows = false;
+            for(int row = 0; row < A.getNrRows(); row++) {
+                if(! A.getValueAt(column, row).equals(new Rational(0)) && row != pivotRow ) {
+                    eliminatedRows = true;
+                    A.addRow(pivotRow, row, A.getValueAt(column, row).negative());
+                }
+            }
+
+            if(eliminatedRows) {
+                steps.add(new SingleMatrixStep.ColumnEliminateStep(column, new Matrix(A)));
+            }
+
+            rank++;
+        }
+
+        steps.add(0, new Step.ResultStep(A));
+
         return steps;
     }
 }

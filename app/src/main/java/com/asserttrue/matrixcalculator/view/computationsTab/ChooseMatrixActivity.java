@@ -63,6 +63,13 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 break;
             case "exponent":
                 text.setText("Matrix Exponentiation");
+                break;
+            case "scalarMult":
+                text.setText("Scalar Multiplication");
+                break;
+            case "rref":
+                text.setText("Row Echelon Form");
+                break;
             default:
                 text.setVisibility(View.GONE);
         }
@@ -196,6 +203,12 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 break;
             case "exponent":
                 curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), 5));
+                break;
+            case "scalarMult":
+                curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(5)));
+                break;
+            case "rref":
+                curComp.setSteps(Computations.rowEchelonForm(selectedList[0].getContentMatrix()));
                 break;
             default:
                 return;

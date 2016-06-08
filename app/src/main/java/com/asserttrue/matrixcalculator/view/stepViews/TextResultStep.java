@@ -78,4 +78,12 @@ public abstract class TextResultStep implements Step {
             return "The determinant is only defined on square matrices.";
         }
     }
+
+    public static class ExpErrorStep extends TextResultStep {
+
+        @Override
+        protected String getExplanation() {
+            return "This matrix is not a square, so it can not be multiplied with itself.";
+        }
+    }
 }
