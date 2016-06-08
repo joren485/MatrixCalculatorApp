@@ -287,7 +287,38 @@ public abstract class SingleMatrixStep implements Step {
 
         @Override
         protected String getExplanation() {
-            return "Find the power " + exponent + " of the Matrix.";
+            return "Find the power " + exponent + " of the matrix.";
+        }
+    }
+
+    public static class TransCreateStep extends SingleMatrixStep {
+
+        public TransCreateStep(Matrix matrix) {
+            super(matrix);
+        }
+
+        @Override
+        protected String getExplanation() {
+            return "Create a new matrix with " + matrix.getNrColumns() + " columns and " + matrix.getNrRows() + " rows," +
+                    " as the original matrix has " + matrix.getNrRows() + " columns and " + matrix.getNrColumns() + " rows.";
+        }
+    }
+
+    public static class TransCellStep extends SingleMatrixStep {
+
+        private final int row, column;
+        private final Rational result;
+
+        public TransCellStep(Matrix matrix, int row, int column, Rational result) {
+            super(matrix);
+            this.row = row;
+            this.column = column;
+            this.result = result;
+        }
+
+        @Override
+        public String getExplanation() {
+            return "Set cell (" + (row + 1) + ", " + (column + 1) + "), which was " + result + " in the original matrix.";
         }
     }
 }

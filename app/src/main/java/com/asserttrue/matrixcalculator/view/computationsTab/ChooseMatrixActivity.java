@@ -85,6 +85,9 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             case "rref":
                 text.setText("Row Echelon Form");
                 break;
+            case "transpose":
+                text.setText("Transpose");
+                break;
             default:
                 text.setVisibility(View.GONE);
         }
@@ -246,6 +249,9 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 break;
             case "rref":
                 curComp.setSteps(Computations.rowEchelonForm(selectedList[0].getContentMatrix()));
+                break;
+            case "transpose":
+                curComp.setSteps(Computations.transpose(selectedList[0].getContentMatrix()));
                 break;
             default:
                 return;

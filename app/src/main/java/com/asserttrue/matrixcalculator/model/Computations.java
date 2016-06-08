@@ -2,6 +2,8 @@ package com.asserttrue.matrixcalculator.model;
 
 
 import com.asserttrue.matrixcalculator.view.stepViews.DetScalarStep;
+import com.asserttrue.matrixcalculator.view.stepViews.DoubleMatrixFirstStep;
+import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixFirstStep;
 import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixStep;
 import com.asserttrue.matrixcalculator.view.stepViews.Step;
 import com.asserttrue.matrixcalculator.view.stepViews.TextResultStep;
@@ -20,12 +22,14 @@ public abstract class Computations {
         // This computation requires the matrix to be mutated, and so a copy is required.
         final Matrix A = new Matrix(matrix);
 
-        List<Step> steps = new ArrayList<>();
+        LinkedList<Step> steps = new LinkedList<>();
 
         if (! matrix.isSquareMatrix() ) {
             steps.add(new TextResultStep.DetErrorStep());
             return steps;
         }
+
+        steps.add(new SingleMatrixFirstStep(matrix, "determinant"));
 
         // Determinant of upper-triangular matrix with identity diagonal is 1.
         // We multiply this result by the determinant of the elementary matrices required to reduce A to that form.
@@ -77,19 +81,21 @@ public abstract class Computations {
 
         steps.add(new DetScalarStep.DetUpperTriangularStep(new Matrix(A), new Rational(determinant)));
 
-        steps.add(0, new Step.DetResultStep(new Matrix(matrix), new Rational(determinant)));
+        steps.addFirst(new Step.DetResultStep(new Matrix(matrix), new Rational(determinant)));
 
         return steps;
     }
 
     public static List<Step> inverse(Matrix matrix) {
 
-        List<Step> steps = new ArrayList<>();
+        LinkedList<Step> steps = new LinkedList<>();
 
         if (! matrix.isSquareMatrix() ) {
             steps.add(new TextResultStep.InvErrorStep());
             return steps;
         }
+
+        steps.add(new SingleMatrixFirstStep(matrix, "inverse"));
 
         Matrix A = new Matrix(matrix, Matrix.identity(matrix.getNrColumns()));
 
@@ -138,7 +144,7 @@ public abstract class Computations {
         }
 
         steps.add(new SingleMatrixStep.InvIdentityStep(new Matrix(A)));
-        steps.add(0, new Step.ResultStep(new Matrix(A).getRightMatrix()));
+        steps.addFirst(new Step.ResultStep(new Matrix(A).getRightMatrix()));
 
         return steps;
     }
@@ -152,8 +158,9 @@ public abstract class Computations {
      */
     public static List<Step> kernel(Matrix matrix) {
         Matrix A = new Matrix(matrix);
-        List<Step> steps = new ArrayList<>();
+        LinkedList<Step> steps = new LinkedList<>();
 
+        steps.add(new SingleMatrixFirstStep(matrix, "kernel"));
 
         List<Matrix> kernelBasis = new ArrayList<>();
         List<Integer> pivotColumns = new ArrayList<>();
@@ -214,19 +221,21 @@ public abstract class Computations {
 
         steps.add(new SingleMatrixStep.KernelRREFStep(new Matrix(A), kernelBasis.size()));
 
-        steps.add(0, new SingleMatrixStep.KernelResultStep(kernelBasis));
+        steps.addFirst(new SingleMatrixStep.KernelResultStep(kernelBasis));
 
         return steps;
     }
 
     public static List<Step> product(Matrix left, Matrix right) {
 
-        final List<Step> steps = new ArrayList<>();
+        final LinkedList<Step> steps = new LinkedList<>();
 
         if(left.getNrColumns() != right.getNrRows()) {
             steps.add(new TextResultStep.MultErrorStep(left.getNrColumns(), right.getNrRows()));
             return steps;
         }
+
+        steps.add(new DoubleMatrixFirstStep(left, right, "product"));
 
         final Matrix product = new Matrix(right.getNrColumns(), left.getNrRows());
 
@@ -253,19 +262,21 @@ public abstract class Computations {
             }
         }
 
-        steps.add(0, new Step.MultResultStep(new Matrix(product)));
+        steps.addFirst(new Step.MultResultStep(new Matrix(product)));
         return steps;
     }
 
     public static List<Step> addition(Matrix left, Matrix right) {
 
-        final List<Step> steps = new LinkedList<>();
+        final LinkedList<Step> steps = new LinkedList<>();
 
 
         if(left.getNrColumns() != right.getNrColumns() || left.getNrRows() != right.getNrRows()) {
             steps.add(new TextResultStep.AddErrorStep());
             return steps;
         }
+
+        steps.add(new DoubleMatrixFirstStep(left, right, "sum"));
 
         final Matrix sum = new Matrix(right.getNrColumns(), right.getNrRows());
 
@@ -280,17 +291,19 @@ public abstract class Computations {
             }
         }
 
-        steps.add(0, new Step.MultResultStep(sum));
+        steps.addFirst(new Step.MultResultStep(sum));
         return steps;
     }
 
     public static List<Step> exponentiation(Matrix matrix, int n) {
         Matrix original = matrix;
-        List<Step> steps = new ArrayList<>();
+        LinkedList<Step> steps = new LinkedList<>();
 
         if(! original.isSquareMatrix() ) {
             steps.add(new TextResultStep.ExpErrorStep());
         }
+
+        steps.add(new SingleMatrixFirstStep(matrix, "power " + n));
 
         if(n == 0) {
             steps.add(new Step.ResultStep(new Matrix(matrix.getNrColumns(), matrix.getNrRows())));
@@ -301,12 +314,12 @@ public abstract class Computations {
             steps.add(new SingleMatrixStep.ExpStep(matrix, exp));
         }
 
-        steps.add(0, new Step.ResultStep(matrix));
+        steps.addFirst(new Step.ResultStep(matrix));
         return steps;
     }
 
     public static List<Step> scalarMultiplication(Matrix matrix, Rational scalar) {
-        List<Step> steps = new ArrayList<>();
+        LinkedList<Step> steps = new LinkedList<>();
         Matrix result = new Matrix(matrix.getNrColumns(), matrix.getNrRows());
 
         for(int row = 0; row < matrix.getNrRows(); row++) {
@@ -320,14 +333,16 @@ public abstract class Computations {
             }
         }
 
-        steps.add(0, new Step.ResultStep(new Matrix(result)));
+        steps.addFirst(new Step.ResultStep(new Matrix(result)));
 
         return steps;
     }
 
     public static List<Step> rowEchelonForm(Matrix matrix) {
         Matrix A = new Matrix(matrix);
-        final List<Step> steps = new ArrayList<>();
+        final LinkedList<Step> steps = new LinkedList<>();
+
+        steps.add(new SingleMatrixFirstStep(matrix, "row echelon form"));
 
         if(A.getAugmentedColumnIndex() == -1) {
             // We'll draw the augmented line on the second to right column by default. This is the convention.
@@ -377,8 +392,30 @@ public abstract class Computations {
             rank++;
         }
 
-        steps.add(0, new Step.ResultStep(A));
+        steps.addFirst(new Step.ResultStep(A));
 
+        return steps;
+    }
+
+    public static List<Step> transpose(Matrix original) {
+        final LinkedList<Step> steps = new LinkedList<>();
+        Matrix transpose = new Matrix(original.getNrRows(), original.getNrColumns());
+
+        steps.add(new SingleMatrixFirstStep(original, "transpose"));
+
+        steps.add(new SingleMatrixFirstStep(original, "transpose"));
+
+        steps.add(new SingleMatrixStep.TransCreateStep(new Matrix(transpose)));
+
+        for (int row = 0; row < transpose.getNrRows(); row++) {
+            for (int column = 0; column < transpose.getNrColumns(); column++) {
+                Rational r = original.getValueAt(row, column);
+                transpose.setValue(column, row, r);
+                steps.add(new SingleMatrixStep.TransCellStep(new Matrix(transpose), row, column, r));
+            }
+        }
+
+        steps.addFirst(new Step.ResultStep(transpose));
         return steps;
     }
 }

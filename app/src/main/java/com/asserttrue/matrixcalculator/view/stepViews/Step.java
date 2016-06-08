@@ -20,6 +20,8 @@ public interface Step {
     int VECTOR_SPAN = 4;
     int TEXT_RESULT = 5;
     int NR_TYPES = 6;
+    int FIRST_DOUBLE_MATRIX = 7;
+    int FIRST_SINGLE_MATRIX = 8;
 
     /**
      * Get a view explaining this step.
