@@ -14,17 +14,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "MatrixDatabase";
-
-
+    
     private static final String TABLE_NAME = "Saved_Matrices";
 
     private static final String COLUMN_NAME_MATRIX_NAME = "name";
     private static final String COLUMN_NAME_MATRIX = "matrix";
 
     private static final String COLUMN_NAME_NROFCOLUMNS = "columns";
-
-    // TODO Can be removed
-    private static final String COLUMN_NAME_NROFROWS = "ROWS";
+    private static final String COLUMN_NAME_NROFROWS = "rows";
 
     private static final String COLUMN_NAME_AUGMENTEDLINE = "augmented_line";
 
@@ -65,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_NAME_MATRIX_NAME, getUniqueName(name));
-        values.put(COLUMN_NAME_MATRIX, flattenMatrix(m));
+        values.put(COLUMN_NAME_MATRIX, m.toString());
         values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
         values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
         values.put(COLUMN_NAME_AUGMENTEDLINE, m.getAugmentedColumnIndex());
@@ -83,7 +80,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_NAME_MATRIX_NAME, name);
-        values.put(COLUMN_NAME_MATRIX, flattenMatrix(m));
+        values.put(COLUMN_NAME_MATRIX, m.toString());
         values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
         values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
         values.put(COLUMN_NAME_AUGMENTEDLINE, m.getAugmentedColumnIndex());
@@ -155,24 +152,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return nameMatches == 0;
 
     }
-
-
-    // TODO May be better to move to matrix class
-    // TODO Encryption?
-    private static String flattenMatrix(Matrix m){
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int y = 0; y < m.getNrRows(); y++){
-            for (int x = 0; x < m.getNrColumns(); x++){
-                sb.append(String.format("%s/%s ", String.valueOf(m.getValueAt(x, y).getNumerator()),
-                        String.valueOf(m.getValueAt(x, y).getDenominator())));
-            }
-        }
-        sb.setLength(sb.length() - 1);
-        return sb.toString();
-    }
-
     private static Matrix buildMatrix(String name, String s, int nrofcolumns, int nrofrows, int augmentedLine){
         Rational[][] matrix2d = new Rational[nrofrows][nrofcolumns];
 
