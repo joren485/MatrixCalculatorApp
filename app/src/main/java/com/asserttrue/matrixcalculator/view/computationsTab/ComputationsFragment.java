@@ -4,16 +4,12 @@ package com.asserttrue.matrixcalculator.view.computationsTab;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.asserttrue.matrixcalculator.R;
-import com.asserttrue.matrixcalculator.model.Matrix;
-import com.asserttrue.matrixcalculator.model.Rational;
-import com.asserttrue.matrixcalculator.model.Computations;
 
 public class ComputationsFragment extends Fragment {
 
