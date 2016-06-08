@@ -292,6 +292,10 @@ public abstract class Computations {
             steps.add(new TextResultStep.ExpErrorStep());
         }
 
+        if(n == 0) {
+            steps.add(new Step.ResultStep(new Matrix(matrix.getNrColumns(), matrix.getNrRows())));
+        }
+
         for(int exp = 2; exp <= n; exp++) {
             matrix = Matrix.times(matrix, original);
             steps.add(new SingleMatrixStep.ExpStep(matrix, exp));
@@ -325,9 +329,9 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         final List<Step> steps = new ArrayList<>();
 
-        if(A.getAugmentedColumnIndex() != -1) {
+        if(A.getAugmentedColumnIndex() == -1) {
             // We'll draw the augmented line on the second to right column by default. This is the convention.
-            A.setAugmentedColumnIndex(A.getNrColumns() - 2);
+            A.setAugmentedColumnIndex(A.getNrColumns() - 1);
         }
 
         int rank = 0;
