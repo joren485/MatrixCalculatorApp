@@ -1,7 +1,6 @@
 package com.asserttrue.matrixcalculator.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;

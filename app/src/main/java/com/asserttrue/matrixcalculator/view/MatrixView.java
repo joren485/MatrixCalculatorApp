@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.model.Matrix;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MatrixView extends LinearLayout {

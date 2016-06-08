@@ -1,20 +1,13 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.asserttrue.matrixcalculator.R;
-import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 

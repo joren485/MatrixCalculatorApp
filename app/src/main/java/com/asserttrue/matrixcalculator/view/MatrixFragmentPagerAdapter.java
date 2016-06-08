@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.asserttrue.matrixcalculator.view.computationsTab.ComputationsFragment;
-
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.StoredMatricesFragment;
 
 public class MatrixFragmentPagerAdapter extends FragmentPagerAdapter {

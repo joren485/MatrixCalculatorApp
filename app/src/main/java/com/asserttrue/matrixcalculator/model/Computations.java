@@ -83,7 +83,6 @@ public abstract class Computations {
     }
 
     public static List<Step> inverse(Matrix matrix) {
-        Matrix A = new Matrix(matrix, Matrix.identity(matrix.getNrColumns()));
 
         List<Step> steps = new ArrayList<>();
 
@@ -91,6 +90,8 @@ public abstract class Computations {
 
             return steps;
         }
+
+        Matrix A = new Matrix(matrix, Matrix.identity(matrix.getNrColumns()));
 
         steps.add(new SingleMatrixStep.InvStartStep(new Matrix(A)));
 
