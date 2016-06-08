@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +27,11 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     private LinearLayout matrixList;
     private FloatingActionButton startComputationButton;
     private ChooseMatrixView[] selectedList;
+    private EditText numberEditText;
 
     private int requiredMatrices;
     private String computationName;
+    private boolean needsNumber = false;
 
     private int currentSelectionIndex = -1;
 
@@ -45,6 +51,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         FloatingActionButton addMatrixButton = (FloatingActionButton) findViewById(R.id.addMatrixButton);
         MathTextView text = (MathTextView) findViewById(R.id.computation_text);
         TextView numMatrices = (TextView) findViewById(R.id.numberOfSelectionTV);
+        numberEditText = (EditText) findViewById(R.id.numberEditText);
         numMatrices.setText("Please select " + requiredMatrices + (requiredMatrices == 1 ? " matrix." : " matrices."));
         switch (computationName) {
             case "kernel":
@@ -64,9 +71,16 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 break;
             case "exponent":
                 text.setText("Matrix Exponentiation");
+                needsNumber = true;
+                numberEditText.setHint("Exponent");
+                numberEditText.setVisibility(View.VISIBLE);
+                numberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case "scalarMult":
                 text.setText("Scalar Multiplication");
+                needsNumber = true;
+                numberEditText.setHint("Scalar");
+                numberEditText.setVisibility(View.VISIBLE);
                 break;
             case "rref":
                 text.setText("Row Echelon Form");
@@ -110,7 +124,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         }
 
         if (makeToast) {
-            Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
         }
 
         addMatrixButton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +139,19 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startComputation();
             }
+        });
+
+        numberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
@@ -161,7 +188,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             if (matrixView.isInDotMode() && !makeToast){
                 makeToast = true;
 
-                Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
             }
 
             matrixList.addView(matrixView);
@@ -170,6 +197,9 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     }
 
     private boolean listComplete() {
+        if (needsNumber && numberEditText.getText().toString().isEmpty())
+            return false;
+
         for (ChooseMatrixView m : selectedList)
             if (m == null)
                 return false;
@@ -203,10 +233,10 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 curComp.setSteps(Computations.addition(selectedList[0].getContentMatrix(), selectedList[1].getContentMatrix()));
                 break;
             case "exponent":
-                curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), 5));
+                curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), Integer.parseInt(numberEditText.getText().toString())));
                 break;
             case "scalarMult":
-                curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(5)));
+                curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(numberEditText.getText().toString())));
                 break;
             case "rref":
                 curComp.setSteps(Computations.rowEchelonForm(selectedList[0].getContentMatrix()));
