@@ -17,4 +17,6 @@ public class ComputationActivity extends AppCompatActivity {
         ListView stepList = (ListView) findViewById(R.id.step_list);
         stepList.setAdapter(new StepAdapter(this, CurrentComputation.getInstance().getSteps()));
     }
+
+
 }

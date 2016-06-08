@@ -35,31 +35,16 @@ public class EditMatrixAdapter extends BaseAdapter {
         editText = new EditText(c);
     }
 
-    // TODO maybe this behaviour could be a feature of the matrix class, not only the editor.
-    public void updateNrOfColumns(int nrofColumns) {
+    public void updateNrOfColumns(int nrOfColumns) {
         setNotEditing();
-        Matrix m = new Matrix(nrofColumns, matrix.getNrRows());
-        for (int y = 0; y < matrix.getNrRows(); y++) {
-            for (int x = 0; x < Math.min(nrofColumns, matrix.getNrColumns()); x++) {
-                m.setValue(x, y, matrix.getValueAt(x, y));
-            }
-        }
-        m.setAugmentedColumnIndex(matrix.getAugmentedColumnIndex());
-        matrix = m;
+        matrix = new Matrix(matrix, nrOfColumns, matrix.getNrRows());
         notifyDataSetChanged();
     }
 
 
-    public void updateNrOfRows(int nrofRows) {
+    public void updateNrOfRows(int nrOfRows) {
         setNotEditing();
-        Matrix m = new Matrix(matrix.getNrColumns(), nrofRows);
-        for (int y = 0; y < Math.min(nrofRows, matrix.getNrRows()); y++) {
-            for (int x = 0; x < matrix.getNrColumns(); x++) {
-                m.setValue(x, y, matrix.getValueAt(x, y));
-            }
-        }
-        m.setAugmentedColumnIndex(matrix.getAugmentedColumnIndex());
-        matrix = m;
+        matrix = new Matrix(matrix, matrix.getNrColumns(), nrOfRows);
         notifyDataSetChanged();
     }
 
