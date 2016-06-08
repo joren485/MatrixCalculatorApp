@@ -93,7 +93,9 @@ public class ChooseMatrixActivity extends AppCompatActivity {
 
         boolean makeToast = false;
 
-        for (Matrix m : hDB.readAllMatrices()){
+        Matrix[] matrices = hDB.readAllMatrices();
+
+        for (Matrix m : matrices){
             final ChooseMatrixView chooseMatrixView = new ChooseMatrixView(this, m, m.getName(), requiredMatrices);
             matrixList.addView(chooseMatrixView);
 
@@ -125,6 +127,10 @@ public class ChooseMatrixActivity extends AppCompatActivity {
 
         if (makeToast) {
             Toast.makeText(this, "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
+        }
+
+        if(matrices.length == 0){
+            Toast.makeText(this, "Press the + button to create a matrix.", Toast.LENGTH_SHORT).show();
         }
 
         addMatrixButton.setOnClickListener(new View.OnClickListener() {

@@ -40,14 +40,6 @@ public abstract class TextResultStep implements Step {
      * different explanations.
      */
 
-    public static class InvSingularStep extends TextResultStep {
-
-        @Override
-        protected String getExplanation() {
-            return "The matrix was not invertible.";
-        }
-    }
-
     public static class InvErrorStep extends TextResultStep {
 
         @Override

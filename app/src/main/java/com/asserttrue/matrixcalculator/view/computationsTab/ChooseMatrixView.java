@@ -36,8 +36,6 @@ public class ChooseMatrixView extends LinearLayout {
         LinearLayout selectedIndices = (LinearLayout) findViewById(R.id.selectedIndices);
         selectionTextViews = new TextView[requiredMatrices];
 
-
-
         for (int i = 0; i < requiredMatrices; i++) {
             TextView view = new TextView(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100, 100);

@@ -107,11 +107,13 @@ public class EditMatrixAdapter extends BaseAdapter {
         final int y = position / matrix.getNrColumns();
         if (position == editingPosition) {
 
-            if (convertView instanceof EditText)
+            if (convertView instanceof EditText){
                 editText = (EditText) convertView;
-            else
-                editText = new EditText(mContext);
+            }
 
+            else{
+                editText = new EditText(mContext);
+            }
             editText.setFocusableInTouchMode(true);
             editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             editText.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, 120));
