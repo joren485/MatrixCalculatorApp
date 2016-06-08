@@ -103,6 +103,16 @@
         android:layout_above="@id/finishView"
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Augmented: " />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/augmentedCheckbox" />
+
         <com.asserttrue.matrixcalculator.view.MathTextButton
             android:layout_width="120dp"
             android:layout_height="60dp"

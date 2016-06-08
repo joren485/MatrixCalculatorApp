@@ -321,6 +321,8 @@ public abstract class Computations {
         LinkedList<Step> steps = new LinkedList<>();
         Matrix result = new Matrix(matrix.getNrColumns(), matrix.getNrRows());
 
+        steps.add(new SingleMatrixStep.FirstScalarStep(matrix, scalar));
+
         for(int row = 0; row < matrix.getNrRows(); row++) {
             for(int column = 0; column < matrix.getNrColumns(); column++) {
                 final Rational value = matrix.getValueAt(column, row);

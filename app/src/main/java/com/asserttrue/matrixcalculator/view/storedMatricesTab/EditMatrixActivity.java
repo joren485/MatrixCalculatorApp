@@ -45,6 +45,7 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         final MathTextButton zeroButton = (MathTextButton) findViewById(R.id.zeroMatrixButton);
         final MathTextButton identityButton = (MathTextButton) findViewById(R.id.identityMatrixButton);
+        final CheckBox augmentedCheckbox = (CheckBox) findViewById(R.id.augmentedCheckbox);
 
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
@@ -58,7 +59,6 @@ public class EditMatrixActivity extends AppCompatActivity {
         rowSpinner.setAdapter(adapter);
 
         grid = (EditMatrixGridView) findViewById(R.id.gridView);
-        grid.setNumColumns(2);
 
         EditMatrixSingleton matrixSettings = EditMatrixSingleton.getInstance();
 
@@ -81,6 +81,12 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
             finishEditingButton.setEnabled(false);
+
+        if (matrixSettings.editMatrix.getAugmentedColumnIndex() >= 0 && matrixSettings.editMatrix.getAugmentedColumnIndex() < matrixSettings.editMatrix.getNrColumns()) {
+            augmentedCheckbox.setChecked(true);
+        } else {
+            augmentedLineSeekbar.setVisibility(View.GONE);
+        }
 
         editMatrixAdapter = new EditMatrixAdapter(this, matrixSettings.editMatrix);
         grid.setAdapter(editMatrixAdapter);
@@ -203,6 +209,17 @@ public class EditMatrixActivity extends AppCompatActivity {
                 } else {
                     finishEditingButton.setEnabled(true);
                     matrixName.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        augmentedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                augmentedLineSeekbar.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                if (!isChecked) {
+                    editMatrixAdapter.updateAugmentedIndex(-1);
+                    augmentedLineSeekbar.setProgress(0  );
                 }
             }
         });

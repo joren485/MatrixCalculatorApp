@@ -42,7 +42,11 @@ public class EditMatrixGridView extends GridView {
         // AUGMENTED LINE
         int augmentedIndex = ((EditMatrixAdapter) getAdapter()).getMatrix().getAugmentedColumnIndex();
         int x = augmentedIndex * (getWidth() / getNumColumns());
-        if (augmentedIndex > 0 && augmentedIndex < getNumColumns())
+
+        if (augmentedIndex > 0 && augmentedIndex < getNumColumns()) {
+            paint.setStrokeWidth(2);
             c.drawLine(x, 1, x, height - 2, paint);
+            paint.setStrokeWidth(5);
+        }
     }
 }

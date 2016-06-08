@@ -336,4 +336,19 @@ public abstract class SingleMatrixStep implements Step {
             return "Calculating " + computation + " of this matrix.";
         }
     }
+
+    public static class FirstScalarStep extends SingleMatrixStep {
+
+        private final Rational scalar;
+
+        public FirstScalarStep(Matrix matrix, Rational scalar) {
+            super(matrix);
+            this.scalar = scalar;
+        }
+
+        @Override
+        public String getExplanation() {
+            return "Calculating " + scalar + " times this matrix.";
+        }
+    }
 }

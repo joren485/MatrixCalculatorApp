@@ -76,7 +76,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 numberEditText.setVisibility(View.VISIBLE);
                 numberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
-            case "scalarMult":
+            case "scalar mult":
                 text.setText("Scalar Multiplication");
                 needsNumber = true;
                 numberEditText.setHint("Scalar");
@@ -244,7 +244,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             case "exponent":
                 curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), Integer.parseInt(numberEditText.getText().toString())));
                 break;
-            case "scalarMult":
+            case "scalar mult":
                 curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(numberEditText.getText().toString())));
                 break;
             case "rref":
