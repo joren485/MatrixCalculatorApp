@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -70,15 +72,15 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             case "exponent":
                 text.setText("Matrix Exponentiation");
                 needsNumber = true;
-                numberEditText.setHint("Scalar");
+                numberEditText.setHint("Exponent");
                 numberEditText.setVisibility(View.VISIBLE);
+                numberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case "scalarMult":
                 text.setText("Scalar Multiplication");
                 needsNumber = true;
-                numberEditText.setHint("Exponent");
+                numberEditText.setHint("Scalar");
                 numberEditText.setVisibility(View.VISIBLE);
-                numberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case "rref":
                 text.setText("Row Echelon Form");
@@ -122,7 +124,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         }
 
         if (makeToast) {
-            Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
         }
 
         addMatrixButton.setOnClickListener(new View.OnClickListener() {
@@ -139,11 +141,17 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             }
         });
 
-        numberEditText.setOnClickListener(new View.OnClickListener() {
+        numberEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
         });
 
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
@@ -180,7 +188,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             if (matrixView.isInDotMode() && !makeToast){
                 makeToast = true;
 
-                Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
             }
 
             matrixList.addView(matrixView);
