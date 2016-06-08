@@ -68,12 +68,12 @@ public class LibraryMatrixView extends LinearLayout {
         return this;
     }
 
-    public void setMatrix(Matrix matrix) {
-        matrixView.setMatrix(matrix);
-    }
-
     public Matrix getContentMatrix() {
         return matrixView.getContentMatrix();
+    }
+
+    public boolean isInDotMode(){
+        return matrixView.isInDotMode();
     }
 
 }

@@ -6,42 +6,43 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     private static final int DATABASE_VERSION = 1;
+
+    // Names of the database
     private static final String DATABASE_NAME = "MatrixDatabase";
-    
     private static final String TABLE_NAME = "Saved_Matrices";
 
-    private static final String COLUMN_NAME_MATRIX_NAME = "name";
-    private static final String COLUMN_NAME_MATRIX = "matrix";
-
-    private static final String COLUMN_NAME_NROFCOLUMNS = "columns";
-    private static final String COLUMN_NAME_NROFROWS = "rows";
-
-    private static final String COLUMN_NAME_AUGMENTEDLINE = "augmented_line";
-
+    // The names of the columns
+    private static final String COLUMN_MATRIX_NAME = "name";
+    private static final String COLUMN_MATRIX = "matrix";
+    private static final String COLUMN_NRCOLUMNS = "columns";
+    private static final String COLUMN_NRROWS = "rows";
+    private static final String COLUMN_AUGMENTEDLINE = "augmented_line";
 
     public DatabaseHandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
+    /**
+     * Called when the database is created.
+     * @param db A writable SQLite object.
+     */
     @Override
     public void onCreate(SQLiteDatabase db){
 
         db.execSQL(
                 "CREATE TABLE " + TABLE_NAME
                         + "("
-                        + COLUMN_NAME_MATRIX_NAME + " TEXT PRIMARY KEY NOT NULL,"
-                        + COLUMN_NAME_MATRIX + " TEXT NOT NULL,"
-                        + COLUMN_NAME_NROFCOLUMNS + " INTEGER NOT NULL,"
-                        + COLUMN_NAME_NROFROWS + " INTEGER NOT NULL,"
-                        + COLUMN_NAME_AUGMENTEDLINE + " INTEGER NOT NULL"
+                        + COLUMN_MATRIX_NAME + " TEXT PRIMARY KEY NOT NULL,"
+                        + COLUMN_MATRIX + " TEXT NOT NULL,"
+                        + COLUMN_NRCOLUMNS + " INTEGER NOT NULL,"
+                        + COLUMN_NRROWS + " INTEGER NOT NULL,"
+                        + COLUMN_AUGMENTEDLINE + " INTEGER NOT NULL"
                         + ");"
         );
 
@@ -55,17 +56,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    // CRUD METHODS
+    // The necessary CRUD methods (Create Read Update Delete)
 
     public void createMatrix(Matrix m, String name){
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_NAME_MATRIX_NAME, getUniqueName(name));
-        values.put(COLUMN_NAME_MATRIX, m.toString());
-        values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
-        values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
-        values.put(COLUMN_NAME_AUGMENTEDLINE, m.getAugmentedColumnIndex());
+        values.put(COLUMN_MATRIX_NAME, getUniqueName(name));
+        values.put(COLUMN_MATRIX, m.toString());
+        values.put(COLUMN_NRCOLUMNS, m.getNrColumns());
+        values.put(COLUMN_NRROWS, m.getNrRows());
+        values.put(COLUMN_AUGMENTEDLINE, m.getAugmentedColumnIndex());
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
@@ -73,46 +74,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-
-    public void updateMatrix(Matrix m, String name) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        values.put(COLUMN_NAME_MATRIX_NAME, name);
-        values.put(COLUMN_NAME_MATRIX, m.toString());
-        values.put(COLUMN_NAME_NROFCOLUMNS, m.getNrColumns());
-        values.put(COLUMN_NAME_NROFROWS, m.getNrRows());
-        values.put(COLUMN_NAME_AUGMENTEDLINE, m.getAugmentedColumnIndex());
-
-        db.update(TABLE_NAME, values, COLUMN_NAME_MATRIX_NAME + "=?", new String[]{name});
-
-        db.close();
-    }
-
-    public void deleteMatrix(String name){
-
-        SQLiteDatabase db = getWritableDatabase();
-
-        db.delete(TABLE_NAME,
-                COLUMN_NAME_MATRIX_NAME + "=?",
-                new String[] {name});
-
-        db.close();
-    }
-
-    public Matrix[] getAllMatrices(){
+    public Matrix[] readAllMatrices(){
 
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(
                 TABLE_NAME,
-                new String[] {COLUMN_NAME_MATRIX_NAME, COLUMN_NAME_MATRIX, COLUMN_NAME_NROFCOLUMNS, COLUMN_NAME_NROFROWS, COLUMN_NAME_AUGMENTEDLINE},
                 null,
                 null,
                 null,
                 null,
-                COLUMN_NAME_MATRIX_NAME + " ASC");
+                null,
+                COLUMN_MATRIX_NAME + " ASC");
 
 
         Matrix[] matrices = new Matrix[cursor.getCount()];
@@ -131,9 +104,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return matrices;
     }
 
+
+    public void updateMatrix(Matrix m, String name) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_MATRIX_NAME, name);
+        values.put(COLUMN_MATRIX, m.toString());
+        values.put(COLUMN_NRCOLUMNS, m.getNrColumns());
+        values.put(COLUMN_NRROWS, m.getNrRows());
+        values.put(COLUMN_AUGMENTEDLINE, m.getAugmentedColumnIndex());
+
+        db.update(TABLE_NAME, values, COLUMN_MATRIX_NAME + "=?", new String[]{name});
+
+        db.close();
+    }
+
+    public void deleteMatrix(String name){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(TABLE_NAME,
+                COLUMN_MATRIX_NAME + "=?",
+                new String[] {name});
+
+        db.close();
+    }
+
+    /**
+     * @param name A string that may or may not be unique.
+     * @return Whether name is a unique string in the databseor not.
+     */
     public boolean isUniqueName(String name){
 
-        if (name.isEmpty()) {
+        if (name.trim().isEmpty()) {
             return false;
         }
 
@@ -142,7 +147,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
          long nameMatches = DatabaseUtils.queryNumEntries(
                  db,
                  TABLE_NAME,
-                 COLUMN_NAME_MATRIX_NAME + "=?",
+                 COLUMN_MATRIX_NAME + "=?",
                  new String[] {String.valueOf(name)}
         );
 
@@ -152,14 +157,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return nameMatches == 0;
 
     }
-    private static Matrix buildMatrix(String name, String s, int nrofcolumns, int nrofrows, int augmentedLine){
-        Rational[][] matrix2d = new Rational[nrofrows][nrofcolumns];
 
-        String[] stringRationals = s.split(" ");
+    /**
+     * Get a name that is unique in the database.
+     * @param name The name that needs to be unique.
+     * @return A name that is unique.
+     */
+    private String getUniqueName(String name) {
+        String uniqueName = name;
 
-        for(int row = 0; row < nrofrows; row++) {
-            for(int column = 0; column < nrofcolumns; column++) {
-                String[] rationalParts = stringRationals[row * nrofcolumns + column].split("/");
+        for (int i = 1; !isUniqueName(uniqueName); i++) {
+            uniqueName = name + i;
+        }
+
+        return uniqueName;
+    }
+
+    /**
+     * Build a Matrix from a row in the database.
+     * @param name The name from the database.
+     * @param matrixString The string representing the matrix.
+     * @param nrColumns The number of columns
+     * @param nrRows The number of rows
+     * @param augmentedLine The index of the separator line in an augmented matrix.
+     * @return A matrix object with the
+     */
+    private static Matrix buildMatrix(String name, String matrixString, int nrColumns, int nrRows, int augmentedLine){
+        Rational[][] matrix2d = new Rational[nrRows][nrColumns];
+
+        String[] stringRationals = matrixString.split(" ");
+
+        for(int row = 0; row < nrRows; row++) {
+            for(int column = 0; column < nrColumns; column++) {
+                String[] rationalParts = stringRationals[row * nrColumns + column].split("/");
 
                 matrix2d[row][column] = new Rational(Long.parseLong(rationalParts[0]),
                         Long.parseLong(rationalParts[1]));
@@ -169,11 +199,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return new Matrix(matrix2d, augmentedLine, name);
     }
 
-    private String getUniqueName(String name) {
-        String uniqueName = name;
-        for (int i = 1; !isUniqueName(uniqueName); i++) {
-            uniqueName = name + i;
-        }
-        return uniqueName;
-    }
 }

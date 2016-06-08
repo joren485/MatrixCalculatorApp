@@ -66,6 +66,10 @@ public class ChooseMatrixView extends LinearLayout {
         return matrixView.getContentMatrix();
     }
 
+    public boolean isInDotMode(){
+        return matrixView.isInDotMode();
+    }
+
     public void setIndex(int i, boolean show) {
         selectionTextViews[i].setVisibility(show ? VISIBLE : GONE);
     }

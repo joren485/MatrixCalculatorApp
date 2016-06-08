@@ -28,22 +28,25 @@ public class MatrixView extends LinearLayout {
 
     private ArrayList<LinearLayout> columns;
 
-    private boolean inDotMode = true;
+    private boolean inDotMode;
 
     private String[][] dotViewStrings = {{"", "", "\u22ef"}, {"", "", "\u22ef"}, {"\u22ee", "\u22ee", "\u22f1"}};
 
     public MatrixView (Context c, Matrix matrix) {
         super(c);
-        this.mContext = c;
+
+        mContext = c;
         this.matrix = matrix;
-        this.width = matrix.getNrColumns();
-        this.height = matrix.getNrRows();
-        this.setPadding(20, 0, 20, 0);
-        this.paint.setColor(Color.BLACK);
-        this.paint.setStrokeWidth(5);
+        width = matrix.getNrColumns();
+        height = matrix.getNrRows();
+        setPadding(20, 0, 20, 0);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(5);
         this.setOrientation(LinearLayout.HORIZONTAL);
         this.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        this.columns = new ArrayList<>(width);
+        columns = new ArrayList<>(width);
+
+        inDotMode = width > 4;
 
         setOnClickListener(new OnClickListener() {
             @Override
@@ -109,23 +112,15 @@ public class MatrixView extends LinearLayout {
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
         updateFields();
-
-
-        for(LinearLayout column : columns) {
-            for(int i = 0; i < column.getChildCount(); i++) {
-                View v = column.getChildAt(i);
-                v.setVisibility(GONE);
-                v.setVisibility(VISIBLE);
-            }
-        }
-
-        setVisibility(GONE);
-        setVisibility(VISIBLE);
         invalidate();
     }
 
     public Matrix getContentMatrix() {
         return matrix;
+    }
+
+    public boolean isInDotMode(){
+        return inDotMode;
     }
 
     public void dispatchDraw(Canvas c) {
