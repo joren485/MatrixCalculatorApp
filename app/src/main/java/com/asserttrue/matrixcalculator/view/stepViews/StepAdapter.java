@@ -8,6 +8,13 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
+/**
+ * Adapter for objects of the step interface. The toView method of this interface may produce a
+ * different kind of view depending on the type of step.
+ *
+ * When recycling these views, the setViewContent(View) method of the step interface is used to fill
+ * views of the appopriate type with new results.
+ */
 public class StepAdapter extends ArrayAdapter<Step> {
 
     private final Context context;

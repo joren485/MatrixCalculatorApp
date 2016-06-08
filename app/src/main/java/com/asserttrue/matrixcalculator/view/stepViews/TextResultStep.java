@@ -5,8 +5,10 @@ import android.view.View;
 
 import java.util.Locale;
 
+/**
+ * Step containing a result that, but no numbers or matrices to show; only text.
+ */
 public abstract class TextResultStep implements Step {
-
 
     @Override
     public View toView(Context context) {
@@ -27,8 +29,16 @@ public abstract class TextResultStep implements Step {
     public int getLayoutType() {
         return TEXT_RESULT;
     }
-
+    /**
+     * Get a string to show to the user as explanation. Varies per kind of computation.
+     */
     protected abstract String getExplanation();
+
+
+    /**
+     * The following classes are implementations which share the same layout but have slightly
+     * different explanations.
+     */
 
     public static class InvErrorStep extends TextResultStep {
 

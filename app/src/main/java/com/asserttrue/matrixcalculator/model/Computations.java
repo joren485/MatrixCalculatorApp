@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class containing static methods carrying out algorithms on matrices. Every important
+ * moment in the computation is stored in a Step. A list of all these steps is returning.
+ */
 public abstract class Computations {
 
     public static List<Step> determinant(Matrix matrix) {
@@ -133,7 +137,7 @@ public abstract class Computations {
         }
 
         steps.add(new SingleMatrixStep.InvIdentityStep(new Matrix(A)));
-        steps.add(0, new Step.InvResultStep(new Matrix(A).getRightMatrix()));
+        steps.add(0, new Step.ResultStep(new Matrix(A).getRightMatrix()));
 
         return steps;
     }
@@ -216,7 +220,7 @@ public abstract class Computations {
 
     public static List<Step> product(Matrix left, Matrix right) {
 
-        final List<Step> steps = new LinkedList<>();
+        final List<Step> steps = new ArrayList<>();
 
         if(left.getNrColumns() != right.getNrRows()) {
             steps.add(new TextResultStep.MultErrorStep(left.getNrColumns(), right.getNrRows()));
@@ -279,8 +283,17 @@ public abstract class Computations {
         return steps;
     }
 
-    public static List<Step> exponentiation(Matrix matrix) {
-        return null;
+    public static List<Step> exponentiation(Matrix matrix, int n) {
+        Matrix original = matrix;
+        List<Step> steps = new ArrayList<>();
+
+        for(int exp = 2; exp <= n; exp++) {
+            matrix = Matrix.times(matrix, original);
+            steps.add(new SingleMatrixStep.ExpStep(matrix, exp));
+        }
+
+        steps.add(0, new Step.ResultStep(matrix));
+        return steps;
     }
 }
 

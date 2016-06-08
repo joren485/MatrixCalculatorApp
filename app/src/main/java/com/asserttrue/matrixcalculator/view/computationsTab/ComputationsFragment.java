@@ -32,6 +32,16 @@ public class ComputationsFragment extends Fragment {
 
         final LinearLayout cards = (LinearLayout) root.findViewById(R.id.computations_layout);
 
+        cards.getChildAt(5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ChooseMatrixActivity.class);
+                intent.putExtra("numMatrices", 1);
+                intent.putExtra("computation", "exponent");
+                startActivity(intent);
+            }
+        });
+
         cards.getChildAt(4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

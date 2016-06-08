@@ -9,6 +9,9 @@ import com.asserttrue.matrixcalculator.model.Rational;
 
 import java.util.Locale;
 
+/**
+ * Step containing the matrix (of which the determinant is being computeted) multiplied by a scalar.
+ */
 public abstract class DetScalarStep implements Step {
     protected final Matrix matrix;
     protected final Rational scalar;
@@ -41,7 +44,15 @@ public abstract class DetScalarStep implements Step {
         return DET_MATRIX_SCALAR;
     }
 
+    /**
+     * Get a string to show to the user as explanation. Varies per kind of computation.
+     */
     protected abstract String getExplanation();
+
+    /**
+     * The following are implementations of this class, which share the same layout but have slightly
+     * different explanations.
+     */
 
     public static class DetColumnElimStep extends DetScalarStep {
         private final int columnIndex;

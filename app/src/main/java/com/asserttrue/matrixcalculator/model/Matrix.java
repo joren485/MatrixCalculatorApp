@@ -99,6 +99,24 @@ public class Matrix {
         return augmentedColumnIndex;
     }
 
+    public static Matrix times(Matrix left, Matrix right) {
+        final Matrix product = new Matrix(right.getNrColumns(), left.getNrRows());
+
+        for(int row = 0; row < product.getNrRows(); row++) {
+            for(int column = 0; column < product.getNrColumns(); column++) {
+                final Rational result = new Rational(0);
+
+                for(int term = 0; term < left.getNrColumns(); term++) {
+                    result.plusIs( left.getValueAt(term, row).times(right.getValueAt(column, term)) );
+                }
+
+                product.setValue(column, row, result);
+            }
+        }
+
+        return product;
+    }
+
     // Row reduction tools:
 
     /**

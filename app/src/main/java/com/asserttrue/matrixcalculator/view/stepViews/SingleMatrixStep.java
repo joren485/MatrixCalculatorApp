@@ -9,6 +9,9 @@ import com.asserttrue.matrixcalculator.model.Rational;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Step containing just a matrix and text explaining the step.
+ */
 public abstract class SingleMatrixStep implements Step {
     protected final Matrix matrix;
 
@@ -37,9 +40,15 @@ public abstract class SingleMatrixStep implements Step {
     public int getLayoutType() {
         return SINGLE_MATRIX;
     }
-
+    /**
+     * Get a string to show to the user as explanation. Varies per kind of computation.
+     */
     protected abstract String getExplanation();
 
+    /**
+     * The following classes are implementations which share the same layout but have slightly
+     * different explanations.
+     */
 
     public static class ColumnEliminateStep extends SingleMatrixStep {
         private final int columnIndex;
@@ -241,6 +250,22 @@ public abstract class SingleMatrixStep implements Step {
             sb.append(" = ").append(result.toString());
 
             return sb.toString();
+        }
+    }
+
+    public static class ExpStep extends SingleMatrixStep {
+        private final int exponent;
+        private final Matrix matrix;
+
+        public ExpStep( Matrix matrix, int exponent) {
+            super(matrix);
+            this.exponent = exponent;
+            this.matrix = matrix;
+        }
+
+        @Override
+        protected String getExplanation() {
+            return "Find the power " + exponent + " of the Matrix.";
         }
     }
 }

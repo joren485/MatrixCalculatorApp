@@ -63,6 +63,8 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             case "sum":
                 text.setText("Matrix Addition");
                 break;
+            case "exponent":
+                text.setText("Matrix Exponentiation");
             default:
                 text.setVisibility(View.GONE);
         }
@@ -174,8 +176,11 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             case "determinant":
                 curComp.setSteps(Computations.determinant(selectedList[0].getContentMatrix()));
                 break;
-            case "sum" :
+            case "sum":
                 curComp.setSteps(Computations.addition(selectedList[0].getContentMatrix(), selectedList[1].getContentMatrix()));
+                break;
+            case "exponent":
+                curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), 5));
                 break;
             default:
                 return;
