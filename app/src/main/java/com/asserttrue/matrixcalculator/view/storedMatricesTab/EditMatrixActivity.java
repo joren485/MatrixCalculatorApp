@@ -3,7 +3,9 @@ package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,13 +41,13 @@ public class EditMatrixActivity extends AppCompatActivity {
         hDB = new DatabaseHandler(getApplicationContext());
 
         matrixName = (EditText) findViewById(R.id.matrixName);
+        matrixName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
 
         Spinner columnSpinner = (Spinner) findViewById(R.id.numColumns);
         Spinner rowSpinner = (Spinner) findViewById(R.id.numRows);
 
         final MathTextButton zeroButton = (MathTextButton) findViewById(R.id.zeroMatrixButton);
         final MathTextButton identityButton = (MathTextButton) findViewById(R.id.identityMatrixButton);
-        final CheckBox augmentedCheckbox = (CheckBox) findViewById(R.id.augmentedCheckbox);
 
         saveMatrixBox = (CheckBox) findViewById(R.id.saveMatrixCheckbox);
         finishEditingButton = (Button) findViewById(R.id.finishEditingButton);
@@ -59,6 +61,7 @@ public class EditMatrixActivity extends AppCompatActivity {
         rowSpinner.setAdapter(adapter);
 
         grid = (EditMatrixGridView) findViewById(R.id.gridView);
+        grid.setNumColumns(2);
 
         EditMatrixSingleton matrixSettings = EditMatrixSingleton.getInstance();
 
@@ -81,12 +84,6 @@ public class EditMatrixActivity extends AppCompatActivity {
 
         if (matrixName.getText().toString().isEmpty() && saveMatrixBox.isChecked())
             finishEditingButton.setEnabled(false);
-
-        if (matrixSettings.editMatrix.getAugmentedColumnIndex() >= 0 && matrixSettings.editMatrix.getAugmentedColumnIndex() < matrixSettings.editMatrix.getNrColumns()) {
-            augmentedCheckbox.setChecked(true);
-        } else {
-            augmentedLineSeekbar.setVisibility(View.GONE);
-        }
 
         editMatrixAdapter = new EditMatrixAdapter(this, matrixSettings.editMatrix);
         grid.setAdapter(editMatrixAdapter);
@@ -209,17 +206,6 @@ public class EditMatrixActivity extends AppCompatActivity {
                 } else {
                     finishEditingButton.setEnabled(true);
                     matrixName.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        augmentedCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                augmentedLineSeekbar.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                if (!isChecked) {
-                    editMatrixAdapter.updateAugmentedIndex(-1);
-                    augmentedLineSeekbar.setProgress(0  );
                 }
             }
         });

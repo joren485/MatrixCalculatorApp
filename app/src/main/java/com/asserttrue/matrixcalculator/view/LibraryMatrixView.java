@@ -71,4 +71,8 @@ public class LibraryMatrixView extends LinearLayout {
     public Matrix getContentMatrix() {
         return matrixView.getContentMatrix();
     }
+
+    public boolean isInDotMode(){
+        return matrixView.isInDotMode();
+    }
 }

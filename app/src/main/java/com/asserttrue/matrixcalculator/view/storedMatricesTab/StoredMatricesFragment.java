@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
+import com.asserttrue.matrixcalculator.view.MatrixView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +23,7 @@ import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
 public class StoredMatricesFragment extends Fragment {
 
     private View root;
+    private LinearLayout matrixList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +32,8 @@ public class StoredMatricesFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_storedmatrices, container, false);
 
         FloatingActionButton button = (FloatingActionButton) root.findViewById(R.id.addMatrixButton);
+
+        matrixList = (LinearLayout) root.findViewById(R.id.computations_list);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +53,6 @@ public class StoredMatricesFragment extends Fragment {
 
         DatabaseHandler hDB = new DatabaseHandler(getContext());
 
-        LinearLayout matrixList = (LinearLayout) root.findViewById(R.id.computations_list);
-
         matrixList.removeAllViews();
 
         for (Matrix m : hDB.readAllMatrices()){
@@ -68,4 +71,28 @@ public class StoredMatricesFragment extends Fragment {
             matrixList.addView(matrixView);
         }
     }
+
+    @Override
+    public void setUserVisibleHint(boolean visibleToUser) {
+
+        if (visibleToUser) {
+            if (showToast()){
+                Toast.makeText(getContext(), "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public boolean showToast(){
+        for (int i = 0; i < matrixList.getChildCount(); i++){
+
+            LibraryMatrixView libraryMatrixView = (LibraryMatrixView) matrixList.getChildAt(i);
+
+            if (libraryMatrixView.isInDotMode()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

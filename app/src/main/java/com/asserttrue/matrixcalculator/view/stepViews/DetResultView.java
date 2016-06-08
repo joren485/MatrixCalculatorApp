@@ -13,7 +13,6 @@ import com.asserttrue.matrixcalculator.model.Rational;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
 public class DetResultView extends LinearLayout {
-    private final RelativeLayout matrixContainer;
     private final MatrixView matrixView;
     private final TextView scalarView;
 
@@ -23,7 +22,7 @@ public class DetResultView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.cardview_det_result_step, this, true);
 
-        matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
+        RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, matrix);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
