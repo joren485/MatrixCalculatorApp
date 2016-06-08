@@ -27,10 +27,13 @@ public class Rational {
 
         numerator = Long.parseLong(decimal);
 
-        if (dotIndex >= 0)
+        if (dotIndex >= 0){
             denominator = (long) Math.pow(10, (decimal.length() - dotIndex));
-        else
+        }
+
+        else{
             denominator = 1;
+        }
 
         simplifyFraction();
     }

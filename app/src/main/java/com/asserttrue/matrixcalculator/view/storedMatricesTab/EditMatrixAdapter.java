@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.model.Rational;
@@ -129,15 +130,25 @@ public class EditMatrixAdapter extends BaseAdapter {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    String text = s.toString();
-
-                    if (!text.isEmpty() && !text.equals(".") && !text.equals("-")) {
-                        matrix.setValue(x, y, new Rational(text));
-                    }
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {}
+                public void afterTextChanged(Editable s) {
+
+                    String text = s.toString();
+
+                    if (!text.isEmpty() && !text.equals(".") && !text.equals("-")) {
+
+                        try{
+                            matrix.setValue(x, y, new Rational(text));
+                        }
+                        catch (NumberFormatException e){
+                            Toast.makeText(mContext, "Number too long.", Toast.LENGTH_SHORT).show();
+                            s.clear();
+                            matrix.setValue(x, y, new Rational(0));
+                        }
+                    }
+                }
             });
 
 
