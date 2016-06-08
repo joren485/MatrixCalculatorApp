@@ -267,16 +267,16 @@ public abstract class Computations {
             return steps;
         }
 
-        final Matrix sum = new Matrix(right.getNrRows(), right.getNrColumns());
+        final Matrix sum = new Matrix(right.getNrColumns(), right.getNrRows());
 
-        for(int row = 0; row < right.getNrColumns(); row++) {
+        for(int row = 0; row < right.getNrRows(); row++) {
             for(int column  = 0; column < right.getNrColumns(); column++) {
                 final Rational leftValueAt = left.getValueAt(column, row);
                 final Rational rightValueAt = right.getValueAt(column, row);
                 final Rational result = leftValueAt.plus(rightValueAt);
 
                 sum.setValue(column, row, result);
-                steps.add(new SingleMatrixStep.AddCellStep(new Matrix(sum), row, column, leftValueAt, rightValueAt, result));
+                steps.add(new SingleMatrixStep.AddCellStep(new Matrix(sum), column, row, leftValueAt, rightValueAt, result));
             }
         }
 
