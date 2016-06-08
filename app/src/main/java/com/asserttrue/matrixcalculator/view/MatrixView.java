@@ -46,7 +46,7 @@ public class MatrixView extends LinearLayout {
         columns = new ArrayList<>(width);
 
         canBeDotMode = dotModePossible;
-        inDotMode = (width > 4  || height > 4) && canBeDotMode;
+        inDotMode = width > 4 && canBeDotMode;
 
         setOnClickListener(new OnClickListener() {
             @Override
@@ -71,18 +71,12 @@ public class MatrixView extends LinearLayout {
                 TextView view = new TextView(mContext);
                 view.setGravity(Gravity.CENTER);
                 view.setPadding(10, 10, 10, 10);
-
-                if (inDotMode && (x == 2 || y == 2)) {
+                if (inDotMode && (x == 2 || y == 2))
                     view.setText(dotViewStrings[y][x]);
-                } else {
+                else
                     view.setText(matrix.getValueAt(x, y).toString());
-                }
-
-                if (inDotMode) {
-                    view.setTextSize(24 - 1.6F * Math.min(3, matrix.getNrColumns()));
-                } else {
-                    view.setTextSize(24 - 1.6F * matrix.getNrColumns());
-                }
+                if (!inDotMode)
+                    view.setTextSize(18 - matrix.getNrColumns());
                 column.addView(view);
             }
             if (x == matrix.getAugmentedColumnIndex()) {

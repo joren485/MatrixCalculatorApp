@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
@@ -111,10 +112,6 @@ public class EditMatrixActivity extends AppCompatActivity {
                 editMatrixAdapter.updateNrOfColumns(position + 1);
                 grid.setNumColumns(position + 1);
                 augmentedLineSeekbar.setMax(position + 1);
-                if (editMatrixAdapter.isSquare())
-                    identityButton.setEnabled(true);
-                else
-                    identityButton.setEnabled(false);
             }
 
             @Override
@@ -126,10 +123,6 @@ public class EditMatrixActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editMatrixAdapter.updateNrOfRows(position + 1);
-                if (editMatrixAdapter.isSquare())
-                    identityButton.setEnabled(true);
-                else
-                    identityButton.setEnabled(false);
             }
 
             @Override
@@ -153,7 +146,13 @@ public class EditMatrixActivity extends AppCompatActivity {
         identityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editMatrixAdapter.setIdentityMatrix();
+
+                if (editMatrixAdapter.isSquare()){
+                    editMatrixAdapter.setIdentityMatrix();
+                }
+                else{
+                    Toast.makeText(EditMatrixActivity.this, "Matrix is not square.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
