@@ -28,6 +28,10 @@ public class MatrixView extends LinearLayout {
 
     private ArrayList<LinearLayout> columns;
 
+    private boolean inDotMode = true;
+
+    private String[][] dotViewStrings = {{"", "", "\u22ef"}, {"", "", "\u22ef"}, {"\u22ee", "\u22ee", "\u22f1"}};
+
     public MatrixView (Context c, Matrix matrix) {
         super(c);
         this.mContext = c;
@@ -40,19 +44,32 @@ public class MatrixView extends LinearLayout {
         this.setOrientation(LinearLayout.HORIZONTAL);
         this.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         this.columns = new ArrayList<>(width);
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchDotMode();
+            }
+        });
+
         init();
     }
 
     private void init() {
-        for (int x = 0; x < width; x++) {
+        removeAllViews();
+        for (int x = 0; x < (inDotMode ? Math.min(3, width) : width); x++) {
             LinearLayout column = new LinearLayout(mContext);
             column.setOrientation(LinearLayout.VERTICAL);
-            for (int y = 0; y < height; y++) {
+            for (int y = 0; y < (inDotMode ? Math.min(3, height) : height); y++) {
                 TextView view = new TextView(mContext);
                 view.setGravity(Gravity.CENTER);
                 view.setPadding(10, 10, 10, 10);
-                view.setTextSize(18 - matrix.getNrColumns());
-                view.setText(matrix.getValueAt(x, y).toString());
+                if (inDotMode && (x == 2 || y == 2))
+                    view.setText(dotViewStrings[y][x]);
+                else
+                    view.setText(matrix.getValueAt(x, y).toString());
+                if (!inDotMode)
+                    view.setTextSize(18 - matrix.getNrColumns());
                 column.addView(view);
             }
             if (x == matrix.getAugmentedColumnIndex()) {
@@ -72,6 +89,12 @@ public class MatrixView extends LinearLayout {
             this.addView(column);
             columns.add(column);
         }
+    }
+
+    private void switchDotMode() {
+        inDotMode = !inDotMode;
+        init();
+        invalidate();
     }
 
     private void updateFields() {
