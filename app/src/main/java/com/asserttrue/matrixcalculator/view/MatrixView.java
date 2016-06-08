@@ -51,6 +51,7 @@ public class MatrixView extends LinearLayout {
                 TextView view = new TextView(mContext);
                 view.setGravity(Gravity.CENTER);
                 view.setPadding(10, 10, 10, 10);
+                view.setTextSize(18 - matrix.getNrColumns());
                 view.setText(matrix.getValueAt(x, y).toString());
                 column.addView(view);
             }
