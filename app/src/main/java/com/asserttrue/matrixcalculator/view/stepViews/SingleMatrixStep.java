@@ -321,4 +321,19 @@ public abstract class SingleMatrixStep implements Step {
             return "Set cell (" + (row + 1) + ", " + (column + 1) + "), which was " + result + " in the original matrix.";
         }
     }
+
+    public static class FirstStep extends SingleMatrixStep {
+
+        private final String computation;
+
+        public FirstStep(Matrix matrix, String computation) {
+            super(matrix);
+            this.computation = computation;
+        }
+
+        @Override
+        public String getExplanation() {
+            return "Calculating " + computation + " of this matrix.";
+        }
+    }
 }

@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--
-    <color name="colorPrimary">@android:color/holo_blue_light</color>
-    <color name="colorPrimaryDark">@android:color/holo_blue_dark</color>
-    <color name="colorAccent">@android:color/holo_red_light</color>
-    <color name="textColorPrimary">@android:color/white</color>
-    <color name="cardBackground">#e0e0e0</color>
-
-    -->
-
-
     <color name="colorPrimaryDark">#506d7b</color>
     <color name="colorPrimary">#607d8b</color>
     <color name="colorAccent">@android:color/holo_orange_dark</color>
     <color name="textColorPrimary">@android:color/white</color>
     <color name="cardBackground">#cfd8dc</color>
-    <!--
-    <color name="resultBackground">#42B2A6</color>
-    -->
     <color name="resultBackground">#42B2A6</color>
 
 

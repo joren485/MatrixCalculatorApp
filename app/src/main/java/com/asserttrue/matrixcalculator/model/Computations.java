@@ -2,8 +2,7 @@ package com.asserttrue.matrixcalculator.model;
 
 
 import com.asserttrue.matrixcalculator.view.stepViews.DetScalarStep;
-import com.asserttrue.matrixcalculator.view.stepViews.DoubleMatrixFirstStep;
-import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixFirstStep;
+import com.asserttrue.matrixcalculator.view.stepViews.DoubleMatrixStep;
 import com.asserttrue.matrixcalculator.view.stepViews.SingleMatrixStep;
 import com.asserttrue.matrixcalculator.view.stepViews.Step;
 import com.asserttrue.matrixcalculator.view.stepViews.TextResultStep;
@@ -29,7 +28,7 @@ public abstract class Computations {
             return steps;
         }
 
-        steps.add(new SingleMatrixFirstStep(matrix, "determinant"));
+        steps.add(new SingleMatrixStep.FirstStep(matrix, "determinant"));
 
         // Determinant of upper-triangular matrix with identity diagonal is 1.
         // We multiply this result by the determinant of the elementary matrices required to reduce A to that form.
@@ -95,7 +94,7 @@ public abstract class Computations {
             return steps;
         }
 
-        steps.add(new SingleMatrixFirstStep(matrix, "inverse"));
+        steps.add(new SingleMatrixStep.FirstStep(matrix, "inverse"));
 
         Matrix A = new Matrix(matrix, Matrix.identity(matrix.getNrColumns()));
 
@@ -160,7 +159,7 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         LinkedList<Step> steps = new LinkedList<>();
 
-        steps.add(new SingleMatrixFirstStep(matrix, "kernel"));
+        steps.add(new SingleMatrixStep.FirstStep(matrix, "kernel"));
 
         List<Matrix> kernelBasis = new ArrayList<>();
         List<Integer> pivotColumns = new ArrayList<>();
@@ -235,7 +234,7 @@ public abstract class Computations {
             return steps;
         }
 
-        steps.add(new DoubleMatrixFirstStep(left, right, "product"));
+        steps.add(new DoubleMatrixStep(left, right, "product"));
 
         final Matrix product = new Matrix(right.getNrColumns(), left.getNrRows());
 
@@ -276,7 +275,7 @@ public abstract class Computations {
             return steps;
         }
 
-        steps.add(new DoubleMatrixFirstStep(left, right, "sum"));
+        steps.add(new DoubleMatrixStep(left, right, "sum"));
 
         final Matrix sum = new Matrix(right.getNrColumns(), right.getNrRows());
 
@@ -303,7 +302,7 @@ public abstract class Computations {
             steps.add(new TextResultStep.ExpErrorStep());
         }
 
-        steps.add(new SingleMatrixFirstStep(matrix, "power " + n));
+        steps.add(new SingleMatrixStep.FirstStep(matrix, "power " + n));
 
         if(n == 0) {
             steps.add(new Step.ResultStep(new Matrix(matrix.getNrColumns(), matrix.getNrRows())));
@@ -342,7 +341,7 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         final LinkedList<Step> steps = new LinkedList<>();
 
-        steps.add(new SingleMatrixFirstStep(matrix, "row echelon form"));
+        steps.add(new SingleMatrixStep.FirstStep(matrix, "row echelon form"));
 
         if(A.getAugmentedColumnIndex() == -1) {
             // We'll draw the augmented line on the second to right column by default. This is the convention.
@@ -401,9 +400,7 @@ public abstract class Computations {
         final LinkedList<Step> steps = new LinkedList<>();
         Matrix transpose = new Matrix(original.getNrRows(), original.getNrColumns());
 
-        steps.add(new SingleMatrixFirstStep(original, "transpose"));
-
-        steps.add(new SingleMatrixFirstStep(original, "transpose"));
+        steps.add(new SingleMatrixStep.FirstStep(original, "transpose"));
 
         steps.add(new SingleMatrixStep.TransCreateStep(new Matrix(transpose)));
 

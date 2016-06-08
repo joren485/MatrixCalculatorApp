@@ -19,10 +19,9 @@ public interface Step {
     int DET_RESULT = 3;
     int VECTOR_SPAN = 4;
     int TEXT_RESULT = 5;
-    int FIRST_DOUBLE_MATRIX = 6;
-    int FIRST_SINGLE_MATRIX = 7;
+    int DOUBLE_MATRIX = 6;
 
-    int NR_TYPES = 8;
+    int NR_TYPES = 7;
 
     /**
      * Get a view explaining this step.

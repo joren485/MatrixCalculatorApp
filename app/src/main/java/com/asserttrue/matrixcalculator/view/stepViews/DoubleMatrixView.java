@@ -11,16 +11,16 @@ import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
-public class DoubleMatrixFirstView extends LinearLayout {
+public class DoubleMatrixView extends LinearLayout {
     private final MatrixView matrixViewLeft;
     private final MatrixView matrixViewRight;
-    private final TextView compDescriptionView;
+    private final TextView explanation;
 
-    public DoubleMatrixFirstView(Context context, Matrix left, Matrix right, String computation) {
+    public DoubleMatrixView(Context context, Matrix left, Matrix right, String computation) {
         super(context);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.cardview_mult_matrix_first, this, true);
+        inflater.inflate(R.layout.cardview_double_matrix, this, true);
 
         RelativeLayout matrixContainerLeft = (RelativeLayout) findViewById(R.id.matrixContainerLeft);
         matrixViewLeft = new MatrixView(context, left);
@@ -32,8 +32,8 @@ public class DoubleMatrixFirstView extends LinearLayout {
         matrixViewRight.setGravity(Gravity.CENTER);
         matrixContainerRight.addView(matrixViewRight);
 
-        compDescriptionView = (TextView) findViewById(R.id.computation_desc);
-        compDescriptionView.setText("Calculating " + computation + " of matrices:");
+        explanation = (TextView) findViewById(R.id.explanation);
+        explanation.setText("Calculating " + computation + " of these matrices.");
     }
 
     public void setMatrices(Matrix left, Matrix right) {
@@ -42,6 +42,6 @@ public class DoubleMatrixFirstView extends LinearLayout {
     }
 
     public void setComputation(String computation) {
-        compDescriptionView.setText("Calculating " + computation + " of matrices:");
+        explanation.setText("Calculating " + computation + " of matrices:");
     }
 }

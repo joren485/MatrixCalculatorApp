@@ -16,24 +16,31 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical" >
 
-
-            <com.asserttrue.matrixcalculator.view.MathTextView
-                android:id="@+id/computation_desc"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:layout_marginTop="15sp"
-                android:layout_marginBottom="5sp"
-                android:paddingLeft="6sp"
-                android:paddingRight="6sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <RelativeLayout
-                android:id="@+id/matrixContainer"
+                android:id="@+id/matrixContainerLeft"
                 android:layout_marginTop="20sp"
                 android:layout_marginBottom="20sp"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/matrixContainerRight"
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content" />
+
+            <com.asserttrue.matrixcalculator.view.MathTextView
+                android:id="@+id/explanation"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="15sp"
+                android:paddingLeft="6sp"
+                android:paddingRight="6sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
