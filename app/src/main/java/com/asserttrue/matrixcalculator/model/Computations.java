@@ -28,6 +28,11 @@ public abstract class Computations {
             return steps;
         }
 
+        if (matrix.getAugmentedColumnIndex() != -1) {
+            steps.add(new TextResultStep.AugErrorStep("Determinant"));
+            return steps;
+        }
+
         steps.add(new SingleMatrixStep.FirstStep(matrix, "determinant"));
 
         // Determinant of upper-triangular matrix with identity diagonal is 1.
@@ -91,6 +96,11 @@ public abstract class Computations {
 
         if (! matrix.isSquareMatrix() ) {
             steps.add(new TextResultStep.InvErrorStep());
+            return steps;
+        }
+
+        if (matrix.getAugmentedColumnIndex() != -1) {
+            steps.add(new TextResultStep.AugErrorStep("Inverse"));
             return steps;
         }
 
@@ -234,6 +244,11 @@ public abstract class Computations {
             return steps;
         }
 
+        if (left.getAugmentedColumnIndex() != -1 || right.getAugmentedColumnIndex() != -1) {
+            steps.add(new TextResultStep.AugErrorStep("Matrix multiplication"));
+            return steps;
+        }
+
         steps.add(new DoubleMatrixStep(left, right, "product"));
 
         final Matrix product = new Matrix(right.getNrColumns(), left.getNrRows());
@@ -275,6 +290,11 @@ public abstract class Computations {
             return steps;
         }
 
+        if (left.getAugmentedColumnIndex() != right.getAugmentedColumnIndex()) {
+            steps.add(new TextResultStep.AugAddErrorStep());
+            return steps;
+        }
+
         steps.add(new DoubleMatrixStep(left, right, "sum"));
 
         final Matrix sum = new Matrix(right.getNrColumns(), right.getNrRows());
@@ -294,21 +314,27 @@ public abstract class Computations {
         return steps;
     }
 
-    public static List<Step> exponentiation(Matrix matrix, int n) {
-        Matrix original = matrix;
+    public static List<Step> exponentiation(Matrix original, int n) {
         LinkedList<Step> steps = new LinkedList<>();
 
         if(! original.isSquareMatrix() ) {
             steps.add(new TextResultStep.ExpErrorStep());
+            return steps;
         }
 
-        steps.add(new SingleMatrixStep.FirstStep(matrix, "power " + n));
+        if (original.getAugmentedColumnIndex() != -1) {
+            steps.add(new TextResultStep.AugErrorStep("Exponentiation"));
+            return steps;
+        }
+
+        Matrix matrix = Matrix.identity(original.getNrColumns());
+        steps.add(new SingleMatrixStep.FirstStep(original, "power " + n));
 
         if(n == 0) {
-            steps.add(new Step.ResultStep(new Matrix(matrix.getNrColumns(), matrix.getNrRows())));
+            steps.add(new SingleMatrixStep.ExpStep(matrix, 0));
         }
 
-        for(int exp = 2; exp <= n; exp++) {
+        for(int exp = 1; exp <= n; exp++) {
             matrix = Matrix.times(matrix, original);
             steps.add(new SingleMatrixStep.ExpStep(matrix, exp));
         }
@@ -352,7 +378,7 @@ public abstract class Computations {
 
         int rank = 0;
 
-        for (int column = 0; column < A.getNrColumns() && rank < A.getNrRows(); column++) {
+        for (int column = 0; column < /*A.getNrColumns()*/ A.getAugmentedColumnIndex() && rank < A.getNrRows(); column++) {
             int pivotRow = rank;
 
             for (int row = rank; row < A.getNrRows(); row++) {
@@ -401,6 +427,11 @@ public abstract class Computations {
     public static List<Step> transpose(Matrix original) {
         final LinkedList<Step> steps = new LinkedList<>();
         Matrix transpose = new Matrix(original.getNrRows(), original.getNrColumns());
+
+        if (original.getAugmentedColumnIndex() != -1) {
+            steps.add(new TextResultStep.AugErrorStep("Transpose"));
+            return steps;
+        }
 
         steps.add(new SingleMatrixStep.FirstStep(original, "transpose"));
 

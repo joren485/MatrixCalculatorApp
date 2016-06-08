@@ -24,6 +24,7 @@ public class StoredMatricesFragment extends Fragment {
 
     private View root;
     private LinearLayout matrixList;
+    private boolean hasShownToast = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,8 +77,9 @@ public class StoredMatricesFragment extends Fragment {
     public void setUserVisibleHint(boolean visibleToUser) {
 
         if (visibleToUser) {
-            if (showToast()){
+            if (!hasShownToast && showToast()){
                 Toast.makeText(getContext(), "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
+                hasShownToast = true;
             }
         }
     }

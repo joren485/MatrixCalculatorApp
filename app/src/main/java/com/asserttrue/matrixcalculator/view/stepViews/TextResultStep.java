@@ -86,4 +86,26 @@ public abstract class TextResultStep implements Step {
             return "This matrix is not a square, so it can not be multiplied with itself.";
         }
     }
+
+    public static class AugErrorStep extends TextResultStep {
+
+        private String comp;
+
+        public AugErrorStep(String comp) {
+            this.comp = comp;
+        }
+
+        @Override
+        protected String getExplanation() {
+            return comp + " is not defined for augmented matrices.";
+        }
+    }
+
+    public static class AugAddErrorStep extends TextResultStep {
+
+        @Override
+        protected String getExplanation() {
+            return "These matrices are augmented in a different column, which means addition is not possible.";
+        }
+    }
 }

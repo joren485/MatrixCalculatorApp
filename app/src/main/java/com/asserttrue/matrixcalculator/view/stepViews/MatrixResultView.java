@@ -5,6 +5,11 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
+import android.text.method.KeyListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +46,32 @@ public class MatrixResultView extends LinearLayout {
             public void onClick(View v) {
                 final EditText matrixName = new EditText(getContext());
                 matrixName.setTextColor(Color.BLACK);
+                matrixName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+
+                        if (source instanceof SpannableStringBuilder) {
+                            SpannableStringBuilder sourceAsSpannableBuilder = (SpannableStringBuilder)source;
+                            for (int i = end - 1; i >= start; i--) {
+                                char currentChar = source.charAt(i);
+                                if (!Character.isLetterOrDigit(currentChar) && !Character.isSpaceChar(currentChar)) {
+                                    sourceAsSpannableBuilder.delete(i, i+1);
+                                }
+                            }
+                            return source;
+                        } else {
+                            StringBuilder filteredStringBuilder = new StringBuilder();
+                            for (int i = start; i < end; i++) {
+                                char currentChar = source.charAt(i);
+                                if (Character.isLetterOrDigit(currentChar) || Character.isSpaceChar(currentChar)) {
+                                    filteredStringBuilder.append(currentChar);
+                                }
+                            }
+                            return filteredStringBuilder.toString();
+                        }
+                    }
+                }});
                 new AlertDialog.Builder(getContext())
                         .setIcon(R.drawable.ic_selected)
                         .setMessage("Enter a name for the matrix")
