@@ -29,10 +29,11 @@ public class MatrixView extends LinearLayout {
     private ArrayList<LinearLayout> columns;
 
     private boolean inDotMode;
+    private boolean canBeDotMode;
 
     private String[][] dotViewStrings = {{"", "", "\u22ef"}, {"", "", "\u22ef"}, {"\u22ee", "\u22ee", "\u22f1"}};
 
-    public MatrixView (Context c, Matrix matrix) {
+    public MatrixView (Context c, Matrix matrix, boolean dotModePossible) {
         super(c);
 
         mContext = c;
@@ -46,7 +47,8 @@ public class MatrixView extends LinearLayout {
         this.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         columns = new ArrayList<>(width);
 
-        inDotMode = width > 4;
+        canBeDotMode = dotModePossible;
+        inDotMode = width > 4 && canBeDotMode;
 
         setOnClickListener(new OnClickListener() {
             @Override
@@ -56,6 +58,10 @@ public class MatrixView extends LinearLayout {
         });
 
         init();
+    }
+
+    public MatrixView (Context c, Matrix matrix) {
+        this(c, matrix, false);
     }
 
     private void init() {
@@ -95,6 +101,8 @@ public class MatrixView extends LinearLayout {
     }
 
     private void switchDotMode() {
+        if (!canBeDotMode)
+            return;
         inDotMode = !inDotMode;
         init();
         invalidate();

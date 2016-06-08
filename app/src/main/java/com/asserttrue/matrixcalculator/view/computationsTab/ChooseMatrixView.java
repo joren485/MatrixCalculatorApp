@@ -31,7 +31,7 @@ public class ChooseMatrixView extends LinearLayout {
         inflater.inflate(R.layout.choose_matrix, this, true);
 
         RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
-        matrixView = new MatrixView(context, matrix);
+        matrixView = new MatrixView(context, matrix, true);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
 
