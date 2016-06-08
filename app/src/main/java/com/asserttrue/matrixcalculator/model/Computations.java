@@ -87,7 +87,7 @@ public abstract class Computations {
         List<Step> steps = new ArrayList<>();
 
         if (! matrix.isSquareMatrix() ) {
-
+            steps.add(new TextResultStep.InvErrorStep());
             return steps;
         }
 
