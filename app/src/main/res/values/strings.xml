@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Matrix Pro</string>
+    <string name="app_name">Matrix Calculator</string>
 
     <string name="action_settings">Settings</string>
     <string name="MultiplicationExplanation">In a matrix product, the (i,j)\'th place of the result is found by multiplying the values in the the i\'th row of the left-hand matrix (going left to right) with the values in the j-th column of the right-hand matrix (top to bottom) and adding up these results.\nSo the value at (i,j) is the dot product of row i (transposed) and column j.\n\nThis product is only defined, when the left-hand matrix has just as many rows as the right-hand one has columns.\n\nWith this definition, matrix multiplication behaves just like function composition:\nIf T and U are linear functions with matrices A and B, then TU = T o U has the matrix AB.\n\nSince matrices also correspond uniquely to linear functions, the two notions are really \'identical\';\nThat is, the rings of linear function and of matrices are isomorphic to one another.</string>
