@@ -16,7 +16,6 @@ import com.asserttrue.matrixcalculator.model.Rational;
 import com.asserttrue.matrixcalculator.model.Computations;
 
 public class ComputationsFragment extends Fragment {
-    private static ComputationsFragment ourInstance;
 
     private static final String[] COMPUTATIONS  =
             {"sum", "product", "determinant", "inverse", "kernel"};
@@ -141,12 +140,5 @@ public class ComputationsFragment extends Fragment {
         }
 
         return root;
-    }
-
-    public static ComputationsFragment getInstance() {
-        if(ourInstance == null) {
-            ourInstance = new ComputationsFragment();
-        }
-        return ourInstance;
     }
 }

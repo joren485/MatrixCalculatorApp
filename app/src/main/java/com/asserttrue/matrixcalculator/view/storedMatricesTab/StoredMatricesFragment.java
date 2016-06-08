@@ -20,7 +20,6 @@ import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
  * A simple {@link Fragment} subclass.
  */
 public class StoredMatricesFragment extends Fragment {
-    private static StoredMatricesFragment ourInstance;
 
     private View root;
 
@@ -69,12 +68,5 @@ public class StoredMatricesFragment extends Fragment {
 
             matrixList.addView(matrixView);
         }
-    }
-
-    public static StoredMatricesFragment getInstance() {
-        if(ourInstance == null) {
-            ourInstance = new StoredMatricesFragment();
-        }
-        return ourInstance;
     }
 }

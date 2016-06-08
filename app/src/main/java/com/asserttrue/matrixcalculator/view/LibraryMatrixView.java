@@ -52,16 +52,14 @@ public class LibraryMatrixView extends LinearLayout {
         final int index = parent.indexOfChild(this);
         parent.removeView(this);
 
-        Snackbar undoSnackbar = Snackbar.make(parent, getContentMatrix().getName() + " removed.", Snackbar.LENGTH_LONG)
+        Snackbar.make(parent, getContentMatrix().getName() + " removed.", Snackbar.LENGTH_LONG)
                                         .setAction("UNDO", new OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 dbHandler.createMatrix(getContentMatrix(), getContentMatrix().getName());
                                                 parent.addView(instance(), index);
                                             }
-                                        });
-
-        undoSnackbar.show();
+                                        }).show();
     }
 
     private LibraryMatrixView instance() {
@@ -71,9 +69,4 @@ public class LibraryMatrixView extends LinearLayout {
     public Matrix getContentMatrix() {
         return matrixView.getContentMatrix();
     }
-
-    public boolean isInDotMode(){
-        return matrixView.isInDotMode();
-    }
-
 }
