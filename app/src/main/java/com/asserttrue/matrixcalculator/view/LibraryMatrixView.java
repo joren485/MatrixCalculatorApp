@@ -27,7 +27,7 @@ public class LibraryMatrixView extends LinearLayout {
         inflater.inflate(R.layout.preview_matrix, this, true);
 
         RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
-        matrixView = new MatrixView(context, matrix, true);
+        matrixView = new MatrixView(context, matrix);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);
 
@@ -68,12 +68,12 @@ public class LibraryMatrixView extends LinearLayout {
         return this;
     }
 
-    public Matrix getContentMatrix() {
-        return matrixView.getContentMatrix();
+    public void setMatrix(Matrix matrix) {
+        matrixView.setMatrix(matrix);
     }
 
-    public boolean isInDotMode(){
-        return matrixView.isInDotMode();
+    public Matrix getContentMatrix() {
+        return matrixView.getContentMatrix();
     }
 
 }

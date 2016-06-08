@@ -28,16 +28,6 @@ public class Matrix {
         }
     }
 
-    public Matrix(Matrix original, int nrColumns, int nrRows) {
-        this(nrColumns, nrRows);
-        for (int y = 0; y < Math.min(nrRows, original.getNrRows()); y++) {
-            for (int x = 0; x < Math.min(nrColumns, original.getNrColumns()); x++) {
-                setValue(x, y, original.getValueAt(x, y));
-            }
-        }
-        setAugmentedColumnIndex(original.getAugmentedColumnIndex());
-    }
-
     public static Matrix identity(int size) {
         Matrix id = new Matrix(size, size);
 
@@ -190,6 +180,19 @@ public class Matrix {
         return getNrRows() == getNrColumns();
     }
 
+    public String toString(){
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int y = 0; y< getNrRows(); y++){
+            for (int x = 0; x < getNrColumns(); x++){
+                sb.append(String.format(" %s ", String.valueOf(getValueAt(x, y).toReal())));
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
+
     public Matrix getColumnVector(int n) {
         if( n < 0 || n >= getNrColumns()) {
             throw new IllegalArgumentException("Column index out of range.");
@@ -226,21 +229,5 @@ public class Matrix {
 
     public void setAugmentedColumnIndex(int i) {
         augmentedColumnIndex = i;
-    }
-
-    @Override
-    public String toString(){
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int y = 0; y < getNrRows(); y++){
-            for (int x = 0; x < getNrColumns(); x++){
-                sb.append(String.format("%s/%s ",
-                        String.valueOf(getValueAt(x, y).getNumerator()),
-                        String.valueOf(getValueAt(x, y).getDenominator())));
-            }
-        }
-        sb.setLength(sb.length() - 1);
-        return sb.toString();
     }
 }

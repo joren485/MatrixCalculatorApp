@@ -19,7 +19,7 @@ public class ComputationsFragment extends Fragment {
     private static ComputationsFragment ourInstance;
 
     private static final String[] COMPUTATIONS  =
-            {"sum", "product", "determinant", "inverse", "kernel"};
+            {"sum", "product", "scalar mult", "determinant", "inverse", "kernel", "exponent", "rref"};
 
     public ComputationsFragment() {
 
@@ -139,7 +139,7 @@ public class ComputationsFragment extends Fragment {
                 }
             });
         }
-
+        
         return root;
     }
 

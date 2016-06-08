@@ -1,21 +1,26 @@
 package com.asserttrue.matrixcalculator.view.computationsTab;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Computations;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.model.Matrix;
+import com.asserttrue.matrixcalculator.model.Rational;
 import com.asserttrue.matrixcalculator.view.MathTextView;
+import com.asserttrue.matrixcalculator.view.MathTitleTextView;
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixActivity;
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixSingleton;
+
+import java.util.ArrayList;
 
 public class ChooseMatrixActivity extends AppCompatActivity {
 
@@ -27,8 +32,6 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     private String computationName;
 
     private int currentSelectionIndex = -1;
-
-    private boolean makeToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 text.setText("Matrix Inverse");
                 break;
             case "determinant":
-                text.setText("Matrix Determinant");
+                text.setText("Determinant");
                 break;
             case "sum":
                 text.setText("Matrix Addition");
@@ -76,40 +79,30 @@ public class ChooseMatrixActivity extends AppCompatActivity {
 
         DatabaseHandler hDB = new DatabaseHandler(this);
 
-        boolean makeToast = false;
+        for (Matrix m : hDB.getAllMatrices()){
+            final ChooseMatrixView matrixView = new ChooseMatrixView(this, m, m.getName(), requiredMatrices);
+            matrixList.addView(matrixView);
 
-        for (Matrix m : hDB.readAllMatrices()){
-            final ChooseMatrixView chooseMatrixView = new ChooseMatrixView(this, m, m.getName(), requiredMatrices);
-            matrixList.addView(chooseMatrixView);
-
-            if (chooseMatrixView.isInDotMode()){
-                makeToast = true;
-            }
-
-            chooseMatrixView.setOnClickListener(new View.OnClickListener() {
+            matrixView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
 
                     currentSelectionIndex = (currentSelectionIndex + 1) % requiredMatrices;
 
-                    if (chooseMatrixView.isSelected(currentSelectionIndex)) {
-                        chooseMatrixView.setIndex(currentSelectionIndex, false);
+                    if (matrixView.isSelected(currentSelectionIndex)) {
+                        matrixView.setIndex(currentSelectionIndex, false);
                         selectedList[currentSelectionIndex] = null;
                     } else {
                         if (selectedList[currentSelectionIndex] != null)
                             selectedList[currentSelectionIndex].setIndex(currentSelectionIndex, false);
-                        chooseMatrixView.setIndex(currentSelectionIndex, true);
-                        selectedList[currentSelectionIndex] = chooseMatrixView;
+                        matrixView.setIndex(currentSelectionIndex, true);
+                        selectedList[currentSelectionIndex] = matrixView;
                     }
 
                     startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
                 }
             });
-        }
-
-        if (makeToast) {
-            Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
         }
 
         addMatrixButton.setOnClickListener(new View.OnClickListener() {
@@ -156,13 +149,6 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                     startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
                 }
             });
-
-            if (matrixView.isInDotMode() && !makeToast){
-                makeToast = true;
-
-                Toast.makeText(this, "Press the matrix to see the whole matrix.", Toast.LENGTH_SHORT).show();
-            }
-
             matrixList.addView(matrixView);
         }
         settings.setVariables(null, null, false, false, false);

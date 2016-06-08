@@ -44,6 +44,18 @@
                 />
 
             <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/scalar_multiplication"
+                custom:computation_name="Scalar Multiplication"
+                android:src="@drawable/scalar_mult_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
                 android:id="@+id/determinant_card"
                 custom:computation_name="Matrix Determinant"
                 android:src="@drawable/determinant_image"
@@ -83,6 +95,18 @@
                 android:id="@+id/exponent_card"
                 custom:computation_name="Exponentiation"
                 android:src="@drawable/exponentiation_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/rref_card"
+                custom:computation_name="Row Echelon Form"
+                android:src="@drawable/rref_image"
                 android:layout_marginRight="8sp"
                 android:layout_marginLeft="8sp"
                 android:layout_marginTop="4sp"
