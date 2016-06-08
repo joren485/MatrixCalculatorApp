@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardBackground" >
+
+    <ScrollView
+        android:id="@+id/computations_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/computations_layout"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/addition_card"
+                custom:computation_name="Matrix Addition"
+                android:src="@drawable/addition_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/multiplication_card"
+                custom:computation_name="Matrix Multiplication"
+                android:src="@drawable/multiplication_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/scalar_multiplication"
+                custom:computation_name="Scalar Multiplication"
+                android:src="@drawable/scalar_mult_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/determinant_card"
+                custom:computation_name="Matrix Determinant"
+                android:src="@drawable/determinant_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/inverse_card"
+                custom:computation_name="Matrix Inverse"
+                android:src="@drawable/inverse_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/kernel_card"
+                custom:computation_name="Kernel Span"
+                android:src="@drawable/kernel_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/exponent_card"
+                custom:computation_name="Exponentiation"
+                android:src="@drawable/exponentiation_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+            <com.asserttrue.matrixcalculator.view.computationsTab.FormulaCardView
+                android:id="@+id/rref_card"
+                custom:computation_name="Row Echelon Form"
+                android:src="@drawable/rref_image"
+                android:layout_marginRight="8sp"
+                android:layout_marginLeft="8sp"
+                android:layout_marginTop="4sp"
+                android:layout_marginBottom="4sp"
+                android:layout_width="match_parent"
+                android:layout_height="150sp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

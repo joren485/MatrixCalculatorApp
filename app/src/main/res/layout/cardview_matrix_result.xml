@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginRight="8sp"
+        android:layout_marginTop="4sp"
+        android:paddingTop="15sp">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/resultContainer"
+                android:background="@color/resultBackground"
+                android:orientation="vertical">
+
+                <com.asserttrue.matrixcalculator.view.MathTitleTextView
+                    android:id="@+id/explanation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15sp"
+                    android:gravity="center"
+                    android:text="Result"
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingBottom="20sp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/matrixContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20sp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/saveMatrixButton"
+                app:fabSize="mini"
+                android:src="@android:drawable/ic_menu_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:tint="@color/resultBackground"
+                app:backgroundTint="@color/textColorPrimary"
+                app:layout_anchor="@id/resultContainer"
+                app:layout_anchorGravity="top|right|end"
+                />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </android.support.v7.widget.CardView>
+
+</merge>

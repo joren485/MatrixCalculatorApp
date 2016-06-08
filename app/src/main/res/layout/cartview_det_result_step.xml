@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="15sp"
+        android:layout_marginRight="8sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginTop="4sp"
+        android:layout_marginBottom="4sp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/resultBackground"
+            android:orientation="vertical"
+            >
+
+            <com.asserttrue.matrixcalculator.view.MathTitleTextView
+                android:id="@+id/explanation"
+                android:text="Result"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingTop="10sp"
+                android:paddingBottom="10sp"
+                >
+
+                <com.asserttrue.matrixcalculator.view.MathTextView
+                    android:text=" det "
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/on_card_font"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/matrixContainer"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <com.asserttrue.matrixcalculator.view.MathTextView
+                    android:text="  =  "
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <com.asserttrue.matrixcalculator.view.MathTextView
+                    android:id="@+id/scalar"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/on_card_font"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</merge>
