@@ -12,19 +12,16 @@ import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
 public class SingleMatrixView extends LinearLayout {
-    private final RelativeLayout matrixContainer;
     private final MatrixView matrixView;
     private final TextView explanationView;
-    private final Context context;
 
     public SingleMatrixView(Context context, Matrix matrix, String explanation) {
         super(context);
-        this.context = context;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.cardview_single_matrix, this, true);
 
-        matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
+        RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, matrix);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);

@@ -15,7 +15,7 @@ import java.util.Locale;
 public abstract class SingleMatrixStep implements Step {
     protected final Matrix matrix;
 
-    protected SingleMatrixStep(Matrix matrix) {
+    private SingleMatrixStep(Matrix matrix) {
         this.matrix = matrix;
     }
 

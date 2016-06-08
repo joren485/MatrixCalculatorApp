@@ -37,7 +37,6 @@ public interface Step {
 
     /**
      * Return one of the static ints in this class signaling the kind of cardview required to display this step.
-     * @return
      */
     int getLayoutType();
 

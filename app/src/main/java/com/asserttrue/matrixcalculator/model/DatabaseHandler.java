@@ -136,7 +136,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      * @param name A string that may or may not be unique.
      * @return Whether name is a unique string in the databseor not.
      */
-    public boolean isUniqueName(String name){
+    private boolean isUniqueName(String name){
 
         if (name.trim().isEmpty()) {
             return false;

@@ -18,7 +18,6 @@ import java.util.List;
 public class StepAdapter extends ArrayAdapter<Step> {
 
     private final Context context;
-    private final LayoutInflater inflater;
     private final List<Step> steps;
 
 
@@ -27,7 +26,6 @@ public class StepAdapter extends ArrayAdapter<Step> {
         super(context, -1);
         this.context = context;
         this.steps = steps;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 

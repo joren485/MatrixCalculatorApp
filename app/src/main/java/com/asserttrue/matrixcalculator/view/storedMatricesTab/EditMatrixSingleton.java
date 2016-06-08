@@ -2,9 +2,6 @@ package com.asserttrue.matrixcalculator.view.storedMatricesTab;
 
 import com.asserttrue.matrixcalculator.model.Matrix;
 
-/**
- * Created by gijs on 4-6-16.
- */
 public class EditMatrixSingleton {
 
     private static EditMatrixSingleton instance;

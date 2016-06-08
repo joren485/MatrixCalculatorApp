@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.asserttrue.matrixcalculator.R;
 
 public class MathTitleTextView  extends TextView{
-    protected static final String MATH_TYPEFACE =  "fonts/cmr17.ttf";
+    private static final String MATH_TYPEFACE =  "fonts/cmr17.ttf";
 
     public MathTitleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);

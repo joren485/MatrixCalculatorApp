@@ -9,7 +9,7 @@ import com.asserttrue.matrixcalculator.R;
 
 public class MathTextButton extends Button {
 
-    protected static final String MATH_TYPEFACE =  "fonts/cmr17.ttf";
+    private static final String MATH_TYPEFACE =  "fonts/cmr17.ttf";
 
     public MathTextButton(Context context, AttributeSet attrs) {
         super(context, attrs);

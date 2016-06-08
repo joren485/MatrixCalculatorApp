@@ -14,7 +14,6 @@ import com.asserttrue.matrixcalculator.view.MatrixView;
 public class ChooseMatrixView extends LinearLayout {
 
     private MatrixView matrixView;
-    private LinearLayout selectedIndices;
     private TextView[] selectionTextViews;
 
     public ChooseMatrixView(Context context, Matrix matrix, String name, int requiredMatrices) {
@@ -34,7 +33,7 @@ public class ChooseMatrixView extends LinearLayout {
         else
             nameEquals.setVisibility(GONE);
 
-        selectedIndices = (LinearLayout) findViewById(R.id.selectedIndices);
+        LinearLayout selectedIndices = (LinearLayout) findViewById(R.id.selectedIndices);
         selectionTextViews = new TextView[requiredMatrices];
 
 

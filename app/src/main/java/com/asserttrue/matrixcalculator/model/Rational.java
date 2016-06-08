@@ -50,24 +50,9 @@ public class Rational {
         simplifyFraction();
     }
 
-
-    public void minIs(Rational r) {
-        numerator = - denominator * r.getNumerator() + numerator * r.getDenominator();
-        denominator *= r.getDenominator();
-
-        simplifyFraction();
-    }
-
     public void timesIs(Rational r) {
         numerator *= r.getNumerator();
         denominator *= r.getDenominator();
-
-        simplifyFraction();
-    }
-
-    public void divIs(Rational r) {
-        numerator *=r.getDenominator();
-        denominator *= r.getNumerator();
 
         simplifyFraction();
     }
@@ -77,21 +62,9 @@ public class Rational {
                 denominator * r.getDenominator());
     }
 
-    public Rational min(Rational r) {
-        return new Rational(denominator * r.getNumerator() + numerator * r.getDenominator(),
-                denominator * r.getDenominator());
-    }
 
     public Rational times(Rational r) {
         return new Rational(numerator * r.getNumerator(), denominator * r.getDenominator());
-    }
-
-    public Rational div(Rational r) {
-        return new Rational(numerator * r.getDenominator(), denominator * r.getNumerator());
-    }
-
-    public double toReal() {
-        return ((double)numerator) / ((double)denominator);
     }
 
     public boolean equals(Rational r) {
