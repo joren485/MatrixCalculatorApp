@@ -117,6 +117,9 @@ public class MatrixView extends LinearLayout {
             for(int y = 0; y < height; y++) {
                 ((TextView) columns.get(x).getChildAt(y))
                         .setText(matrix.getValueAt(x, y).toString());
+                // Update textview size by toggling visibiliy:
+                columns.get(x).getChildAt(y).setVisibility(GONE);
+                columns.get(x).getChildAt(y).setVisibility(VISIBLE);
             }
         }
     }
