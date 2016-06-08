@@ -20,6 +20,14 @@
         android:layout_margin="10dp"
         android:id="@+id/numberOfSelectionTV"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberEditText"
+        android:layout_margin="10dp"
+        android:inputType="number|numberDecimal|numberSigned"
+        android:visibility="gone" />
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.Computations;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.model.Matrix;
+import com.asserttrue.matrixcalculator.model.Rational;
 import com.asserttrue.matrixcalculator.view.MathTextView;
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixActivity;
 import com.asserttrue.matrixcalculator.view.storedMatricesTab.EditMatrixSingleton;
@@ -22,9 +25,11 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     private LinearLayout matrixList;
     private FloatingActionButton startComputationButton;
     private ChooseMatrixView[] selectedList;
+    private EditText numberEditText;
 
     private int requiredMatrices;
     private String computationName;
+    private boolean needsNumber = false;
 
     private int currentSelectionIndex = -1;
 
@@ -44,6 +49,7 @@ public class ChooseMatrixActivity extends AppCompatActivity {
         FloatingActionButton addMatrixButton = (FloatingActionButton) findViewById(R.id.addMatrixButton);
         MathTextView text = (MathTextView) findViewById(R.id.computation_text);
         TextView numMatrices = (TextView) findViewById(R.id.numberOfSelectionTV);
+        numberEditText = (EditText) findViewById(R.id.numberEditText);
         numMatrices.setText("Please select " + requiredMatrices + (requiredMatrices == 1 ? " matrix." : " matrices."));
         switch (computationName) {
             case "kernel":
@@ -63,9 +69,16 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 break;
             case "exponent":
                 text.setText("Matrix Exponentiation");
+                needsNumber = true;
+                numberEditText.setHint("Scalar");
+                numberEditText.setVisibility(View.VISIBLE);
                 break;
             case "scalarMult":
                 text.setText("Scalar Multiplication");
+                needsNumber = true;
+                numberEditText.setHint("Exponent");
+                numberEditText.setVisibility(View.VISIBLE);
+                numberEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                 break;
             case "rref":
                 text.setText("Row Echelon Form");
@@ -126,6 +139,13 @@ public class ChooseMatrixActivity extends AppCompatActivity {
             }
         });
 
+        numberEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startComputationButton.setVisibility(listComplete() ? View.VISIBLE : View.GONE);
+            }
+        });
+
         EditMatrixSingleton settings = EditMatrixSingleton.getInstance();
         settings.setVariables(null, null, false, false, false);
     }
@@ -169,6 +189,9 @@ public class ChooseMatrixActivity extends AppCompatActivity {
     }
 
     private boolean listComplete() {
+        if (needsNumber && numberEditText.getText().toString().isEmpty())
+            return false;
+
         for (ChooseMatrixView m : selectedList)
             if (m == null)
                 return false;
@@ -202,10 +225,10 @@ public class ChooseMatrixActivity extends AppCompatActivity {
                 curComp.setSteps(Computations.addition(selectedList[0].getContentMatrix(), selectedList[1].getContentMatrix()));
                 break;
             case "exponent":
-                curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), 5));
+                curComp.setSteps(Computations.exponentiation(selectedList[0].getContentMatrix(), Integer.parseInt(numberEditText.getText().toString())));
                 break;
             case "scalarMult":
-                curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(5)));
+                curComp.setSteps(Computations.scalarMultiplication(selectedList[0].getContentMatrix(), new Rational(numberEditText.getText().toString())));
                 break;
             case "rref":
                 curComp.setSteps(Computations.rowEchelonForm(selectedList[0].getContentMatrix()));
