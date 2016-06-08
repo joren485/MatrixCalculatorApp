@@ -14,7 +14,7 @@ import com.asserttrue.matrixcalculator.R;
 public class ComputationsFragment extends Fragment {
 
     private static final String[] COMPUTATIONS  =
-            {"sum", "product", "determinant", "inverse", "kernel"};
+            {"sum", "product", "scalar mult", "determinant", "inverse", "kernel", "exponent", "rref"};
 
     public ComputationsFragment() {
 
