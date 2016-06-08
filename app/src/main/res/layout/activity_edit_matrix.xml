@@ -21,6 +21,7 @@
         android:inputType="textCapWords"
         android:imeOptions="actionDone"
         android:layout_alignParentTop="true"
+        android:singleLine="true"
         android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
     <LinearLayout

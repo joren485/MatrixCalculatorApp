@@ -185,6 +185,9 @@ public class Matrix {
         return vector;
     }
 
+    /**
+     * @return The augmented part of the matrix.
+     */
     public Matrix getRightMatrix() {
         if(augmentedColumnIndex == -1) {
             throw new UnsupportedOperationException("getAugmentedMatrix on a matrix that is not augmented");
@@ -210,6 +213,10 @@ public class Matrix {
         augmentedColumnIndex = i;
     }
 
+    /**
+     * Flattens the matrix in an easy parsable mode, which is inserted in the database.
+     * @return the flattened matrix
+     */
     @Override
     public String toString(){
 
