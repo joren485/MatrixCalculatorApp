@@ -30,7 +30,6 @@ public class FormulaInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formula_info);
 
-        int index = getIntent().getExtras().getInt("index");
         TextView title = ((TextView) findViewById(R.id.text_title));
         TextView body = ((TextView) findViewById(R.id.text_body));
 

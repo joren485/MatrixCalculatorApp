@@ -19,7 +19,6 @@ import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.MatrixView;
 
 public class MatrixResultView extends LinearLayout {
-    private final RelativeLayout matrixContainer;
     private final MatrixView matrixView;
     private final FloatingActionButton saveButton;
     private final DatabaseHandler dbHandler;
@@ -30,7 +29,7 @@ public class MatrixResultView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.cardview_matrix_result, this, true);
 
-        matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
+        RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, matrix);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);

@@ -14,7 +14,6 @@ import com.asserttrue.matrixcalculator.view.MatrixView;
 
 
 public class DetScalarView extends LinearLayout  {
-    private final RelativeLayout matrixContainer;
     private final MatrixView matrixView;
     private final TextView scalarView;
     private final TextView explanationView;
@@ -25,7 +24,7 @@ public class DetScalarView extends LinearLayout  {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.cardview_det_scalar_step, this, true);
 
-        matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
+        RelativeLayout matrixContainer = (RelativeLayout) findViewById(R.id.matrixContainer);
         matrixView = new MatrixView(context, matrix);
         matrixView.setGravity(Gravity.CENTER);
         matrixContainer.addView(matrixView);

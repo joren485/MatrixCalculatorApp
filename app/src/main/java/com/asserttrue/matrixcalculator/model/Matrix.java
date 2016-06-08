@@ -69,8 +69,8 @@ public class Matrix {
         }
     }
 
-    public Matrix(int nrofcolumns, int nrofrows){
-        this(nrofcolumns, nrofrows, -1);
+    public Matrix(int nrColumns, int nrRows){
+        this(nrColumns, nrRows, -1);
     }
 
     public Matrix(Matrix matrix){
@@ -83,10 +83,6 @@ public class Matrix {
                 setValue(column, row, matrix.getValueAt(column, row));
             }
         }
-    }
-
-    public Rational[][] getInternalArray(){
-        return matrix_array;
     }
 
     public int getNrColumns(){
@@ -142,10 +138,6 @@ public class Matrix {
         }
     }
 
-    public void addRow(int from, int to) {
-        addRow(from, to, new Rational(1));
-    }
-
     /**
      * Multiply an entire row with a scalar value.
      */
@@ -162,12 +154,6 @@ public class Matrix {
         }
     }
 
-    public void timesIs(Rational r) {
-        for(Rational[] row : matrix_array)
-            for(Rational cell : row)
-                cell.timesIs(r);
-    }
-
     public void swapRows(int row1, int row2) {
         if(!(isRowIndex(row1) && isRowIndex(row2))) {
             throw new IllegalArgumentException("Row indices are outside of the matrix dimensions.");
@@ -178,12 +164,8 @@ public class Matrix {
         matrix_array[row2] = temporary;
     }
 
-    public boolean isRowIndex(int row) {
+    private boolean isRowIndex(int row) {
         return row >= 0 && row < getNrRows();
-    }
-
-    public boolean isColumnIndex(int column) {
-        return column >= 0 && column < getNrColumns();
     }
 
     public boolean isSquareMatrix() {
