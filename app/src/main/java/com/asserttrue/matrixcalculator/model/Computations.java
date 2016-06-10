@@ -369,16 +369,16 @@ public abstract class Computations {
         Matrix A = new Matrix(matrix);
         final LinkedList<Step> steps = new LinkedList<>();
 
-        steps.add(new SingleMatrixStep.FirstStep(matrix, "row echelon form"));
-
         if(A.getAugmentedColumnIndex() == -1) {
             // We'll draw the augmented line on the second to right column by default. This is the convention.
             A.setAugmentedColumnIndex(A.getNrColumns() - 1);
         }
 
+        steps.add(new SingleMatrixStep.FirstStep(new Matrix(A), "row echelon form"));
+
         int rank = 0;
 
-        for (int column = 0; column < /*A.getNrColumns()*/ A.getAugmentedColumnIndex() && rank < A.getNrRows(); column++) {
+        for (int column = 0; column < A.getAugmentedColumnIndex() && rank < A.getNrRows(); column++) {
             int pivotRow = rank;
 
             for (int row = rank; row < A.getNrRows(); row++) {

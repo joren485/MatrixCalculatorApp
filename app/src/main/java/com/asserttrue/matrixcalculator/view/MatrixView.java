@@ -20,7 +20,7 @@ public class MatrixView extends LinearLayout {
 
     private Matrix matrix;
 
-    private int width, height;
+    private int nrColumns, nrRows;
 
     private Context mContext;
 
@@ -36,17 +36,17 @@ public class MatrixView extends LinearLayout {
 
         mContext = c;
         this.matrix = matrix;
-        width = matrix.getNrColumns();
-        height = matrix.getNrRows();
+        nrColumns = matrix.getNrColumns();
+        nrRows = matrix.getNrRows();
         setPadding(20, 0, 20, 0);
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(5);
         this.setOrientation(LinearLayout.HORIZONTAL);
         this.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        columns = new ArrayList<>(width);
+        columns = new ArrayList<>(nrColumns);
 
         canBeDotMode = dotModePossible;
-        inDotMode = width > 4 && canBeDotMode;
+        inDotMode = nrColumns > 4 && canBeDotMode;
 
         setOnClickListener(new OnClickListener() {
             @Override
@@ -64,10 +64,10 @@ public class MatrixView extends LinearLayout {
 
     private void init() {
         removeAllViews();
-        for (int x = 0; x < (inDotMode ? Math.min(3, width) : width); x++) {
+        for (int x = 0; x < (inDotMode ? Math.min(3, nrColumns) : nrColumns); x++) {
             LinearLayout column = new LinearLayout(mContext);
             column.setOrientation(LinearLayout.VERTICAL);
-            for (int y = 0; y < (inDotMode ? Math.min(3, height) : height); y++) {
+            for (int y = 0; y < (inDotMode ? Math.min(3, nrRows) : nrRows); y++) {
                 TextView view = new TextView(mContext);
                 view.setGravity(Gravity.CENTER);
                 view.setPadding(10, 10, 10, 10);
@@ -89,7 +89,7 @@ public class MatrixView extends LinearLayout {
             if (x == matrix.getAugmentedColumnIndex()) {
                 View v = new View(mContext);
 
-                if (x < width)
+                if (x < nrColumns)
                     column.setPadding(10, 0, 0, 0);
                 if (x > 0)
                     columns.get(x - 1).setPadding(0, 0, 10, 0);
@@ -106,7 +106,7 @@ public class MatrixView extends LinearLayout {
     }
 
     private void switchDotMode() {
-        if (!canBeDotMode)
+        if (!canBeDotMode || nrColumns < 4 || nrRows < 4)
             return;
         inDotMode = !inDotMode;
         init();
@@ -114,20 +114,29 @@ public class MatrixView extends LinearLayout {
     }
 
     private void updateFields() {
-        for(int x = 0; x < width; x++) {
-            for(int y = 0; y < height; y++) {
-                ((TextView) columns.get(x).getChildAt(y))
-                        .setText(matrix.getValueAt(x, y).toString());
+        for(int x = 0; x < nrColumns; x++) {
+            for(int y = 0; y < nrRows; y++) {
+                TextView t = (TextView)columns.get(x).getChildAt(y);
+                t.setText(matrix.getValueAt(x, y).toString());
                 // Update textview size by toggling visibiliy:
-                columns.get(x).getChildAt(y).setVisibility(GONE);
-                columns.get(x).getChildAt(y).setVisibility(VISIBLE);
+                t.setVisibility(GONE);
+                t.setVisibility(VISIBLE);
             }
         }
     }
 
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
-        updateFields();
+
+        if (matrix.getNrColumns() == columns.size() && matrix.getNrRows() == columns.get(1).getChildCount()) {
+            // New matrix has same dimensions as currently loaded matrix
+            updateFields();
+        } else {
+            // New matrix has different dimensions, so the views need to be reloaded
+            this.nrColumns = matrix.getNrColumns();
+            this.nrRows = matrix.getNrRows();
+            init();
+        }
         invalidate();
     }
 

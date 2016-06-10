@@ -15,7 +15,6 @@ import com.asserttrue.matrixcalculator.R;
 import com.asserttrue.matrixcalculator.model.DatabaseHandler;
 import com.asserttrue.matrixcalculator.model.Matrix;
 import com.asserttrue.matrixcalculator.view.LibraryMatrixView;
-import com.asserttrue.matrixcalculator.view.MatrixView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,24 +76,10 @@ public class StoredMatricesFragment extends Fragment {
     public void setUserVisibleHint(boolean visibleToUser) {
 
         if (visibleToUser) {
-            if (!hasShownToast && showToast()){
-                Toast.makeText(getContext(), "Press on a collapsed matrix to expand it.", Toast.LENGTH_SHORT).show();
+            if (!hasShownToast && matrixList.getChildCount() > 0) {
+                Toast.makeText(getContext(), "Press on a matrix name to edit it.\nPress on a collapsed matrix to expand it.", Toast.LENGTH_LONG).show();
                 hasShownToast = true;
             }
         }
     }
-
-    public boolean showToast(){
-        for (int i = 0; i < matrixList.getChildCount(); i++){
-
-            LibraryMatrixView libraryMatrixView = (LibraryMatrixView) matrixList.getChildAt(i);
-
-            if (libraryMatrixView.isInDotMode()){
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 }
