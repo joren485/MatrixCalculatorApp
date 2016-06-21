@@ -1,9 +1,4 @@
-##### TODO
-* Gaussian elimination
-* Inverse
-* Determinant
-* Matrix.Computations.Transpose.Transpose
-* Addition / subtraction
-* Eigenvectors/values (jordan normal form)
-* conjugate
-* Identity Matrix.Matrix
+MatrixCalculatorApp
+======
+
+This app is made by Marco Hernandez, Gijs Hendriksen, Roland Leferink and Joren Vrancken.
