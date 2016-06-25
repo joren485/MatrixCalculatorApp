@@ -176,7 +176,21 @@ public abstract class Computations {
 
         int rank = 0; //the number of non-free columns so far.
 
-        for (int column = 0; column < A.getNrColumns() && rank < A.getNrRows(); column++) {
+        for (int column = 0; column < A.getNrColumns(); column++) {
+            if(rank == A.getNrColumns()) {
+                Matrix vector = new Matrix(1, A.getNrColumns());
+                Matrix columnVector = A.getColumnVector(column);
+
+                for(int i = 0; i < rank; i++) {
+                    vector.setValue(0, pivotColumns.get(i), columnVector.getValueAt(0, i));
+                }
+
+                vector.setValue(0, column, new Rational(-1));
+                kernelBasis.add(vector);
+
+                continue;
+            }
+
             int pivotRow = rank;
 
             for (int row = rank; row < A.getNrRows(); row++) {
